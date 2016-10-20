@@ -1,0 +1,149 @@
+<div class="resources enable-scroll with-footer
+">
+	<uib-carousel active="activeVideoSlide" interval="slideInterval" no-wrap="noWrapVideoSlides">
+		<uib-slide class="inherit" ng-repeat="videoSlide in videoSlides track by $index" index="$index">
+			<div id="videoContainer" background-image="{{videoSlide.posterSrc}}">
+				<div class="mask"></div>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<p class="title">{{videoSlide.title}}</p>
+						</div>
+						<div class="col-md-12">
+							<p class="subtitle">{{videoSlide.subtitle}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="playbutton" ng-click="playVideo($index);">
+					<i class="icon icon-play2"></i>
+				</div>
+				<p class="playtext">Play Video</p>
+			</div>
+	  	</uib-slide>
+	</uib-carousel>
+	<div>
+		<div class="row coursera">
+			<div class="container">
+				<div class="row mainrow">
+					<div class="col-md-3 col-sm-3 col-sm-12 logo-section">
+						<img alt="" src="media/logos/coursera-logo.png">
+					</div>				
+					<div class="col-md-6 col-sm-6 col-sm-12 text-section">
+						<div class="row">
+							<div class="col-md-12 col-xs">
+								<span class="title">Survey of Music Technology</span>
+								<span class="subtitle">by Dr.Jason Freeman</span>
+							</div>
+							<div class="col-md-12">
+								<p>A free, massive open online course (MOOC) on Music Technology with Reaper and EarSketch</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-3 col-sm-12 button-section">
+						<a target="_blank" href="https://www.coursera.org/learn/music-technology/"><button class="btn navbutton navbar-btn enrollbutton">ENROLL</button></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row publications">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 sectiontitle">Publications</div>
+				</div>
+				<div class="row">
+					<ul class="col-md-6 col-sm-6 sidebar">
+						<li ng-repeat="publication in publications" ng-click="openPub(publication.id)" ng-class="{active: activePublication === publication.id}">{{publication.text}}
+							<div ng-show="activePublication === publication.id" class="hidden-md hidden-sm hidden-lg small-view" >
+								<div>
+									<p class="publication-content">
+										{{publication.content}}
+									</p>
+									<p class="authors">
+										{{publication.authors}}
+									</p>
+									<a href="{{publication.link}}" target="_blank">{{publication.place}}</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="col-md-6 col-sm-6 hidden-xs publication-details">
+						<div>
+							<div>
+								<p class="publication-content">
+									{{current_publication.content}}
+								</p>
+								<p class="authors">
+									{{current_publication.authors}}
+								</p>
+								<a ng-href="{{current_publication.link}}" target="_blank">{{current_publication.place}}</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row press">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 sectiontitle">Press</div>
+				</div>
+				<div class="row press-roll">
+					<div>
+						<figure>
+							<div><img src="media/logos/gpb-logo.png"></div>
+							<figcaption>
+								<a target="_blank" href="http://www.gpb.org/on-second-thought/episodes/283">Georgia Public Broadcasting</a>
+								<p>On Second Thought, July 1st 2015</p>
+							</figcaption>
+						</figure>
+					</div>
+					<div>
+						<figure>
+							<div id="cnn"><img src="media/logos/cnn-logo.png"></div>
+							<figcaption>
+								<a target="_blank" href="http://cnnradio.cnn.com/2013/04/14/cnn-radio-music-notes-meet-jay-zs-guru/?hpt=hp_c4">CNN</a>
+								<p>Young Guru calling out our research collaboration, April 2013</p>
+							</figcaption>
+						</figure>
+					</div>
+					<div>
+						<figure>
+							<div><img src="media/logos/myajc-logo.png"></div>
+							<figcaption>
+								<a target="_blank" href="http://www.myajc.com/news/news/local-education/gwinnett-pilot-hopes-to-draw-students-to-computer-/nXdKm/?icmp=ajc_internallink_invitationbox_apr2013_ajcstubtomyajcpremium">Atlanta Journal-Constitution</a>
+								<p>Covering the Lanier High School EarSketch pilot, May 1st 2013</p>
+							</figcaption>
+						</figure>
+					</div>
+					<div>
+						<figure>
+							<div id="gtech"><img src="media/logos/gatech-logo.png"></div>
+							<figcaption>
+								<a target="_blank" href="http://www.news.gatech.edu/2013/08/20/georgia-tech-works-attract-next-generation-scientists-and-engineers">Georgia Tech Research Horizons</a>
+								<p>Summer 2013</p>
+							</figcaption>
+						</figure>
+					</div>
+					<div>
+						<figure>
+							<div id="gwinnett"><img src="media/logos/gwinnett-logo.png"></div>
+							<figcaption>
+								<a target="_blank" href="http://link.brightcove.com/services/player/bcpid1525654889001?bckey=AQ~~,AAAA5-IfZlE~,YsAbjfjEZqnm81AvVrwWijaa-_W0afev&bctid=2277242023001">Gwinnett County Public Schools Video</a>
+								<p>Covering Young Guru’s visit to Lanier High School, April 5th 2013</p>
+							</figcaption>
+						</figure>
+					</div>
+					<div>
+						<figure>
+							<div id="nsf"><img src="media/logos/nsf-logo.png"></div>
+							<figcaption>
+								<a target="_blank" href="http://www.nsf.gov/cise/csbytes/newsletter/vol2/vol2i10.html">NSF Bits and Bytes</a>
+								<p>January 28th 2013</p>
+							</figcaption>
+						</figure>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> 

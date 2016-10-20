@@ -1,0 +1,7 @@
+<uib-carousel class="itsmecarousel" ng-class="brightTheme ? 'carousel-indicators-bright':'carousel-indicators-dark'" active="activeSlide" interval="myInterval" no-wrap="noWrapSlides">
+  <uib-slide class="inherit" ng-repeat="slide in slides track by $index" index="$index">
+    <main ng-show="$index === 0"></main>
+    <about ng-show="$index === 1"></about>
+    <recommendations ng-show="$index === 2"></recommendations>
+  </uib-slide>
+</uib-carousel>

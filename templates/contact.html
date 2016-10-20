@@ -1,0 +1,54 @@
+<div class="enable-scroll with-footer contact row">
+	<ul class="col-md-3 sidebar">
+		<li ng-repeat="qformItem in qforms" ng-click="openQForm(qformItem.id)" ng-class="{active: activeQForm === qformItem.id}">{{qformItem.text}}</li>
+	</ul>
+	<div class="col-md-9 contact-details">
+		<div ng-show="isQFormOpen('askQuestion')">
+			<p>
+				To ask a question about EarSketch and see common questions and answers, visit the <a class="bigger" href="https://earsketch.gatech.edu/qa" target="_blank">EarSketch Q & A page</a>. 
+			</p>
+			<p>
+				We prefer to be contacted through the <a href="https://earsketch.gatech.edu/qa" target="_blank">Q & A site</a>. If you have a question that requires contacting our team directly, please 
+				<span ng-hide="hideMessage">
+					<a ng-click="showContactForm = !showContactForm; hideMessage = true; formSubmitted = false;">click here</a>.
+				</span>
+				<span ng-show="hideMessage">use the form below.</span>
+			</p>
+		</div>
+		<div ng-show="isQFormOpen('reqAccess') && !formSubmitted">
+			<p>If you are a teacher, please contact us using the form below to access teaching resources for EarSketch.</p>
+		</div>
+		<div ng-show="(isQFormOpen('askQuestion') && showContactForm) || (isQFormOpen('reqAccess') && !formSubmitted)" class="contact-form">
+			<form name="contactForm" ng-submit="sendContactInfo();" novalidate>
+				<p>
+					<input ng-class="hasErrors ? 'shake' : ''" ng-model="username" class="nameholder" type="text" placeholder="Enter your name here" required />
+					<span class="required">(required)</span>
+				</p>
+				<p>
+					<input ng-class="hasErrors ? 'shake' : ''" ng-model="useremail" type="email" placeholder="Enter your email address here" required />
+					<span class="required">(required)</span>
+				</p>
+				<p ng-hide="isQFormOpen('askQuestion')">
+					<input class="biolink" ng-model="userbiolink" placeholder="Enter your portfolio/bio/faculty listing page URL here" />
+				</p> 
+				<p>
+					<textarea ng-class="hasErrors ? 'shake' : ''" ng-model="usermessage" placeholder="Enter your message here" required></textarea>
+					<span class="required">(required)</span>
+				</p>
+				<p>
+					<button type="submit" class="btn navbutton navbar-btn sendbutton">SEND</button>
+				</p>
+			</form> 
+		</div>
+		<div ng-show="formSubmitted">
+			<p><u>Thank you for contacting us. We will get back to you soon.</u></p>
+		</div>
+		<div ng-show="isQFormOpen('reportBug')">
+			<p>To report a bug directly to the EarSketch team, open the <a href="https://earsketch.gatech.edu/earsketch2" target="_blank">EarSketch learning environment</a> and select "Report Error" from the Options (gears) menu.</p>
+			<p><img src="media/content/options-menu.png"></p>
+		</div>
+		<div ng-show="isQFormOpen('joinGroup')">
+			<p>Please join our <a href="https://groups.google.com/forum/?fromgroups#!forum/gt-earsketch-announce" target="_blank">announcement list</a> to learn about future software updates and other EarSketch news.</p>
+		</div>
+	</div>
+</div>
