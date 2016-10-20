@@ -8,13 +8,18 @@
 				page: '',
 				template: '<div></div>'
 	    	})
+	    	.when("/listening-test", {
+				controller: 'RouteController',
+				page: '',
+				template: '<div></div>'
+	    	})
 	    	.otherwise({
 	    		redirectTo: '/'
 	    	});
 	});
 
 	app.controller('RouteController', function ($rootScope, $scope, $route) {
-		// $rootScope.$broadcast('loadPage', $route.current.$$route.page);
+		// $rootScope.$broadcast('loadPage', $route.scurrent.$$route.page);
 	});
 
 	app.controller('MainController', ['$rootScope','$scope','$uibModal','whichBrowser', function ($rootScope, $scope, $uibModal, whichBrowser) {
