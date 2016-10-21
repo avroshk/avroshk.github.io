@@ -1,28 +1,24 @@
 (function () {
-	var app = angular.module('listening-test', ['ui.bootstrap','ngAnimate','ngRoute']);
+	var app = angular.module('listening-test', ['ngRoute','ngAnimate']);
 
 	app.config(function($routeProvider) {
 	    $routeProvider
 		    .when("/", {
-				controller: 'RouteController',
-				page: '',
 				template: '<div></div>'
 	    	})
 	    	.when("/listening-test", {
-				controller: 'RouteController',
-				page: '',
-				template: '<div></div>'
+				templateUrl: 'templates/listening-test.html'
 	    	})
 	    	.otherwise({
 	    		redirectTo: '/'
 	    	});
 	});
 
-	app.controller('RouteController', function ($rootScope, $scope, $route) {
-		// $rootScope.$broadcast('loadPage', $route.scurrent.$$route.page);
-	});
+	// app.controller('RouteController', function ($rootScope, $scope, $route) {
+	// 	// $rootScope.$broadcast('loadPage', $route.scurrent.$$route.page);
+	// });
 
-	app.controller('MainController', ['$rootScope','$scope','$uibModal','whichBrowser', function ($rootScope, $scope, $uibModal, whichBrowser) {
+	app.controller('MainController', ['$rootScope','$scope','whichBrowser', function ($rootScope, $scope, whichBrowser) {
 		var currentBrowser = whichBrowser();
 
 		$rootScope.$on('loadPage', function (event, pageid) {
