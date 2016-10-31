@@ -7,7 +7,7 @@
 				template: '<div></div>'
 	    	})
 	    	.when("/listening-test", {
-				templateUrl: 'templates/listening-test.html'
+				templateUrl: 'templates/startpage.html'
 	    	})
 	    	.otherwise({
 	    		redirectTo: '/'
@@ -20,6 +20,8 @@
 
 	app.controller('MainController', ['$rootScope','$scope','whichBrowser', function ($rootScope, $scope, whichBrowser) {
 		var currentBrowser = whichBrowser();
+		$scope.teststarted = false;
+		$scope.testended = false;
 
 		$rootScope.$on('loadPage', function (event, pageid) {
 			if (pageid !== "") {
@@ -27,150 +29,170 @@
 			}
     	});
 
-		$scope.open = function (pageid) {
-
+   		$scope.startTest = function () {
+			$scope.teststarted = true;
 		};
-
-		//Video
-		$scope.openVideo = function(size, id) {
-
-		    var modalInstance = $uibModal.open({
-		      animation: $scope.animationsEnabled,
-		      templateUrl: 'templates/modals/videoModal'+(id+1)+'.html',
-		      windowClass: 'video-modal-window',
-		      backdrop: true,
-		      size: size,
-		      animation: true
-		    });
-		};
-
-		$scope.playVideo = function(id) {
-		    $scope.openVideo('lg', id);
-		};
-
-		$scope.pauseOrPlay = function($event) {
-
-			// --- Weird fix for firefox bug -- $apply already in progress - issue
-			if(currentBrowser === 'firefox' && ($scope.$$phase === "$digest" || $scope.$$phase === "$apply")) {
-				return;
-			}
-			// --- //
-
-			var mainVideo;
-			if ($event === undefined) {
-				mainVideo = angular.element(document.querySelector('mainVideo'));
-			} else {
-				mainVideo = angular.element($event.currentTarget);
-			}
-			if (mainVideo[0] !== undefined && mainVideo[0].paused) {
-          		mainVideo[0].play();
-          		$scope.myInterval = false;
-          	} else {
-          		mainVideo[0].pause();
-          		$scope.myInterval = 5000;
-          	}
-   		};
-
-   		$scope.pauseVideo = function() {
-			var mainVideo;
-			mainVideo = angular.element(document.querySelector('.mainVideo'));
-			if (mainVideo[0] !== undefined && !mainVideo[0].paused) {
-          		mainVideo[0].pause();
-          		$scope.myInterval = 5000;
-          	} 
-   		};
 
 	}]);
 
-	app.directive('info', function () {
+	app.directive('startpage', function () {
 		return {
 			restrict: 'E',
-			templateUrl: 'templates/info.html',
-			controller: 'InfoController'
+			templateUrl: 'templates/startpage.html',
+			controller: 'StartpageController'
 		};
-	}).controller('InfoController', function ($scope) {
+	}).controller('StartpageController', function ($scope) {
+		
+	});
+
+	app.directive('endpage', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/endpage.html',
+			controller: 'StartpageController'
+		};
+	}).controller('EndpageController', function ($scope) {
 		
 
 	});
 
-	
-
-
-	app.directive('contact', function () {
+	app.directive('question', function () {
 		return {
 			restrict: 'E',
-			templateUrl: 'templates/contact.html',
-			controller: 'ContactController'
+			templateUrl: 'templates/question.html',
+			controller: 'QuestionController'
 		};
-	}).controller('ContactController', function ($scope, $timeout, $http, $log) {
-		$scope.qforms = [
-			{id:'askQuestion', text: 'Ask a Question'},
-			{id:'reqAccess', text: 'Request Access to Teacher Materials'},
-			{id:'reportBug', text: 'Report a bug'},
-			{id:'joinGroup', text: 'Join our mailing list for news and updates on EarSketch'}
-			];
+	}).controller('QuestionController', function ($scope, $http) {
+		$scope.numFolders = 1;
+		$scope.numQuestions = 2;
+		$scope.currentFolderArray = [];
+		$scope.currentQuestionArray = [];
+		$scope.videoPlaying = false;
 
-		$scope.activeQForm = 'askQuestion';
-		$scope.showContactForm = false;
-		$scope.hideMessage = false;
-		$scope.formSubmitted = false;
-		$scope.hasErrors = false;
+		$scope.folderIndex = -1;
+		$scope.questionIndex = -1;
+		$scope.questionText = "Did you notice a conflict between video and audio?";
+		$scope.answers = [];
 
-		$scope.openQForm = function (qformName) {
-			$scope.formSubmitted = false;
-			$scope.activeQForm = qformName;
-		};
+		$scope.videoContainer = document.getElementById('testVideo');
+		var source = document.createElement('source');
 
-		$scope.isQFormOpen = function (qformName) {
-			return ($scope.activeQForm === qformName);
-		};
-
-		function resetHasErrors () {
-			$scope.hasErrors = false;
+		$scope.resetQuestionArray = function () {
+			$scope.currentQuestionArray = [];
 		}
 
-		$scope.sendContactInfo = function () {
+		$scope.resetFolderArray = function () {
+			$scope.currentFolderArray = [];
+		}
+
+		$scope.createQuestionArray = function () {
+			$scope.resetQuestionArray();
+			for (var i = 1; i <= $scope.numQuestions; i++) {
+			   $scope.currentQuestionArray.push(i);
+			}
+			$scope.currentQuestionArray = shuffle($scope.currentQuestionArray);
+		};
+
+		$scope.createFolderArray = function () {
+			$scope.resetFolderArray();
+			for (var i = 1; i <= $scope.numFolders; i++) {
+			   $scope.currentFolderArray.push(i);
+			}
+			$scope.currentFolderArray = shuffle($scope.currentFolderArray);
+		};
+
+		$scope.submitAnswers = function () {
 
 			if (!$scope.contactForm.$valid) {
 				$scope.hasErrors = true;
-				$timeout(resetHasErrors, 500);
 			} else {
 				var data = {};
-		        data.username = $scope.username;
-		        data.useremail = $scope.useremail;
-		        data.message = $scope.usermessage;
-		        data.userbiolink = '';
-		        data.accessRequest = false;
+		        data.fullname = $scope.fullname;
+		        data.emailaddress = $scope.emailaddress;
+		        data.message = $scope.message;
+		        data.answers = JSON.stringify($scope.answers);
 
-				var url = window.location.origin + window.location.pathname + 'scripts/php/contact.php';
-
-				if ($scope.activeQForm === 'askQuestion') {
-					$scope.showContactForm = false;
-					$scope.hideMessage = false;
-
-					payload = data;
-
-				} else if ($scope.activeQForm === 'reqAccess') {
-					data.userbiolink = $scope.userbiolink;
-					data.accessRequest = true;
-
-					payload = data;
-				}
-
-				$scope.formSubmitted = true;
-				$scope.username = "";
-				$scope.useremail = "";
-				$scope.usermessage = "";
-				$scope.userbiolink = "";
-				$scope.contactForm.$setPristine();
+				var url = 'http://earsketch.gatech.edu' + '/landing/' + 'scripts/php/sumbitanswers.php';
+				payload = data;
 
 				return $http.post(url, payload).then(function(result) {
 		            console.log('Contact form: success');
+	            	$scope.formSubmitted = true;
+					$scope.fullname = "";
+					$scope.emailaddress = "";
+					$scope.message = "";
+					$scope.answers = {};
+					$scope.contactForm.$setPristine();
 		        }).catch(function(err) {
 		            console.log('Contact form: failure');
 		        });
 			}
 		};
+
+		$scope.loadNextQuestion = function(answer) {
+			var currentAnswer = {};
+			if (answer !== undefined) {
+				currentAnswer = { 'folderId': $scope.currentFolderArray[$scope.folderIndex], 'videoId': $scope.currentQuestionArray[$scope.questionIndex], 'answer': answer  };
+				$scope.answers.push(currentAnswer);
+			}
+
+			$scope.questionIndex = $scope.questionIndex + 1;
+
+			if ($scope.questionIndex % $scope.numQuestions === 0) {
+				$scope.createQuestionArray();
+				console.log($scope.currentQuestionArray);
+				$scope.folderIndex = $scope.folderIndex + 1;
+				$scope.questionIndex = 0;
+
+				if ($scope.folderIndex > $scope.numFolders-1) {
+					$scope.testended = true;
+					console.log($scope.answers);
+				}
+			} 
+
+			if (!$scope.testended) {
+				$scope.videoSrc = 'media/video/' + $scope.currentFolderArray[$scope.folderIndex] + '/' + 
+					$scope.currentQuestionArray[$scope.questionIndex] + '.mp4';
+
+				console.log($scope.videoSrc);
+				source.setAttribute('src',$scope.videoSrc);
+				$scope.videoContainer.appendChild(source);
+				$scope.videoContainer.play();
+			}
+		};
+
+		$scope.videoContainer.onplay = function () {
+			$scope.videoPlaying = true;
+			$scope.$apply();
+		};
+
+		$scope.videoContainer.onpause = function () {
+			$scope.videoPlaying = false;
+			$scope.$apply();
+		};
+
+		function shuffle(array) {
+		  	var currentIndex = array.length, temporaryValue, randomIndex;
+
+		  	// While there remain elements to shuffle...
+		  	while (0 !== currentIndex) {
+
+			    // Pick a remaining element...
+			    randomIndex = Math.floor(Math.random() * currentIndex);
+			    currentIndex -= 1;
+
+			    // And swap it with the current element.
+			    temporaryValue = array[currentIndex];
+			    array[currentIndex] = array[randomIndex];
+			    array[randomIndex] = temporaryValue;
+			}
+
+		  return array;
+		}
+
+
+		$scope.createFolderArray();
+		console.log($scope.currentFolderArray);
 	});
 
 	app.service('whichBrowser', ['$window', function($window) {
@@ -185,49 +207,5 @@
 	       	return 'unknown';
 	    }
 	}]);
-
-	//Info page directives
-
-	
-
-	app.directive('policy', function () {
-		return {
-			restrict: 'E',
-			templateUrl: 'templates/policy.html',
-			controller: 'PolicyController'
-		};
-	}).controller('PolicyController', function ($scope) {
-
-	});
-
-	app.directive('credits', function () {
-		return {
-			restrict: 'E',
-			templateUrl: 'templates/credits.html',
-			controller: 'CreditsController'
-		};
-	}).controller('CreditsController', function ($scope) {
-
-	});
-
-	app.directive('backgroundImage', function () {
-		return function(scope, element, attrs) {
-	        var url = attrs.backgroundImage;
-	        element.css({
-	            'background-image': 'url(' + url +')',
-	            'background-size' : 'cover',
-	            'background-position' : 'center bottom'
-	        });
-	    };
-	});
-
-	app.directive('playVideo', function($parse) {
-	  	return {
-	    	restrict: 'A',
-	    	link: function(scope, elem, attrs) {
-	      		elem[0].play();
-	    	}
-	  	};
-	});
 
 })();

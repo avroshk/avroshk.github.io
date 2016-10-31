@@ -1,0 +1,32 @@
+<div class="startpage">
+	<h1>Listening Test</h1>
+	<button ng-click="startTest();loadNextQuestion();" ng-hide="teststarted">Start Test</button>
+	<question ng-show="teststarted && !testended"></question>
+	<div ng-show="testended">
+		<span>Thank you! Test has ended. Please provide your name and email address.</span>
+		<div ng-show="!formSubmitted">
+			<form name="contactForm" ng-submit="submitAnswers();" novalidate class="contact-form">
+				<p>
+					<input ng-class="hasErrors ? 'shake hasErrors' : ''" ng-model="fullname" type="text" placeholder="Enter your name here" required />
+					<span class="required">(required)</span>
+				</p>
+				<p>
+					<input ng-class="hasErrors ? 'shake hasErrors' : ''" ng-model="emailaddress" type="email" placeholder="Enter your email address here" required />
+					<span class="required">(required)</span>
+				</p>
+				<p>
+					<textarea ng-model="message" placeholder="Do you have any comments? Absolutely optional."></textarea>
+				</p>
+				<p>
+					<button type="submit" class="">Submit the answers!</button>
+				</p>
+			</form> 
+			<button ng-click="startAgain();">Something was not right, try once more from the beginning.</button>
+		</div>
+		
+		<div ng-show="formSubmitted">
+			Done and Dusted!
+		</div>
+
+	</div>
+</div>

@@ -31,6 +31,141 @@ html {
 }
 
 
+#testVideo {
+  width: 100%    !important;
+  height: auto   !important;
+}
+
+.contact-form textarea {
+	width: 45vw;
+	background: #1B1B1B;
+	height: 20vh;
+	border-radius: 5px;
+	margin-top: 2vh;
+	font-size: larger;
+	min-width: 300px;
+	outline: none;
+}
+
+.contact-form .ng-valid.ng-dirty ~ .required {
+	color: green;
+}
+
+.contact-form .ng-invalid.ng-dirty ~ .required,
+.contact-form .hasErrors ~ .required {
+	color: red;
+}
+
+.contact-form .ng-invalid.ng-dirty.shake ~ .required,
+.contact-form .ng-invalid.ng-pristine.shake ~ .required {
+    -webkit-animation: shake 400ms ease-in-out;
+    -moz-animation: shake 400ms ease-in-out;
+    -ms-animation: shake 400ms ease-in-out;
+    -o-animation: shake 400ms ease-in-out;
+    animation: shake 400ms ease-in-out;
+}
+
+@-webkit-keyframes shake {
+    0% {
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    12.5% {
+        -webkit-transform: translateX(-6px) rotateY(-5deg);
+        -moz-transform: translateX(-6px) rotateY(-5deg);
+        -o-transform: translateX(-6px) rotateY(-5deg);
+        -ms-transform: translateX(-6px) rotateY(-5deg);
+        transform: translateX(-6px) rotateY(-5deg);
+    }
+
+    37.5% {
+        -webkit-transform: translateX(5px) rotateY(4deg);
+        -moz-transform: translateX(5px) rotateY(4deg);
+        -ms-transform: translateX(5px) rotateY(4deg);
+        -o-transform: translateX(5px) rotateY(4deg);
+        transform: translateX(5px) rotateY(4deg);
+    }
+
+    62.5% {
+        -webkit-transform: translateX(-3px) rotateY(-2deg);
+        -moz-transform: translateX(-3px) rotateY(-2deg);
+        -ms-transform: translateX(-3px) rotateY(-2deg);
+        -o-transform: translateX(-3px) rotateY(-2deg);
+        transform: translateX(-3px) rotateY(-2deg);
+    }
+
+    87.5% {
+        -webkit-transform: translateX(2px) rotateY(1deg);
+        -moz-transform: translateX(2px) rotateY(1deg);
+        -ms-transform: translateX(2px) rotateY(1deg);
+        -o-transform: translateX(2px) rotateY(1deg);
+        transform: translateX(2px) rotateY(1deg);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@keyframes shake {
+    0% {
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    12.5% {
+        -webkit-transform: translateX(-6px) rotateY(-5deg);
+        -ms-transform: translateX(-6px) rotateY(-5deg);
+        -moz-transform: translateX(-6px) rotateY(-5deg);
+        -o-transform: translateX(-6px) rotateY(-5deg);
+        transform: translateX(-6px)  rotateY(-5deg);
+    }
+
+    37.5% {
+        -webkit-transform: translateX(5px) rotateY(4deg);
+        -ms-transform: translateX(5px) rotateY(4deg);
+        -moz-transform: translateX(5px) rotateY(4deg);
+        -o-transform: translateX(5px) rotateY(4deg);
+        transform: translateX(5px) rotateY(4deg);
+    }
+
+    62.5% {
+        -webkit-transform: translateX(-3px) rotateY(-2deg);
+        -moz-transform: translateX(-3px) rotateY(-2deg);
+        -ms-transform: translateX(-3px) rotateY(-2deg);
+        -o-transform: translateX(-3px) rotateY(-2deg);
+        transform: translateX(-3px) rotateY(-2deg);
+    }
+
+    87.5% {
+        -webkit-transform: translateX(2px) rotateY(1deg);
+        -moz-transform: translateX(2px) rotateY(1deg);
+        -ms-transform: translateX(2px) rotateY(1deg);
+        -o-transform: translateX(2px) rotateY(1deg);
+        transform: translateX(2px) rotateY(1deg);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -o-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+
 
 
 
