@@ -112,10 +112,28 @@
 		        data.message = $scope.message;
 		        data.answers = JSON.stringify($scope.answers);
 
-				var url = 'http://earsketch.gatech.edu' + '/landing/' + 'scripts/php/sumbitanswers.php';
-				payload = data;
+				var url = 'https://api.sendgrid.com/v3/mail/send';
+				var config = {
+					headers: {'Authorization': 'Bearer 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',
+					'Content-Type': 'application/json'},
+				};
 
-				return $http.post(url, payload).then(function(result) {
+				var payload = {};
+				payload.personalizations = { "to" : [  
+		            {  
+		               "email":"avroshkumar@gmail.com"
+		            }
+		        ]};
+		        payload.from = { "email":"noreply@listening-test.edu"};
+		        payload.subject = "Listening Test Results";
+		        payload.content = [  
+			      	{  
+			        	"type":"text/plain",
+			         	"value": JSON.stringify(data)
+			      	}
+			   ];
+
+				return $http.post(url, payload, config).then(function(result) {
 		            console.log('Contact form: success');
 	            	$scope.formSubmitted = true;
 					$scope.fullname = "";
