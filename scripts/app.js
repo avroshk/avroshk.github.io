@@ -106,6 +106,24 @@
 			if (!$scope.contactForm.$valid) {
 				$scope.hasErrors = true;
 			} else {
+
+				// Create the XHR object.
+				function createCORSRequest(method, url) {
+				  var xhr = new XMLHttpRequest();
+				  if ("withCredentials" in xhr) {
+				    // XHR for Chrome/Firefox/Opera/Safari.
+				    xhr.open(method, url, true);
+				  } else if (typeof XDomainRequest != "undefined") {
+				    // XDomainRequest for IE.
+				    xhr = new XDomainRequest();
+				    xhr.open(method, url);
+				  } else {
+				    // CORS not supported.
+				    xhr = null;
+				  }
+				  return xhr;
+				}
+
 				var data = {};
 		        data.fullname = $scope.fullname;
 		        data.emailaddress = $scope.emailaddress;
@@ -115,17 +133,35 @@
 				var url = 'http://earsketch.gatech.edu' + '/landing/' + 'scripts/php/sumbitanswers.php';
 				payload = data;
 
-				return $http.post(url, payload).then(function(result) {
-		            console.log('Contact form: success');
-	            	$scope.formSubmitted = true;
-					$scope.fullname = "";
-					$scope.emailaddress = "";
-					$scope.message = "";
-					$scope.answers = {};
-					$scope.contactForm.$setPristine();
-		        }).catch(function(err) {
-		            console.log('Contact form: failure');
-		        });
+				var xhr = createCORSRequest('POST', url);
+				if (!xhr) {
+				    alert('CORS not supported');
+				    return;
+				}
+
+				xhr.onload = function() {
+				    var text = xhr.responseText;
+				    alert('Response from CORS request to ' + url + ': ' + text);
+				};
+
+				xhr.onerror = function() {
+				    alert('Woops, there was an error making the request.');
+				};
+
+				xhr.send();	
+
+
+				// return $http.post(url, payload).then(function(result) {
+		  //           console.log('Contact form: success');
+	   //          	$scope.formSubmitted = true;
+				// 	$scope.fullname = "";
+				// 	$scope.emailaddress = "";
+				// 	$scope.message = "";
+				// 	$scope.answers = {};
+				// 	$scope.contactForm.$setPristine();
+		  //       }).catch(function(err) {
+		  //           console.log('Contact form: failure');
+		  //       });
 			}
 		};
 
