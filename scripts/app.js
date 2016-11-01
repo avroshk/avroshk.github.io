@@ -64,7 +64,7 @@
 		};
 	}).controller('QuestionController', function ($scope, $http) {
 		$scope.numFolders = 1;
-		$scope.numQuestions = 2;
+		$scope.numQuestions = 1;
 		$scope.currentFolderArray = [];
 		$scope.currentQuestionArray = [];
 		$scope.videoPlaying = false;
@@ -112,28 +112,10 @@
 		        data.message = $scope.message;
 		        data.answers = JSON.stringify($scope.answers);
 
-				var url = 'https://api.sendgrid.com/v3/mail/send';
-				var config = {
-					headers: {'Authorization': 'Bearer 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',
-					'Content-Type': 'application/json'},
-				};
+				var url = 'http://earsketch.gatech.edu' + '/landing/' + 'scripts/php/sumbitanswers.php';
+				payload = data;
 
-				var payload = {};
-				payload.personalizations = { "to" : [  
-		            {  
-		               "email":"avroshkumar@gmail.com"
-		            }
-		        ]};
-		        payload.from = { "email":"noreply@listening-test.edu"};
-		        payload.subject = "Listening Test Results";
-		        payload.content = [  
-			      	{  
-			        	"type":"text/plain",
-			         	"value": JSON.stringify(data)
-			      	}
-			   ];
-
-				return $http.post(url, payload, config).then(function(result) {
+				return $http.post(url, payload).then(function(result) {
 		            console.log('Contact form: success');
 	            	$scope.formSubmitted = true;
 					$scope.fullname = "";
