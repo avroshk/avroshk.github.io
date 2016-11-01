@@ -130,7 +130,7 @@
 		        data.message = $scope.message;
 		        data.answers = JSON.stringify($scope.answers);
 
-				var url = 'http://earsketch.gatech.edu' + '/landing/' + 'scripts/php/sumbitanswers.php';
+				var url = 'https://avroshk.000webhostapp.com/scripts/submitanswers.php';
 				payload = data;
 
 				var xhr = createCORSRequest('POST', url);
