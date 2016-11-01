@@ -59,26 +59,7 @@
 
 		$scope.videoContainer = document.getElementById('testVideo');
 		var source = document.createElement('source');
-
-		$scope.resetTest = function () {
-			$scope.numFolders = 1;
-			$scope.numQuestions = 2;
-			$scope.currentFolderArray = [];
-			$scope.currentQuestionArray = [];
-			$scope.videoPlaying = false;
-
-			$scope.folderIndex = -1;
-			$scope.questionIndex = -1;
-			
-			$scope.answers = [];
-			$scope.teststarted = false;
-			$scope.testended = false;
-
-
-			$scope.createFolderArray();
-			console.log($scope.currentFolderArray);
-
-		}
+		
 
 		$scope.resetQuestionArray = function () {
 			$scope.currentQuestionArray = [];
@@ -158,19 +139,26 @@
 					$scope.currentQuestionArray[$scope.questionIndex] + '.mp4';
 
 				console.log($scope.videoSrc);
+
+				var videoLocal = document.createElement('video');
 				source.setAttribute('src',$scope.videoSrc);
-				$scope.videoContainer.appendChild(source);
-				$scope.videoContainer.play();
+				videoLocal.appendChild(source);
+				$scope.video = videoLocal;
+				$scope.videoContainer.appendChild(videoLocal);
+				$scope.video.onplay = onPlayHandle;
+				$scope.video.onpause = onPauseHandle;
+				$scope.video.play();
 			}
 		};
 
-		$scope.videoContainer.onplay = function () {
+		function onPlayHandle() {
 			$scope.videoPlaying = true;
 			$scope.$apply();
 		};
 
-		$scope.videoContainer.onpause = function () {
+		function onPauseHandle() {
 			$scope.videoPlaying = false;
+			$scope.videoContainer.removeChild($scope.videoContainer.childNodes[0]);
 			$scope.$apply();
 		};
 
