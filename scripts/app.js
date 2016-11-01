@@ -23,16 +23,9 @@
 		$scope.teststarted = false;
 		$scope.testended = false;
 
-		$rootScope.$on('loadPage', function (event, pageid) {
-			if (pageid !== "") {
-				$scope.open(pageid);
-			}
-    	});
-
    		$scope.startTest = function () {
 			$scope.teststarted = true;
 		};
-
 	}]);
 
 	app.directive('startpage', function () {
@@ -53,6 +46,16 @@
 		};
 	}).controller('QuestionController', function ($scope, $http) {
 		$scope.questionText = "Did you notice a conflict between video and audio?";
+		$scope.numFolders = 4;
+		$scope.numQuestions = 6;
+		$scope.currentFolderArray = [];
+		$scope.currentQuestionArray = [];
+		$scope.videoPlaying = false;
+
+		$scope.folderIndex = -1;
+		$scope.questionIndex = -1;
+		
+		$scope.answers = [];
 
 		$scope.videoContainer = document.getElementById('testVideo');
 		var source = document.createElement('source');
@@ -68,6 +71,13 @@
 			$scope.questionIndex = -1;
 			
 			$scope.answers = [];
+			$scope.teststarted = false;
+			$scope.testended = false;
+
+
+			$scope.createFolderArray();
+			console.log($scope.currentFolderArray);
+
 		}
 
 		$scope.resetQuestionArray = function () {
@@ -186,9 +196,6 @@
 
 		  return array;
 		}
-
-		//First load
-		$scope.resetTest();
 
 		$scope.createFolderArray();
 		console.log($scope.currentFolderArray);
