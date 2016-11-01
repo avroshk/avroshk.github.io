@@ -45,17 +45,6 @@
 		
 	});
 
-	app.directive('endpage', function () {
-		return {
-			restrict: 'E',
-			templateUrl: 'templates/endpage.html',
-			controller: 'StartpageController'
-		};
-	}).controller('EndpageController', function ($scope) {
-		
-
-	});
-
 	app.directive('question', function () {
 		return {
 			restrict: 'E',
@@ -63,19 +52,23 @@
 			controller: 'QuestionController'
 		};
 	}).controller('QuestionController', function ($scope, $http) {
-		$scope.numFolders = 1;
-		$scope.numQuestions = 1;
-		$scope.currentFolderArray = [];
-		$scope.currentQuestionArray = [];
-		$scope.videoPlaying = false;
-
-		$scope.folderIndex = -1;
-		$scope.questionIndex = -1;
 		$scope.questionText = "Did you notice a conflict between video and audio?";
-		$scope.answers = [];
 
 		$scope.videoContainer = document.getElementById('testVideo');
 		var source = document.createElement('source');
+
+		$scope.resetTest = function () {
+			$scope.numFolders = 1;
+			$scope.numQuestions = 2;
+			$scope.currentFolderArray = [];
+			$scope.currentQuestionArray = [];
+			$scope.videoPlaying = false;
+
+			$scope.folderIndex = -1;
+			$scope.questionIndex = -1;
+			
+			$scope.answers = [];
+		}
 
 		$scope.resetQuestionArray = function () {
 			$scope.currentQuestionArray = [];
@@ -106,69 +99,33 @@
 			if (!$scope.contactForm.$valid) {
 				$scope.hasErrors = true;
 			} else {
+		
+				var url = 'https://avroshk.000webhostapp.com/scripts/submitanswers.php?';
 
-				// Create the XHR object.
-				function createCORSRequest(method, url) {
-				  var xhr = new XMLHttpRequest();
-				  if ("withCredentials" in xhr) {
-				    // XHR for Chrome/Firefox/Opera/Safari.
-				    xhr.open(method, url, true);
-				  } else if (typeof XDomainRequest != "undefined") {
-				    // XDomainRequest for IE.
-				    xhr = new XDomainRequest();
-				    xhr.open(method, url);
-				  } else {
-				    // CORS not supported.
-				    xhr = null;
-				  }
-				  return xhr;
-				}
-
-				var data = {};
-		        data.fullname = $scope.fullname;
-		        data.emailaddress = $scope.emailaddress;
-		        data.message = $scope.message;
-		        data.answers = JSON.stringify($scope.answers);
-
-				var url = 'https://avroshk.000webhostapp.com/scripts/submitanswers.php';
-				payload = data;
-
-				var xhr = createCORSRequest('POST', url);
-				if (!xhr) {
-				    alert('CORS not supported');
-				    return;
-				}
-
-				xhr.onload = function() {
-				    var text = xhr.responseText;
-				    alert('Response from CORS request to ' + url + ': ' + text);
-				};
-
-				xhr.onerror = function() {
-				    alert('Woops, there was an error making the request.');
-				};
-
-				xhr.send();	
-
-
-				// return $http.post(url, payload).then(function(result) {
-		  //           console.log('Contact form: success');
-	   //          	$scope.formSubmitted = true;
-				// 	$scope.fullname = "";
-				// 	$scope.emailaddress = "";
-				// 	$scope.message = "";
-				// 	$scope.answers = {};
-				// 	$scope.contactForm.$setPristine();
-		  //       }).catch(function(err) {
-		  //           console.log('Contact form: failure');
-		  //       });
+				url = url+'fullname='+$scope.fullname+'&'+'emailaddress='+$scope.emailaddress+'&'+'message='+$scope.message+'&'+'answers='+ $scope.answers.toString();
+			
+				return $http.get(url).then(function(result) {
+		            console.log('Contact form: success');
+	            	$scope.formSubmitted = true;
+					$scope.fullname = "";
+					$scope.emailaddress = "";
+					$scope.message = "";
+					$scope.answers = {};
+					$scope.contactForm.$setPristine();
+		        }).catch(function(err) {
+		            console.log('Contact form: failure');
+		        });
 			}
 		};
 
 		$scope.loadNextQuestion = function(answer) {
 			var currentAnswer = {};
 			if (answer !== undefined) {
-				currentAnswer = { 'folderId': $scope.currentFolderArray[$scope.folderIndex], 'videoId': $scope.currentQuestionArray[$scope.questionIndex], 'answer': answer  };
+				if (answer) 
+					say = "yes";
+				else
+					say = "no";
+				currentAnswer = "("+$scope.currentFolderArray[$scope.folderIndex]+','+$scope.currentQuestionArray[$scope.questionIndex]+','+ say +")";
 				$scope.answers.push(currentAnswer);
 			}
 
@@ -207,6 +164,10 @@
 			$scope.$apply();
 		};
 
+		$scope.startAgain = function () {
+			$scope.resetTest();
+		};
+
 		function shuffle(array) {
 		  	var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -226,6 +187,8 @@
 		  return array;
 		}
 
+		//First load
+		$scope.resetTest();
 
 		$scope.createFolderArray();
 		console.log($scope.currentFolderArray);

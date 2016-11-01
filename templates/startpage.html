@@ -1,10 +1,16 @@
 <div class="startpage">
-	<h1>Listening Test</h1>
-	<button ng-click="startTest();loadNextQuestion();" ng-hide="teststarted">Start Test</button>
+	<h1>Listening Test <span ng-show="teststarted && !testended">({{folderIndex+1}}.{{questionIndex+1}}/{{numFolders}})</span></h1>
+	<div ng-hide="teststarted">
+		<p>Say stuff here. Video cannot be re-played. Use earphones. Blah blah blah.. </p>
+		<p>Press start when ready.</p>
+		<button ng-click="startTest();loadNextQuestion();" >Start</button>
+	</div>
+	
 	<question ng-show="teststarted && !testended"></question>
+
 	<div ng-show="testended">
-		<span>Thank you! Test has ended. Please provide your name and email address.</span>
 		<div ng-show="!formSubmitted">
+			<span>Thank you! Test has ended. Please fill the details.</span>
 			<form name="contactForm" ng-submit="submitAnswers();" novalidate class="contact-form">
 				<p>
 					<input ng-class="hasErrors ? 'shake hasErrors' : ''" ng-model="fullname" type="text" placeholder="Enter your name here" required />
@@ -21,11 +27,12 @@
 					<button type="submit" class="">Submit the answers!</button>
 				</p>
 			</form> 
-			<button ng-click="startAgain();">Something was not right, try once more from the beginning.</button>
+			<button ng-click="startAgain();" class="smaller">Something was not right, try again from the beginning.</button>
+			<p>- by Avrosh & David</p>
 		</div>
 		
 		<div ng-show="formSubmitted">
-			Done and Dusted!
+			Done and dusted!
 		</div>
 
 	</div>
