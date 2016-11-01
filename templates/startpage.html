@@ -1,8 +1,24 @@
 <div class="startpage">
 	<h1>Listening Test <span ng-show="teststarted && !testended">({{folderIndex+1}}.{{questionIndex+1}}/{{numFolders}})</span></h1>
 	<div ng-hide="teststarted">
-		<p>Say stuff here. Video cannot be re-played. Use earphones. Blah blah blah.. </p>
-		<p>Press start when ready.</p>
+		<h3>Testing for Dominance of Visual Data in Interpreting Apparent Motion with audio-visual conflicts.</h3>
+		<h4>- by David and Avrosh</h4>
+		<p>What do you need?</p>
+		<ul>
+			<li>Ear-phones</li>
+			<li>Laptop of Computer (not your smart phone)</li>
+			<li>Preferrably a quite place without distractions</li>
+		</ul>
+		<p>What should you do before starting the test?</p>
+		<ul>
+			<li>Go full-screen</li>
+			<li>Adjust your master volume.</li>
+			<li><p>Be ready. The video will start playing as soon as you start the test.</p> 
+				<p>The video cannot be re-played because we want to gauge your first-reaction. Please be as attentive as possible. Thank you!</p>
+			</li>
+		</ul>
+		<p>You will record your name and email at the end of the test.</p> 
+		<p>Please press start when ready.</p>
 		<button ng-click="startTest();loadNextQuestion();" >Start</button>
 	</div>
 	
