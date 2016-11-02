@@ -46,7 +46,7 @@
 		};
 	}).controller('QuestionController', function ($scope, $http) {
 		$scope.questionText = "Did you notice a conflict between video and audio?";
-		$scope.numFolders = 4;
+		$scope.numFolders = 6;
 		$scope.numQuestions = 6;
 		$scope.currentFolderArray = [];
 		$scope.currentQuestionArray = [];
