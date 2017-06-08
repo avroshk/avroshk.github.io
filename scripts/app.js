@@ -7,6 +7,10 @@
 		    	templateUrl: 'templates/portfolio.html'
 				// template: '<div></div>'
 	    	})
+	    	.when("/info", {
+	    		controller: 'InfoController',
+				templateUrl: 'templates/info.html'
+	    	})
 	    	.when("/listening-test", {
 				templateUrl: 'templates/startpage.html'
 	    	})
@@ -46,6 +50,15 @@
 			controller: 'PortfolioController'
 		};
 	}).controller('PortfolioController', function ($scope) {
+	});
+
+	app.directive('portfolioHeader', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/portfolio-header.html',
+			controller: 'PortfolioHeaderController'
+		};
+	}).controller('PortfolioHeaderController', function ($scope) {
 	});
 
 	app.directive('diarizationSample', function () {
