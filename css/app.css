@@ -216,7 +216,220 @@ p.title {
     font-weight: bold;
 }
 
+#speaker-diarization {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.diarization .diarization-demo {
+    margin-right: 100px;
+    margin-left: 100px;
+
+    /*border: 1px solid purple;*/
+    padding-left: 20px; 
+    padding-right: 20px;
+}
+
+.diarization .container {
+    margin-left: 100px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
+   /* border-style: solid;
+    border-width: 1px;  
+    border-color: red;*/
+}
+
+.diarization .header {
+    /*height: 332px;*/
+    width: 100px;
+    float: left;
+
+    /*border-style: solid;
+    border-width: 1px;
+    border-color: #008000;*/
+}
+
+.diarization .transcription {
+   /* border-style: solid;
+    border-width: 1px;
+    border-color: green;*/
+    min-height: 50px;
+/*    -webkit-transition: max-height 2s;
+    transition: max-height 2s;*/
+}
+
+div[id*="snippet-"] {
+    position: relative;
+}
+
+.diarization .row {
+    background: #FFFFFF;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+.diarization .row > div {
+    border-radius: 5px;
+}
+
+.diarization .row div:not(:first-child) {
+    margin-top: -32px;
+}
+
+div[id*="sample-"] {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: gray;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.back_highlight {
+    /*background-color: orange;*/
+    background-color: rgba(255,165,0,0.5);
+    -webkit-transition: background-color 0.5s;
+    transition: background-color 0.5s;
+}
+
+.highlight {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #008000;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #9ecaed;
+    background: orange;
+    transform: scale(1.05);
+    -webkit-transition: background-color 0.5s, -webkit-transform 0.5s;
+    transition: background-color 0.5s, transform 0.5s;
+}
+
+.underline {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #008000;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #9ecaed;
+    background-color: rgba(255,165,0,0.5);
+
+    -webkit-transition: background-color 0.5s, height 1s;
+    transition: background-color 0.5s, height 1s;
+
+    height: auto !important;
+/*
+     transform: scale(1.2);
+    -webkit-transition: background-color 0.5s, -webkit-transform 0.5s;
+    transition: background-color 0.5s, transform 0.5s;*/
+}
+
+.highlight-not {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FFFFFF;
+    border-radius: 5px;
+}
 
 
+.diarization .header .speaker-label span {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 
+.diarization .header .title {
+    height:135px;
+    padding-left: 12px;
+
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.diarization .header .speaker-label {
+    height: 24px;
+    text-align: center;
+    padding-top: 8px;
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FFFFFF;
+}
+
+.diarization .header {
+  /*  border-style: solid;
+    border-width: 1px;
+    border-color: #008000;*/
+}
+
+.diarization .transcription-header {
+    margin-top: 30px;
+}
+
+
+.diarization button {
+    margin: 0px;
+    margin-bottom: 10px;
+    font-size: medium;
+}
+
+.diarization .playbutton, .diarization .pausebutton {
+    width: 100px;
+}
+
+.diarization .playbutton:hover, 
+.diarization .pausebutton:hover,
+.diarization .stopbutton:hover {
+    background: gray;
+}
+
+.diarization .separator {
+    height: 15px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: gray;
+}
+
+.diarization .transcription-line {
+    /*background: aqua;*/
+    margin: 10px;
+    -webkit-transition: height 0.5s;
+    transition: height 0.5s;
+}
+
+
+.diarization .pageload {
+    display: none;
+}
+
+.diarization .loading {
+    text-align: center;
+    font-size: x-large;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.blink {
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+/*.fillspace {
+    width: 500px;
+    height: 120px;
+    border: 1px solid blue;
+}*/
 

@@ -1,0 +1,27 @@
+<div class="diarization">
+	<div class="diarization-demo">
+		<div class="header">
+			<div class="title"><span>Example {{id}}</span></div>
+			<div ng-repeat="clips in speakers track by $index" class="speaker-label"><span ng-class="(activeSpeaker == clips[0].speaker) ? 'back_highlight':''">{{$index+1}}</span></div>
+			<div class="transcription-header" ng-show="{{transcription}}"><span>Transcription:</span></div>
+		</div>
+		<div class="container">
+			<button class="playbutton" ng-click="play();" ng-hide="sample.isPlaying();">Play</button>
+			<button class="pausebutton" ng-click="pause();" ng-show="sample.isPlaying();">Pause</button>
+			<button class="stopbutton" ng-click="stop();">Stop</button>
+
+			<div ng-attr-id="{{ 'sample-' + testfile}}" ng-click="play();"></div>
+			<div class="loading" ng-hide="loadingComplete" style="{{'height:' + 34*numSpeakers + 'px;'}}">
+				<span class="blink">...Loading...</span>
+			</div>
+			<div ng-repeat="clips in speakers" class="row" ng-show="loadingComplete">
+				<div ng-repeat="clip in clips" ng-class="activeClip == clip.id ? 'back_highlight':''">
+					<div ng-attr-id="{{ 'snippet-' + clip.id + testfile}}" style="{{clip.style}}" ng-class="activeClip == clip.id ? 'highlight':'highlight-not'"></div>
+				</div>	
+			</div>
+			<div class="separator"></div>
+			<transcription ng-show="{{transcription}}"></transcription>
+		</div>
+		<div class="pageload">{{pageLoaded = true}}</div>
+	</div>	
+</div>

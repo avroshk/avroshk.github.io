@@ -1,0 +1,9 @@
+# Audio files
+*.wav
+*.aif
+*.mp3
+
+# content files
+*.csv
+*.txt
+
