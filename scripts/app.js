@@ -1,5 +1,5 @@
 (function () {
-	var app = angular.module('listening-test', ['ngRoute','ngAnimate']);
+	var app = angular.module('portfolio-website', ['ngRoute','ngAnimate']);
 
 	app.config(function($routeProvider, $locationProvider) {
 	    $routeProvider
