@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-	<head>
-		<script type="text/javascript">
-			var redirect_to = "{{page.redirect.from}}";
-			redirect_to = redirect_to.substring(1);
-            window.location.href = redirect_to;
-            window.onload = function() {
-			   document.getElementById("redirectLink").href=redirect_to;
-			} 
-        </script>
-	</head>
-	<body>
-		<p>I am redirecting you here!</p>
-		If you are not redirected automatically, click <a id="redirectLink" href=''>here</a>.
-	</body>
+<head>
+	<script type="text/javascript">
+		var redirect_to = "{{page.redirect.from}}";
+		redirect_to = "/#" + redirect_to.substring(1);
+        window.location.href = redirect_to;
+        window.onload = function() {
+		   document.getElementById("redirectLink").href=redirect_to;
+		} 
+    </script>
+</head>
+<body>
+	If you are not redirected automatically, click <a id="redirectLink" href=''>here</a>.
+</body>
 
