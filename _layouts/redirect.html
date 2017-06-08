@@ -1,4 +1,16 @@
-<div>This is me redirecting you here.</div>
+<!DOCTYPE html>
+	<head>
+		<script type="text/javascript">
+			var redirect_to = {{page.redirect.from}};
+			alert(redirect_to);
+            window.location.href = redirect_to;
+            window.onload = function() {
+			   document.getElementById("redirectLink").href=redirect_to;
+			} 
+        </script>
+	</head>
+	<body>
+		<p>I am redirecting you here!</p>
+		If you are not redirected automatically, click <a id="redirectLink" href=''>here</a>.
+	</body>
 
-{{page.redirect.from}}
-{{page.redirect.to}}
