@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 	<head>
 		<script type="text/javascript">
-			var redirect_to = {{page.redirect.from}};
-			alert(redirect_to);
+			var redirect_to = "{{page.redirect.from}}";
+			redirect_to = redirect_to.substring(1);
             window.location.href = redirect_to;
             window.onload = function() {
 			   document.getElementById("redirectLink").href=redirect_to;
