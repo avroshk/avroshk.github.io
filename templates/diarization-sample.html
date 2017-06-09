@@ -2,6 +2,7 @@
 	<div class="diarization-demo">
 		<div class="header">
 			<div class="title"><span>Example {{id}}</span></div>
+			<div class="speakers-label">Speakers</div>
 			<div ng-repeat="clips in speakers track by $index" class="speaker-label"><span ng-class="(activeSpeaker == clips[0].speaker) ? 'back_highlight':''">{{$index+1}}</span></div>
 			<div class="transcription-header" ng-show="{{transcription}}"><span>Transcription:</span></div>
 		</div>

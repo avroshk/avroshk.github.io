@@ -8,8 +8,12 @@
 				// template: '<div></div>'
 	    	})
 	    	.when("/info", {
-	    		controller: 'InfoController',
+	    		// controller: 'InfoController',
 				templateUrl: 'templates/info.html'
+	    	})
+	    	.when("/credits", {
+	    		// controller: 'CreditsController',
+				templateUrl: 'templates/credits.html'
 	    	})
 	    	.when("/listening-test", {
 				templateUrl: 'templates/startpage.html'

@@ -216,11 +216,15 @@ p.title {
     font-weight: bold;
 }
 
-#speaker-diarization {
+.scrollable {
     position: absolute;
     height: 100%;
     width: 100%;
     overflow-y: scroll;
+}
+
+#speaker-diarization {
+  
 }
 
 .diarization .diarization-demo {
@@ -434,24 +438,40 @@ div[id*="sample-"] {
 }*/
 
 .portfolio-header {
-    /*border-bottom: 1px solid blue;*/
+    border-bottom: 1px solid gray;
     width: 100%;
     height: 100px;
-    box-shadow: 0px 2px 8px 2px #ddd;
+    /*box-shadow: 0px 2px 8px 2px #ddd;*/
     display:flex;
     justify-content:flex-end;
     align-items:flex-end;
 }
 
-.portfolio-header div {
-    /*border: 1px solid green;*/
+.portfolio-header .arrow-container {
+
+}
+
+.portfolio-header .credits-link{
+    position: absolute;
+    left: 100px;
+    top: 80px;
     font-size: x-large;
-    /*float: right;*/
+}
+
+
+.portfolio-header .links {
+    /*border: 1px solid gray;*/
+    font-size: x-large;
     padding-right: 100px;
     padding-left: 100px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+.portfolio-header a:hover {
+    opacity: 0.8;
+}
+
 .portfolio-header a {
     text-decoration: none;
 }
@@ -483,4 +503,43 @@ div[id*="sample-"] {
     margin-top: 30px;
     margin-bottom: 50px;
     
+}
+
+.project-title {
+    font-size: xx-large;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: large;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-bottom: 10px;
+}
+.diarization .speakers-label {
+    position: absolute;
+    margin-left: 16px;
+    margin-top: -16px;
+}
+
+.credits li {
+    margin-left: 100px;
+    font-size: larger;
+}
+
+.info .subtitle {
+    text-align: justify;
+}
+
+.info .project-title {
+    margin-left: 70%;
+    font-size: x-large;
+}
+
+.info .myvideo {
+    margin-top: 30px;
+    margin-left: 100px;
 }
