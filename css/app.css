@@ -218,7 +218,7 @@ p.title {
 
 .scrollable {
     position: absolute;
-    height: 100%;
+    height: calc(100% - 100px);
     width: 100%;
     overflow-y: scroll;
 }
@@ -503,6 +503,10 @@ div[id*="sample-"] {
     margin-top: 30px;
     margin-bottom: 50px;
     
+}
+
+.footnotes {
+    padding-bottom: 50px;
 }
 
 .project-title {

@@ -4,6 +4,6 @@
 *.mp3
 
 # content files
-*.csv
-*.txt
+#*.csv
+#*.txt
 

@@ -210,7 +210,7 @@
 			$scope.loadingComplete = true;
 			$scope.$apply();
 			angular.forEach($scope.csv, function(obj) {	
-				$scope.snippets[parseInt(obj.id)-1].load('media/audio/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+'.wav');
+				$scope.snippets[parseInt(obj.id)-1].load('media/audio/ogg/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+'.ogg');
 			});
 
 		};
@@ -218,7 +218,7 @@
 		$scope.loadSnippets = function () {
 			angular.forEach($scope.csv, function(obj) {
 				// $scope.snippets[parseInt(obj.id)-1].params.waveColor = $scope.colorsArray[obj.speaker];
-				$scope.snippets[parseInt(obj.id)-1].load('media/audio/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+'.wav');
+				$scope.snippets[parseInt(obj.id)-1].load('media/audio/ogg/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+'.ogg');
 				$scope.snippets[parseInt(obj.id)-1].on('ready', function () {
 					$scope.snippetsLoaded();
 				});
@@ -268,7 +268,7 @@
 				    height: 50
 				});
 
-				$scope.sample.load('media/audio/'+$scope.testfile+'.wav');
+				$scope.sample.load('media/audio/ogg/'+$scope.testfile+'.ogg');
 				$scope.sample.on('ready', function() {
 					$scope.isReady();
 				});
