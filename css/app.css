@@ -42,7 +42,10 @@ html {
         padding-left: 20px !important;
         padding-right: 20px !important;
     }
-    .page, .project-title, .subtitle {
+    .page, 
+    .project-title, 
+    .subtitle, 
+    .indent {
         margin-left: 30px !important;
         margin-right: 30px !important;
     }
@@ -248,15 +251,6 @@ p.title {
 
 #speaker-diarization {
   
-}
-
-.diarization .diarization-demo {
-    margin-right: 100px;
-    margin-left: 100px;
-
-    /*border: 1px solid purple;*/
-    padding-left: 20px; 
-    padding-right: 20px;
 }
 
 .diarization .container {
@@ -545,16 +539,16 @@ div[id*="sample-"] {
 
 .project-title {
     font-size: xx-large;
-    margin-left: 100px;
-    margin-right: 100px;
     margin-top: 30px;
     margin-bottom: 10px;
+    border-bottom-color: gray;
+    border-bottom-width: 1px;
+    border-bottom-style: dashed;
 }
 
 .subtitle {
     font-size: large;
-    margin-left: 100px;
-    margin-right: 100px;
+    font-style: italic;
     margin-bottom: 10px;
 }
 .diarization .speakers-label {
@@ -564,8 +558,11 @@ div[id*="sample-"] {
 }
 
 .credits li {
-    margin-left: 100px;
     font-size: larger;
+}
+
+.content {
+    text-align: justify;
 }
 
 .info .subtitle {
@@ -573,15 +570,19 @@ div[id*="sample-"] {
 }
 
 .info .project-title {
-    margin-left: 70%;
+    /*margin-left: 70%;*/
     font-size: x-large;
 }
 
 .info .myvideo {
     margin-top: 30px;
-    margin-left: 100px;
+    width: 50%;
+    height: 58%;
+    /*width: 560px;*/
+    /*height: 315px;*/
 }
 
+.indent,
 .page {
     margin-left: 100px;
     margin-right: 100px;

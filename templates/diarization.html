@@ -1,36 +1,41 @@
 <portfolio-header></portfolio-header>
 <div id="speaker-diarization" class="scrollable">
 
-	<div class="project-title">Speaker Diarization: Who Spoke When?</div>
-	<div class="subtitle">2016</div>
-	<div class="subtitle">
+	<div class="project-title indent">Speaker Diarization: Who Spoke When?</div>
+	<div class="subtitle indent">2016</div>
+
+	<diarization-sample testfile="setN_S3_2" id="1" transcription="true"></diarization-sample>
+
+	<div class="indent content">
 		<p>Speaker diarization is the task of determining "who spoke when?" in a stream of audio. I extrated mel-frequency cepstrum co-efficients from short blocks of audio (~300 ms), then aggregated the features of blocks within ~1 to ~2 seconds windows before clustering the feature vectors using gaussian mixture model (GMM) provided by python's <a href="http://scikit-learn.org/">scikit-learn</a>.I then put together the clustered results by assigning a unique speaker ids to short blocks of audio and forming continuous smooth segments out it that contain the speech clips of respective speakers.</p> 
 	</div>
 
-	<div class="subtitle">
-		<p>This tool can be used in transcribing the meeting notes text classifed based on who spoke what. The section below shows the segments extracted from an audio clip recorded live with three different speakers.</p> 
+	<div class="indent content">
+		<p>This tool can be used in transcribing the meeting notes text classifed based on who spoke what. The example above shows the segments extracted from an audio clip consisting of 3 distinct speakers.</p> 
 	</div>
-	<diarization-sample testfile="setM_S3_25" id="1" transcription="true"></diarization-sample>	
+	<!-- <diarization-sample testfile="setM_S3_25" id="1" transcription="true"></diarization-sample>	 -->
 	
-	<div class="subtitle">
+	<div class="indent content">
 		<p>I was curious what happend if I passed a song through this tool. It segmented the song into sections which are very well perceived as distinct sections. Each speaker here is representing a unique mix of instruments found in the song.</p> 
 	</div>
-	<!-- <diarization-sample testfile="setM_S7_1" id="2" transcription="false"></diarization-sample> -->
 	
-	<div class="subtitle footnotes">
-		<p>I am currently working on detecting the boundaries more accurately and detecting multiple speakers speaking at the same time. </p> 
+	<diarization-sample testfile="setM_S5_2" id="10" transcription="false"></diarization-sample>
+	
+	<div class="indent content footnotes">
+		<p>I am currently working on detecting the boundaries more accurately, and detecting multiple speakers speaking at the same time. </p> 
 	</div>
+	<!-- <diarization-sample testfile="setM_S3_25" id="6" transcription="true"></diarization-sample>
+	<diarization-sample testfile="setN_S3_8" id="7" transcription="true"></diarization-sample>
+	<diarization-sample testfile="setN_S4_14" id="8" transcription="true"></diarization-sample>
+	<diarization-sample testfile="setN_S4_13" id="9" transcription="true"></diarization-sample>
 
-	<!-- <diarization-sample testfile="setM_S4_23" id="3" transcription="false"></diarization-sample> -->
-	<!-- <diarization-sample testfile="setM_S7_3" id="4" transcription="false"></diarization-sample> -->
-	<!-- <diarization-sample testfile="setM_S3_46" id="5" transcription="false"></diarization-sample> -->
+	<diarization-sample testfile="setM_S5_2" id="10" transcription="false"></diarization-sample>
+	<diarization-sample testfile="setN_S5_2" id="11" transcription="false"></diarization-sample>
+	<diarization-sample testfile="setN_S4_4" id="12" transcription="false"></diarization-sample>
+	<diarization-sample testfile="setN_S6_1" id="13" transcription="false"></diarization-sample>
+ -->
 
-	<!-- <diarization-sample testfile="setM_S6_1" id="7" transcription="true"></diarization-sample> -->
-
-	<!-- <diarization-sample testfile="setM_S3_47" id="6" transcription="true"></diarization-sample> -->
-		<!-- <diarization-sample testfile="setM_S3_47" id="6" transcription="true"></diarization-sample> -->
-	<!-- <diarization-sample testfile="setM_S4_24" id="1" transcription="true"></diarization-sample> -->
-	<!-- <diarization-sample testfile="setM_S4_22" id="1" transcription="true"></diarization-sample> -->
+	
 
 	<!-- <div class="footnotes">
 		<ul>

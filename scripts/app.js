@@ -100,7 +100,7 @@
 
 		$scope.colorsArray = ["#003366","#99CCCC","#3399CC","#336699","#0099FF"];
 
-
+		$scope.extension = ".ogg";
 		$scope.csv = [];
 
 		
@@ -210,7 +210,7 @@
 			$scope.loadingComplete = true;
 			$scope.$apply();
 			angular.forEach($scope.csv, function(obj) {	
-				$scope.snippets[parseInt(obj.id)-1].load('media/audio/ogg/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+'.ogg');
+				$scope.snippets[parseInt(obj.id)-1].load('media/audio/ogg/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+$scope.extension);
 			});
 
 		};
@@ -218,7 +218,7 @@
 		$scope.loadSnippets = function () {
 			angular.forEach($scope.csv, function(obj) {
 				// $scope.snippets[parseInt(obj.id)-1].params.waveColor = $scope.colorsArray[obj.speaker];
-				$scope.snippets[parseInt(obj.id)-1].load('media/audio/ogg/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+'.ogg');
+				$scope.snippets[parseInt(obj.id)-1].load('media/audio/ogg/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+$scope.extension);
 				$scope.snippets[parseInt(obj.id)-1].on('ready', function () {
 					$scope.snippetsLoaded();
 				});
@@ -268,7 +268,7 @@
 				    height: 50
 				});
 
-				$scope.sample.load('media/audio/ogg/'+$scope.testfile+'.ogg');
+				$scope.sample.load('media/audio/ogg/'+$scope.testfile+$scope.extension);
 				$scope.sample.on('ready', function() {
 					$scope.isReady();
 				});
@@ -317,16 +317,15 @@
 		};
 	}).controller('DiarizationController',['$scope', function ($scope) {
 
-		
-
 	}]);
+
 
 	app.directive('transcription', function() {
     return {
         restrict: "E",
         replace: true, 
         template: "<div class='transcription'><div class='fillspace'><div>"+
-        		"<div class='transcription-line' ng-repeat='line in lines track by $index' "+
+        		"<div class='transcription-line' ng-repeat='line in lines.slice().reverse() track by $index' "+
         		"ng-class=\"activeClip === line.id ? 'underline' : ''\">"+
         			"<span>{{line.text}}</span>"+
         		"</div>"+
@@ -345,6 +344,8 @@
         }
     }
 });
+
+
 
 	app.directive('startpage', function () {
 		return {
