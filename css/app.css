@@ -38,8 +38,15 @@ html {
 
 @media only screen and (max-width: 768px) {
 	 /* For mobile phones: */
-
-     .portfolio-header .links .home-mid {
+    .portfolio-header .links {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    .page, .project-title, .subtitle {
+        margin-left: 30px !important;
+        margin-right: 30px !important;
+    }
+    .portfolio-header .links .home-mid {
         display: none !important;
     }
     .portfolio-header .links .home-short{
@@ -476,7 +483,6 @@ div[id*="sample-"] {
 
 
 .portfolio-header .links {
-    /*border: 1px solid gray;*/
     font-size: x-large;
     padding-right: 50px;
     padding-left: 50px;
@@ -509,14 +515,21 @@ div[id*="sample-"] {
 }
 
 .portfolio .projects {
-    position: relative;
-    float: left;
+    display: inline-block;
+    /*display:flex;
+    justify-content:flex-start;
+    align-items:flex-start;*/
+
+    /*position: relative;
+    float: left;*/
 
     width: 200px;
     height: 200px;
-    margin-left: 100px;
-    margin-right: 100px;
-    margin-top: 30px;
+    padding-left: 25px;
+    padding-right: 25px;
+    /*margin-left: 100px;
+    margin-right: 100px;*/
+    margin-top: 50px;
     margin-bottom: 50px;
     
 }
@@ -567,4 +580,9 @@ div[id*="sample-"] {
 .info .myvideo {
     margin-top: 30px;
     margin-left: 100px;
+}
+
+.page {
+    margin-left: 100px;
+    margin-right: 100px;
 }
