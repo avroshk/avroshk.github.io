@@ -100,7 +100,7 @@
 
 		$scope.colorsArray = ["#003366","#99CCCC","#3399CC","#336699","#0099FF"];
 
-		if ($scope.currentBrowser === 'safari' || $scope.currentBrowser === 'internet explorer') {
+		if ($scope.currentBrowser === 'safari' || $scope.currentBrowser === 'ie') {
 			$scope.extension = 'm4a';
 		} else {
 			$scope.extension = 'ogg';
