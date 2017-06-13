@@ -57,6 +57,12 @@ html {
     }
 }
 
+@media only screen and (max-width: 342px) {
+    .diarization .header .title {
+        height: 170px !important;
+    }
+}
+
 
 #testVideo {
   width: 100%    !important;
