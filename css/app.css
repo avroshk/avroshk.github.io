@@ -420,11 +420,6 @@ div[id*="sample-"] {
     transition: height 0.5s;
 }
 
-
-.diarization .pageload {
-    display: none;
-}
-
 .diarization .loading {
     text-align: center;
     font-size: x-large;

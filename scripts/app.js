@@ -94,29 +94,27 @@
 		$scope.oldActiveClip = -1;
 		$scope.loadingComplete = false;
 
-		var file = 'media/content/result_'+$scope.testfile+'.csv';
-		var transcription_file = 'media/content/transcription_'+$scope.testfile+'.txt';
-
+		$scope.file = 'media/content/result_'+$scope.testfile+'.csv';
+		$scope.transcription_file = 'media/content/transcription_'+$scope.testfile+'.txt';
 
 		$scope.colorsArray = ["#003366","#99CCCC","#3399CC","#336699","#0099FF"];
 
 		$scope.extension = ".ogg";
 		$scope.csv = [];
-
+		$scope.clips = [];
 		
-		var rawFile = new XMLHttpRequest();
-		var transcriptionFile = new XMLHttpRequest();
+		$scope.rawFile = new XMLHttpRequest();
+		$scope.transcriptionFile = new XMLHttpRequest();
 	    
-	    rawFile.open("GET", file, false);
-	    transcriptionFile.open("GET", transcription_file, false);
-
-	    rawFile.onreadystatechange = function ()
+		$scope.rawFile.open("GET", $scope.file, true);
+	    
+	    $scope.rawFile.onreadystatechange = function ()
 	    {
-	        if(rawFile.readyState === 4)
+	        if($scope.rawFile.readyState === 4)
 	        {
-	            if(rawFile.status === 200 || rawFile.status == 0)
+	            if($scope.rawFile.status === 200 || $scope.rawFile.status == 0)
 	            {	
-	                angular.forEach(rawFile.responseText.split('\n'), function(line) {
+                	angular.forEach($scope.rawFile.responseText.split('\n'), function(line) {
 	                	if (line == "") {
 
 	                	} else {
@@ -125,51 +123,48 @@
 					        $scope.csv.push(json);
 					        $scope.numSnippets++;
 	                	}
-	                });	 
-	                transcriptionFile.send(null);         															               
-	            }
-	        }
-	    }
+	                });	
 
-	    transcriptionFile.onreadystatechange = function ()
+	                $scope.csv.sort(function(a, b) {
+					    return parseFloat(a.speaker) - parseFloat(b.speaker);
+					});
+
+	                angular.forEach($scope.csv, function(obj) {
+						if (parseInt(obj.speaker) === $scope.numSpeakers) {
+							$scope.clips.push(obj);
+						} else {
+							$scope.speakers.push($scope.clips);
+							$scope.clips = [];
+							$scope.clips.push(obj);
+							$scope.numSpeakers++;
+						}
+					});
+
+					if ($scope.clips.length > 0) {
+						$scope.speakers.push($scope.clips);
+						$scope.numSpeakers++;
+					}
+
+					$scope.$apply();
+	                $scope.loadSample();        
+	            }
+	        } 
+	    };
+
+	    $scope.transcriptionFile.onreadystatechange = function ()
 	    {
-	        if(rawFile.readyState === 4)
+	        if($scope.transcriptionFile.readyState === 4)
 	        {
-	            if(rawFile.status === 200 || rawFile.status == 0)
+	            if($scope.transcriptionFile.status === 200 || $scope.transcriptionFile.status == 0)
 	            {	
-	                angular.forEach(transcriptionFile.responseText.split('\n'), function(line,id) {
+                	angular.forEach($scope.transcriptionFile.responseText.split('\n'), function(line,id) {
 	            		if(id > 1 && id < $scope.numSnippets+2) {
 	            			$scope.csv[id-2].text = line;
 	            		}
-	                });	          															               
+	                });
 	            }
 	        }
-	    }
-
-	    rawFile.send(null);
-
-	    $scope.csv.sort(function(a, b) {
-		    return parseFloat(a.speaker) - parseFloat(b.speaker);
-		});
-	    
-	    var clips = [];
-
-		angular.forEach($scope.csv, function(obj) {
-			if (parseInt(obj.speaker) === $scope.numSpeakers) {
-				clips.push(obj);
-			} else {
-				$scope.speakers.push(clips);
-				clips = [];
-				clips.push(obj);
-				$scope.numSpeakers++;
-			}
-		});
-
-		if (clips.length > 0) {
-			$scope.speakers.push(clips);
-			$scope.numSpeakers++;
-		}
-
+	    };
 	
 		$scope.play = function () {
 			$scope.sample.play();
@@ -257,55 +252,54 @@
 			$scope.loadSnippets();
 		};
 
-		$scope.$watch('pageLoaded', function(){
-			if ($scope.pageLoaded) {
-			    $scope.sample = WaveSurfer.create({
-				    container: '#sample-'+$scope.testfile,
-				    waveColor: 'rgba(0,31,111,0.8)',
-				    progressColor: '#999999',
-				    // barWidth: 1,
-				    // barHeight: 1,
-				    height: 50
-				});
+		$scope.loadSample = function () {
+			$scope.sample = WaveSurfer.create({
+			    container: '#sample-'+$scope.testfile,
+			    waveColor: 'rgba(0,31,111,0.8)',
+			    progressColor: '#999999',
+			    // barWidth: 1,
+			    // barHeight: 1,
+			    height: 50
+			});
 
-				$scope.sample.load('media/audio/ogg/'+$scope.testfile+$scope.extension);
-				$scope.sample.on('ready', function() {
-					$scope.isReady();
-				});
-				
-				$scope.sample.on('audioprocess', function() {
-					$scope.currentPlayTime = $scope.sample.getCurrentTime();
-
-					angular.forEach($scope.speakers, function (speaker) {
-						angular.forEach(speaker, function (clip) {
-							if ($scope.currentPlayTime > clip.timestamp && $scope.currentPlayTime < clip.clipboundary) {
-								$scope.activeSpeaker = clip.speaker;
-								$scope.activeClip = clip.id;
-
-								if ($scope.oldActiveClip === $scope.activeClip) {
-
-								} else {
-									$scope.oldActiveClip = $scope.activeClip;
-									$scope.appendToTranscription(clip);
-								}
-							} 
-						})
-					});
-
-
-					$scope.$apply();
-				});
-
-				$scope.sample.on('finish', function() {
-					$scope.currentPlayTime = 0;
-					$scope.activeSpeaker = -1;
-					$scope.oldActiveClip = -1;
-					$scope.clearTranscription();
-					$scope.$apply();
-				});
-			}
+			$scope.sample.load('media/audio/ogg/'+$scope.testfile+$scope.extension);
+			$scope.sample.on('ready', function() {
+				$scope.isReady();
+			});
 			
-		});
+			$scope.sample.on('audioprocess', function() {
+				$scope.currentPlayTime = $scope.sample.getCurrentTime();
+
+				angular.forEach($scope.speakers, function (speaker) {
+					angular.forEach(speaker, function (clip) {
+						if ($scope.currentPlayTime > clip.timestamp && $scope.currentPlayTime < clip.clipboundary) {
+							$scope.activeSpeaker = clip.speaker;
+							$scope.activeClip = clip.id;
+
+							if ($scope.oldActiveClip === $scope.activeClip) {
+
+							} else {
+								$scope.oldActiveClip = $scope.activeClip;
+								$scope.appendToTranscription(clip);
+							}
+						} 
+					})
+				});
+
+
+				$scope.$apply();
+			});
+
+			$scope.sample.on('finish', function() {
+				$scope.currentPlayTime = 0;
+				$scope.activeSpeaker = -1;
+				$scope.oldActiveClip = -1;
+				$scope.clearTranscription();
+				$scope.$apply();
+			});
+		};
+
+		$scope.rawFile.send(null);
 	}]);
 
 	app.directive('diarization', function () {
@@ -332,11 +326,14 @@
         	"</div>",
         controller: function($scope, $element, $attrs) {
         	$scope.lines = [];
+        	if ($scope.transcription === "true") {
+        		$scope.transcriptionFile.open("GET", $scope.transcription_file, true);
+        		$scope.transcriptionFile.send(null);
+        	}
         },
         link: function($scope, $element, $attrs) {
             $scope.appendToTranscription = function(clip) {
 				$scope.lines[clip.id] = clip;
-				// console.log(clip.text);
             }
             $scope.clearTranscription = function() {
             	$scope.lines = [];
