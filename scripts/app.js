@@ -80,7 +80,8 @@
 			controller: 'DiarizationSampleController'
 			
 		};
-	}).controller('DiarizationSampleController',['$scope', function ($scope) {
+	}).controller('DiarizationSampleController',['$scope','whichBrowser', function ($scope, whichBrowser) {
+		$scope.currentBrowser = whichBrowser();
 		$scope.pageLoaded = false;
 		$scope.numSpeakers = 0;
 		$scope.numSnippets = 0;
@@ -99,16 +100,20 @@
 
 		$scope.colorsArray = ["#003366","#99CCCC","#3399CC","#336699","#0099FF"];
 
-		$scope.extension = ".ogg";
+		if ($scope.currentBrowser === 'safari' || $scope.currentBrowser === 'internet explorer') {
+			$scope.extension = 'm4a';
+		} else {
+			$scope.extension = 'ogg';
+		}
+		
 		$scope.csv = [];
 		$scope.clips = [];
-		
 		$scope.rawFile = new XMLHttpRequest();
 		$scope.transcriptionFile = new XMLHttpRequest();
 	    
 		$scope.rawFile.open("GET", $scope.file, true);
 	    
-	    $scope.rawFile.onreadystatechange = function ()
+	    $scope.rawFile.onload = function ()
 	    {
 	        if($scope.rawFile.readyState === 4)
 	        {
@@ -205,7 +210,7 @@
 			$scope.loadingComplete = true;
 			$scope.$apply();
 			angular.forEach($scope.csv, function(obj) {	
-				$scope.snippets[parseInt(obj.id)-1].load('media/audio/ogg/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+$scope.extension);
+				$scope.snippets[parseInt(obj.id)-1].load('media/audio/'+$scope.extension+'/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+'.'+$scope.extension);
 			});
 
 		};
@@ -213,7 +218,7 @@
 		$scope.loadSnippets = function () {
 			angular.forEach($scope.csv, function(obj) {
 				// $scope.snippets[parseInt(obj.id)-1].params.waveColor = $scope.colorsArray[obj.speaker];
-				$scope.snippets[parseInt(obj.id)-1].load('media/audio/ogg/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+$scope.extension);
+				$scope.snippets[parseInt(obj.id)-1].load('media/audio/'+$scope.extension+'/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+'.'+$scope.extension);
 				$scope.snippets[parseInt(obj.id)-1].on('ready', function () {
 					$scope.snippetsLoaded();
 				});
@@ -222,7 +227,6 @@
 
 		$scope.snippetsLoaded = function() {
 			$scope.loadedSnippets++;
-			// console.log('SippetLoaded: '+$scope.loadedSnippets);
 			if ($scope.loadedSnippets === $scope.numSnippets) {
 				$scope.areSnippetsLoaded = true;
 				$scope.reloadSnippets();
@@ -253,6 +257,7 @@
 		};
 
 		$scope.loadSample = function () {
+		
 			$scope.sample = WaveSurfer.create({
 			    container: '#sample-'+$scope.testfile,
 			    waveColor: 'rgba(0,31,111,0.8)',
@@ -262,7 +267,8 @@
 			    height: 50
 			});
 
-			$scope.sample.load('media/audio/ogg/'+$scope.testfile+$scope.extension);
+			$scope.sample.load('/media/audio/'+$scope.extension+'/'+$scope.testfile+'.'+$scope.extension);
+
 			$scope.sample.on('ready', function() {
 				$scope.isReady();
 			});
@@ -300,6 +306,7 @@
 		};
 
 		$scope.rawFile.send(null);
+		
 	}]);
 
 	app.directive('diarization', function () {
