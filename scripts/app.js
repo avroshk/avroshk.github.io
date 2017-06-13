@@ -130,33 +130,18 @@
 	                	}
 	                });	
 
-	                $scope.csv.sort(function(a, b) {
-					    return parseFloat(a.speaker) - parseFloat(b.speaker);
-					});
 
-	                angular.forEach($scope.csv, function(obj) {
-						if (parseInt(obj.speaker) === $scope.numSpeakers) {
-							$scope.clips.push(obj);
-						} else {
-							$scope.speakers.push($scope.clips);
-							$scope.clips = [];
-							$scope.clips.push(obj);
-							$scope.numSpeakers++;
-						}
-					});
-
-					if ($scope.clips.length > 0) {
-						$scope.speakers.push($scope.clips);
-						$scope.numSpeakers++;
-					}
-
-					$scope.$apply();
-	                $scope.loadSample();        
+	                if ($scope.transcription === "true") {
+		        		$scope.transcriptionFile.open("GET", $scope.transcription_file, true);
+		        		$scope.transcriptionFile.send(null);
+		        	} else {
+		        		$scope.loadSample();        
+		        	}	                
 	            }
 	        } 
 	    };
 
-	    $scope.transcriptionFile.onreadystatechange = function ()
+	    $scope.transcriptionFile.onload = function ()
 	    {
 	        if($scope.transcriptionFile.readyState === 4)
 	        {
@@ -167,6 +152,7 @@
 	            			$scope.csv[id-2].text = line;
 	            		}
 	                });
+	                $scope.loadSample();        
 	            }
 	        }
 	    };
@@ -257,6 +243,28 @@
 		};
 
 		$scope.loadSample = function () {
+
+			$scope.csv.sort(function(a, b) {
+			    return parseFloat(a.speaker) - parseFloat(b.speaker);
+			});
+
+            angular.forEach($scope.csv, function(obj) {
+				if (parseInt(obj.speaker) === $scope.numSpeakers) {
+					$scope.clips.push(obj);
+				} else {
+					$scope.speakers.push($scope.clips);
+					$scope.clips = [];
+					$scope.clips.push(obj);
+					$scope.numSpeakers++;
+				}
+			});
+
+			if ($scope.clips.length > 0) {
+				$scope.speakers.push($scope.clips);
+				$scope.numSpeakers++;
+			}
+
+			$scope.$apply();
 		
 			$scope.sample = WaveSurfer.create({
 			    container: '#sample-'+$scope.testfile,
@@ -333,10 +341,6 @@
         	"</div>",
         controller: function($scope, $element, $attrs) {
         	$scope.lines = [];
-        	if ($scope.transcription === "true") {
-        		$scope.transcriptionFile.open("GET", $scope.transcription_file, true);
-        		$scope.transcriptionFile.send(null);
-        	}
         },
         link: function($scope, $element, $attrs) {
             $scope.appendToTranscription = function(clip) {
