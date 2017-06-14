@@ -22,6 +22,15 @@
 	    		controller: 'DiarizationController',
 				templateUrl: 'templates/diarization.html'
 	    	})
+	    	.when("/diarization/4", {
+				templateUrl: 'templates/diarization-example-4.html'
+	    	})
+	    	.when("/diarization/5", {
+				templateUrl: 'templates/diarization-example-5.html'
+	    	})
+	    	.when("/diarization/6", {
+				templateUrl: 'templates/diarization-example-6.html'
+	    	})
 	    	.when("/birdsong-segmentation", {
 				templateUrl: 'templates/birdsong-segmentation.html'
 	    	})
@@ -163,9 +172,11 @@
 		});
 	
 		$scope.play = function () {
-			$location.hash($scope.id);
 			$scope.sample.play();
-     	 	$anchorScroll();
+			if ($scope.id < 4) {
+				$location.hash($scope.id);
+				$anchorScroll();
+			}	
 		}
 
 		$scope.pause = function () {

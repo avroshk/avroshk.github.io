@@ -497,6 +497,7 @@ div[id*="sample-"] {
 
 .portfolio-header a {
     text-decoration: none;
+    color: black;
 }
 
 .portfolio .projects .title {
@@ -576,7 +577,7 @@ div[id*="sample-"] {
 }
 
 .pageactive {
-    color: blue;
+    color: blue !important;
 }
 
 .indent,

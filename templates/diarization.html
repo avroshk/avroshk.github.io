@@ -2,7 +2,7 @@
 <div id="speaker-diarization" class="scrollable">
 
 	<div class="project-title indent">Speaker Diarization: Who Spoke When?</div>
-	<div class="subtitle indent">2016</div>
+	<div class="subtitle indent">2017</div>
 
 	<div class="indent content">
 		<p>I was often made to take meeting notes during the weekly team gatherings. During one of the meetings, early when I joined the team, I recorded the audio and converted it to text using the <a target="_blank" href="https://www.google.com/intl/en/chrome/demos/speech.html">Web Speech API</a> to look for some of the keywords used in the project that I was unaware of. Later I started exploring methods to traverse the clip of audio to create an automatic transcription of the meeting. The most important information that was lost while speech-to-text conversion was "who spoke when". I knew I could extract features from short blocks of audio that represent the voices of the people speaking at certain point of time and cluster them to obtain demarcations for every speaker. The task of determining "who spoke when?" in a stream of audio is called speaker diarization. </p>
@@ -35,7 +35,7 @@
 	</div>
 	<!-- <diarization-sample testfile="setM_S3_25" id="1" transcription="true"></diarization-sample>	 -->
 	<div class="indent content">
-		<p>So, when multiple voices are present at the same time, the louder speaker is usually tagged to that stream as seen in this example. The first two lines of the poem have been recited by two speakers simulatneouly.</p> 
+		<p>So, when multiple voices are present at the same time, the louder speaker is usually tagged to that stream as seen in the following example.</p> 
 	</div>
 
 	<diarization-sample testfile="setN_S3_8" id="2" transcription="true"></diarization-sample>
@@ -47,38 +47,25 @@
 	<diarization-sample testfile="setM_S3_25" id="3" transcription="true"></diarization-sample>
 
 	<div class="indent content">
-		<p>This tool can be put to its test by trying to transcribe a long audio clip with natural speech. I used a 4-minutes excerpt from a radio interview. Speaker 2 and 4 are the interviewees. Speaker 3 contains most of the parts spoken by the interviewer but you'll notice it often gets confused or lost with other speakers. The noisy and unintelligible bits has been clustered as Speaker 1. Short sentences are also not detected very well. However, the demarcations do make it easier to traverse through the 4-minutes long clip and also presents an overview of the content.</p> 
+		<p>To test a practical use-case, I used a 4-minutes excerpt from a radio interview. Speaker 2 and 4 are the interviewees. Speaker 3 contains most of the parts spoken by the interviewer but you'll notice it often gets confused or lost with other speakers. The noisy and unintelligible bits has been clustered as Speaker 1. Short sentences are also not detected very well. However, the demarcations do make it easier to traverse through the 4-minutes long clip and also presents an overview of the content.</p> 
 	</div>
 
-	<diarization-sample testfile="setN_S4_13" id="4" transcription="true"></diarization-sample>
+	<div class="indent content"><a target="_blank" href="/#diarization/4">Load Example 4 (radio interview)</a></div>
+
+	<!-- <diarization-sample testfile="setN_S4_13" id="4" transcription="true"></diarization-sample> -->
 	
 	
 	<div class="indent content">
-		<p>I was curious about the results if we replace the speech with music. The tool segmented the song into sections which are very well perceived as distinct sections. Each speaker now represented a unique mix of instruments found in the song. This was really interesting because it can be used to extract a high-level structure of a song. This opens up a new research avenue for detecting structure of a song. Perhaps, by using self-similarity matrices these structures can be further analyzed.</p> 
+		<p>I was curious about the results if we replace the speech with music. The tool segmented the song into sections which are very well perceived as distinct sections. Each speaker now represented a unique mix of instruments found in the song. This was really interesting because it can be used to extract a high-level structure of a song. This opens up a new research avenue for detecting structure of a song. I am looking forward to further analyze these structures using self-similarity matrices</p> 
 	</div>
 
-	<diarization-sample testfile="setM_S5_2" id="5" transcription="false"></diarization-sample>	
+	<div class="indent content"><a target="_blank" href="/#diarization/5">Load Example 5 (pop song)</a></div>
+	<div class="indent content"><a target="_blank" href="/#diarization/6">Load Example 6 (classical piece)</a></div>
+	<!-- <diarization-sample testfile="setM_S5_2" id="5" transcription="false"></diarization-sample>	 -->
 	
 	<div class="indent content footnotes">
 		<p></p> 
 	</div>
 
-	
-	<!-- <diarization-sample testfile="setN_S5_2" id="11" transcription="false"></diarization-sample>
-	<diarization-sample testfile="setN_S4_4" id="12" transcription="false"></diarization-sample>
-	<diarization-sample testfile="setN_S6_1" id="13" transcription="false"></diarization-sample> -->
 
-	<!-- <diarization-sample testfile="setM_S3_25" id="6" transcription="true"></diarization-sample>
-	<diarization-sample testfile="setN_S3_8" id="7" transcription="true"></diarization-sample>
-	<diarization-sample testfile="setN_S4_14" id="8" transcription="true"></diarization-sample>
-	<diarization-sample testfile="setN_S4_13" id="9" transcription="true"></diarization-sample>
- -->
-
-	
-
-	<!-- <div class="footnotes">
-		<ul>
-			<li>[1] Technical University of Denmark. (2004). English Language Speech Database for Speaker Recognition. Available from DTU website http://www2.imm.dtu.dk/~lfen/elsdsr/index.php</li>
-		</ul>
-	</div> -->
 </div>
