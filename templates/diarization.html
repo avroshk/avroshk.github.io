@@ -4,35 +4,74 @@
 	<div class="project-title indent">Speaker Diarization: Who Spoke When?</div>
 	<div class="subtitle indent">2016</div>
 
+	<div class="indent content">
+		<p>I was often made to take meeting notes during the weekly team gatherings. During one of the meetings, early when I joined the team, I recorded the audio and converted it to text using the <a target="_blank" href="https://www.google.com/intl/en/chrome/demos/speech.html">Web Speech API</a> to look for some of the keywords used in the project that I was unaware of. Later I started exploring methods to traverse the clip of audio to create an automatic transcription of the meeting. The most important information that was lost while speech-to-text conversion was "who spoke when". I knew I could extract features from short blocks of audio that represent the voices of the people speaking at certain point of time and cluster them to obtain demarcations for every speaker. The task of determining "who spoke when?" in a stream of audio is called speaker diarization. </p>
+	</div>
+
+	<div class="indent content">
+		<p>The example below is the recitation of the poem <i>Jerusalem</i> by William Blake consisting of three different voices. You can navigate through the parts recited by each speaker and see the demarcations created by the clustering those voices.</p>
+	</div>
+
 	<diarization-sample testfile="setN_S3_2" id="1" transcription="true"></diarization-sample>
 
 	<div class="indent content">
-		<p>Speaker diarization is the task of determining "who spoke when?" in a stream of audio. I extrated mel-frequency cepstrum co-efficients from short blocks of audio (~300 ms), then aggregated the features of blocks within ~1 to ~2 seconds windows before clustering the feature vectors using gaussian mixture model (GMM) provided by python's <a href="http://scikit-learn.org/">scikit-learn</a>.I then put together the clustered results by assigning a unique speaker ids to short blocks of audio and forming continuous smooth segments out it that contain the speech clips of respective speakers.</p> 
+		<p>Speech also contains constant pauses and silences. This was dealt with by detecting silences using an adaptive threshold (shown in <a href="#" ng-click="showFigure(1);">figure 1</a>). To get a good resolution in time I had to break the stream of audio down to very short snippets (~128 ms), however, spoken voice is seldom so instantaneous that a short snippet of it can describe it completely. So, I aggregated the features of the snippets into overlapping windows of ~1 to ~2 seconds and clustered them using gaussian mixture model (GMM) provided by python's <a href="http://scikit-learn.org/">scikit-learn</a> (shown in <a href="#" ng-click="showFigure(2);">figure 2)</a>. The aggregation gives much better results at the expense of a delay in the detection of the transistion of voices in some cases. 
 	</div>
 
+	<div class="indent chart-container">
+		<div id="line-chart">
+			<canvas id="rms-threshold" class="chart chart-line" chart-data="data" chart-colors="colors" chart-labels="labels" chart-series="series" chart-options="options" chart-dataset-override="datasetOverride" chart-click="onClickChart"> 
+			</canvas>
+			<div class="chart-label">1.Adaptive threshold for detecting silence</div>
+		</div>
+		<div id="cluster-chart">
+			<img src="media/images/clusters.png" />
+			<div class="chart-label">2.PCA reduced plot of clusters formed using GMM</div>
+		</div>
+	</div>
+	
 	<div class="indent content">
-		<p>This tool can be used in transcribing the meeting notes text classifed based on who spoke what. The example above shows the segments extracted from an audio clip consisting of 3 distinct speakers.</p> 
+		<p>I wanted to be able to perform diarization on low-fidelity recordings done using a phone or a computer. In this case, you don't have information from enough channels to localize a speaker. So, the volume at which a speaker speaks combined with the mel-frequency cepstrum co-efficients serve as the primary features for clustering. I achieved 82% accuracy in a database of 200 samples consisting of five different voices. I created this database from the recordings made available by <a target="_blank" href="http://www2.imm.dtu.dk/~lfen/elsdsr/index.php">Technical University of Denmark (ELSDSR).</a></p> 
 	</div>
 	<!-- <diarization-sample testfile="setM_S3_25" id="1" transcription="true"></diarization-sample>	 -->
+	<div class="indent content">
+		<p>So, when multiple voices are present at the same time, the louder speaker is usually tagged to that stream as seen in this example. The first two lines of the poem have been recited by two speakers simulatneouly.</p> 
+	</div>
+
+	<diarization-sample testfile="setN_S3_8" id="2" transcription="true"></diarization-sample>
+
+	<div class="indent content">
+		<p>Here's another example showing results obtained from a recording done in a noisy environment. The speakers were instructed to read random sentences from different books.</p> 
+	</div>
+
+	<diarization-sample testfile="setM_S3_25" id="3" transcription="true"></diarization-sample>
+
+	<div class="indent content">
+		<p>This tool can be put to its test by trying to transcribe a long audio clip with natural speech. I used a 4-minutes excerpt from a radio interview. Speaker 2 and 4 are the interviewees. Speaker 3 contains most of the parts spoken by the interviewer but you'll notice it often gets confused or lost with other speakers. The noisy and unintelligible bits has been clustered as Speaker 1. Short sentences are also not detected very well. However, the demarcations do make it easier to traverse through the 4-minutes long clip and also presents an overview of the content.</p> 
+	</div>
+
+	<diarization-sample testfile="setN_S4_13" id="4" transcription="true"></diarization-sample>
+	
 	
 	<div class="indent content">
-		<p>I was curious what happend if I passed a song through this tool. It segmented the song into sections which are very well perceived as distinct sections. Each speaker here is representing a unique mix of instruments found in the song.</p> 
+		<p>I was curious about the results if we replace the speech with music. The tool segmented the song into sections which are very well perceived as distinct sections. Each speaker now represented a unique mix of instruments found in the song. This was really interesting because it can be used to extract a high-level structure of a song. This opens up a new research avenue for detecting structure of a song. Perhaps, by using self-similarity matrices these structures can be further analyzed.</p> 
 	</div>
-	
-	<diarization-sample testfile="setM_S5_2" id="10" transcription="false"></diarization-sample>
+
+	<diarization-sample testfile="setM_S5_2" id="5" transcription="false"></diarization-sample>	
 	
 	<div class="indent content footnotes">
-		<p>I am currently working on detecting the boundaries more accurately, and detecting multiple speakers speaking at the same time. </p> 
+		<p></p> 
 	</div>
+
+	
+	<!-- <diarization-sample testfile="setN_S5_2" id="11" transcription="false"></diarization-sample>
+	<diarization-sample testfile="setN_S4_4" id="12" transcription="false"></diarization-sample>
+	<diarization-sample testfile="setN_S6_1" id="13" transcription="false"></diarization-sample> -->
+
 	<!-- <diarization-sample testfile="setM_S3_25" id="6" transcription="true"></diarization-sample>
 	<diarization-sample testfile="setN_S3_8" id="7" transcription="true"></diarization-sample>
 	<diarization-sample testfile="setN_S4_14" id="8" transcription="true"></diarization-sample>
 	<diarization-sample testfile="setN_S4_13" id="9" transcription="true"></diarization-sample>
-
-	<diarization-sample testfile="setM_S5_2" id="10" transcription="false"></diarization-sample>
-	<diarization-sample testfile="setN_S5_2" id="11" transcription="false"></diarization-sample>
-	<diarization-sample testfile="setN_S4_4" id="12" transcription="false"></diarization-sample>
-	<diarization-sample testfile="setN_S6_1" id="13" transcription="false"></diarization-sample>
  -->
 
 	

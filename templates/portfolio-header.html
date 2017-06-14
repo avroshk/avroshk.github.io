@@ -1,11 +1,11 @@
 <div class="portfolio-header">	
 	<div class="links">
-		<a class="home-long" href="/" title="Home">----------------------------- Avrosh Kumar ------</a>
-		<a class="home-mid" href="/" title="Home">------ Avrosh Kumar ------</a>
-		<a class="home-short" href="/" title="Home">Avrosh Kumar</a>
+		<a class="home-long" href="/" title="Home" ng-class="activePage === 'home' ? 'pageactive' : ''">----------------------------- Avrosh Kumar ------</a>
+		<a class="home-mid" href="/" title="Home" ng-class="activePage === 'home' ? 'pageactive' : ''">------ Avrosh Kumar ------</a>
+		<a class="home-short" href="/" title="Home" ng-class="activePage === 'home' ? 'pageactive' : ''">Avrosh Kumar</a>
 		<span> / </span>
-		<a class="" href="/info" title="Info">[ i ]</a>
+		<a class="" href="/info" title="Info" ng-class="activePage === 'info' ? 'pageactive' : ''">[ i ]</a>
 		<span> / </span>
-		<a class="credits-anchor" href="/credits" title="Credits">[c]</a>
+		<a class="credits-anchor" href="/credits" title="Credits" ng-class="activePage === 'credits' ? 'pageactive' : ''">[c]</a>
 	</div>
 </di

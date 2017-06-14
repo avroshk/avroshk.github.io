@@ -55,11 +55,17 @@ html {
     .portfolio-header .links .home-short{
         display: inline-block !important;
     }
+    .chart-container {
+        display: block !important;
+    }
+    #line-chart {
+        width: 100% !important;
+    }
 }
 
 @media only screen and (max-width: 342px) {
     .diarization .header .title {
-        height: 170px !important;
+        height: 168px !important;
     }
 }
 
@@ -558,15 +564,7 @@ div[id*="sample-"] {
 
 .content {
     text-align: justify;
-}
-
-.info .subtitle {
-    text-align: justify;
-}
-
-.info .project-title {
-    /*margin-left: 70%;*/
-    font-size: x-large;
+    font-size: larger;
 }
 
 .info .myvideo {
@@ -577,8 +575,38 @@ div[id*="sample-"] {
     /*height: 315px;*/
 }
 
+.pageactive {
+    color: blue;
+}
+
 .indent,
 .page {
     margin-left: 100px;
     margin-right: 100px;
+}
+
+.chart-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+#cluster-chart img{
+    width: 50%;
+    padding-left:25%;
+}
+
+#line-chart {
+    width: 50%;
+}
+
+.chart-label {
+   
+    text-align: center;
+    font-size: smaller;
+    padding: 5px;
+    font-style: italic;
+    font-weight: bold;
 }

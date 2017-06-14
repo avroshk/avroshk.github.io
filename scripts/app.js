@@ -1,18 +1,18 @@
 (function () {
-	var app = angular.module('portfolio-website', ['ngRoute','ngAnimate']);
+	var app = angular.module('portfolio-website', ['ngRoute','ngAnimate','chart.js']);
 
 	app.config(function($routeProvider, $locationProvider) {
 	    $routeProvider
 		    .when("/", {
-		    	templateUrl: 'templates/portfolio.html'
-				// template: '<div></div>'
+		    	templateUrl: 'templates/portfolio.html',
+				controller: 'PortfolioController'
 	    	})
 	    	.when("/info", {
-	    		// controller: 'InfoController',
+	    		controller: 'InfoController',
 				templateUrl: 'templates/info.html'
 	    	})
 	    	.when("/credits", {
-	    		// controller: 'CreditsController',
+	    		controller: 'CreditsController',
 				templateUrl: 'templates/credits.html'
 	    	})
 	    	.when("/listening-test", {
@@ -54,6 +54,7 @@
 			controller: 'PortfolioController'
 		};
 	}).controller('PortfolioController', function ($scope) {
+		$scope.activePage = "home";
 	});
 
 	app.directive('portfolioHeader', function () {
@@ -80,7 +81,7 @@
 			controller: 'DiarizationSampleController'
 			
 		};
-	}).controller('DiarizationSampleController',['$scope','whichBrowser', function ($scope, whichBrowser) {
+	}).controller('DiarizationSampleController',['$scope','whichBrowser','$location','$anchorScroll', function ($scope, whichBrowser, $location, $anchorScroll) {
 		$scope.currentBrowser = whichBrowser();
 		$scope.pageLoaded = false;
 		$scope.numSpeakers = 0;
@@ -113,8 +114,7 @@
 	    
 		$scope.rawFile.open("GET", $scope.file, true);
 	    
-	    $scope.rawFile.onload = function ()
-	    {
+	    $scope.rawFile.onload = function () {
 	        if($scope.rawFile.readyState === 4)
 	        {
 	            if($scope.rawFile.status === 200 || $scope.rawFile.status == 0)
@@ -141,8 +141,7 @@
 	        } 
 	    };
 
-	    $scope.transcriptionFile.onload = function ()
-	    {
+	    $scope.transcriptionFile.onload = function () {
 	        if($scope.transcriptionFile.readyState === 4)
 	        {
 	            if($scope.transcriptionFile.status === 200 || $scope.transcriptionFile.status == 0)
@@ -156,13 +155,21 @@
 	            }
 	        }
 	    };
+
+	    $scope.$on('$locationChangeStart', function(event, newUrl) {
+	    	if (newUrl.includes('diarization#')) {
+	    		event.preventDefault();
+	    	}
+		});
 	
 		$scope.play = function () {
+			$location.hash($scope.id);
 			$scope.sample.play();
+     	 	$anchorScroll();
 		}
 
 		$scope.pause = function () {
-			$scope.sample.pause();
+			$scope.sample.pause();			
 		}
 
 		$scope.stop = function () {
@@ -324,36 +331,168 @@
 			controller: 'DiarizationController'
 			
 		};
-	}).controller('DiarizationController',['$scope', function ($scope) {
+	}).controller('DiarizationController',['$scope','$location','$anchorScroll', function ($scope, $location, $anchorScroll) {
+		$scope.activePage = "diarization";
+		$scope.file = 'media/content/rms_threshold.csv';
+		$scope.time = [];
+		$scope.rms = [];
+		$scope.threshold = [];
+		$scope.colors = ['#45b7cd','#ff6384', '#ff8e72'];
 
+
+		$scope.rmsFile = new XMLHttpRequest();
+		$scope.rmsFile.open("GET", $scope.file, true);
+	    
+	    $scope.rmsFile.onload = function () {
+	        if($scope.rmsFile.readyState === 4)
+	        {
+	            if($scope.rmsFile.status === 200 || $scope.rmsFile.status == 0)
+	            {	
+	            	var lineNum = 0;
+                	angular.forEach($scope.rmsFile.responseText.split('\n'), function(line) {
+	                	if (line == "") {
+
+	                	} else {
+	                		if (lineNum == 0) {
+	                			$scope.time = line.split(',');
+	                		} else if (lineNum == 1) {
+	                			$scope.rms = line.split(',');
+	                		} else if (lineNum == 2) {
+	                			$scope.threshold = line.split(',');
+	                		}
+	              			lineNum++;
+	                	}
+	                });	
+
+					$scope.labels  = $scope.time;
+					$scope.series = ['RMS', 'Threshold','Time'];
+				  	$scope.data = [
+				  		$scope.rms,
+				  		$scope.threshold
+				  	];
+				    	
+				  	$scope.onClickChart = function (points, evt) {
+				    	console.log(points, evt);
+				  	};
+				  	$scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+				  	$scope.options = {
+				  		elements: {
+					        line: {
+					          	borderWidth: 0.5
+					        },
+					        point: {
+					          	radius: 0
+					        }
+					    },
+				    	scales: {
+				      		xAxes: [{
+					          	display: false,
+					          	ticks: {
+				                    callback: function(value, index, values) {
+				                        return value+' seconds';
+				                    }
+				                }
+					        }],
+				      		yAxes: [{
+				          		id: 'y-axis-1',
+				          		type: 'linear',
+				          		display: true,
+				          		position: 'left',
+				          		ticks: {
+				          			callback: function(value, index, values) {
+				                        return value+' dB';
+				                    },
+						            max: -5,
+						            min: -65,
+						            stepSize: 10
+						        },
+				        	},
+				        	{
+				          		id: 'y-axis-2',
+					          	type: 'linear',
+					          	display: false,
+					          	position: 'right',
+					          	ticks: {
+						            max: -5,
+						            min: -65,
+						            stepSize: 10
+						        }
+				        	}],
+				        	gridLines: {
+					          	display: true
+					        }
+				    	}
+			  		};	                
+	            }
+	        } 
+	    };
+
+	    $scope.rmsFile.send(null);
+
+	    $scope.showFigure = function(id) {
+	    	if (id == 1) {
+	    		$location.hash('line-chart');
+	    	} else if (id == 2) {
+	    		$location.hash('cluster-chart');
+	    	}
+	    	$anchorScroll();
+	    }
 	}]);
 
 
 	app.directive('transcription', function() {
-    return {
-        restrict: "E",
-        replace: true, 
-        template: "<div class='transcription'><div class='fillspace'><div>"+
-        		"<div class='transcription-line' ng-repeat='line in lines.slice().reverse() track by $index' "+
-        		"ng-class=\"activeClip === line.id ? 'underline' : ''\">"+
-        			"<span>{{line.text}}</span>"+
-        		"</div>"+
-        	"</div>",
-        controller: function($scope, $element, $attrs) {
-        	$scope.lines = [];
-        },
-        link: function($scope, $element, $attrs) {
-            $scope.appendToTranscription = function(clip) {
-				$scope.lines[clip.id] = clip;
-            }
-            $scope.clearTranscription = function() {
-            	$scope.lines = [];
-            }
-        }
-    }
-});
+	    return {
+	        restrict: "E",
+	        replace: true, 
+	        template: "<div class='transcription'><div class='fillspace'><div>"+
+	        		"<div class='transcription-line' ng-repeat='line in lines.slice().reverse() track by $index' "+
+	        		"ng-class=\"activeClip === line.id ? 'underline' : ''\">"+
+	        			"<span>{{line.text}}</span>"+
+	        		"</div>"+
+	        	"</div>",
+	        controller: function($scope, $element, $attrs) {
+	        	$scope.lines = [];
+	        },
+	        link: function($scope, $element, $attrs) {
+	            $scope.appendToTranscription = function(clip) {
+					$scope.lines[clip.id] = clip;
+	            }
+	            $scope.clearTranscription = function() {
+	            	$scope.lines = [];
+	            }
+	        }
+	    }
+	});
 
+	app.directive('info', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/info.html',
+			controller: 'InfoController'
+		};
+	}).controller('InfoController', function ($scope) {
+		$scope.activePage = "info";
+	});
 
+	app.directive('credits', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/credits.html',
+			controller: 'CreditsController'
+		};
+	}).controller('CreditsController', function ($scope) {
+		$scope.activePage = "credits";
+	});
+
+	app.directive('startpage', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/startpage.html',
+			controller: 'StartpageController'
+		};
+	}).controller('StartpageController', function ($scope) {
+		
+	});
 
 	app.directive('startpage', function () {
 		return {
