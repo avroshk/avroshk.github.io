@@ -611,3 +611,12 @@ div[id*="sample-"] {
     font-style: italic;
     font-weight: bold;
 }
+
+.subheader {
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+    padding-top: 30px;
+    border-bottom-style: inset;
+    font-size: x-large;
+    font-style: italic;
+}
