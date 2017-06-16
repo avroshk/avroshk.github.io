@@ -620,3 +620,8 @@ div[id*="sample-"] {
     font-size: x-large;
     font-style: italic;
 }
+
+.vrdaw-poster {
+    width: 100%;
+    height: calc(100% - 45px);
+}

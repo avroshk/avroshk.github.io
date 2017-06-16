@@ -31,6 +31,10 @@
 	    	.when("/diarization/6", {
 				templateUrl: 'templates/diarization-example-6.html'
 	    	})
+	    	.when("/mixinginvr", {
+				templateUrl: 'templates/mixinginvr.html',
+				controller: 'MixingInVRController'
+	    	})
 	    	.when("/birdsong-segmentation", {
 				templateUrl: 'templates/birdsong-segmentation.html'
 	    	})
@@ -473,6 +477,27 @@
 	            }
 	        }
 	    }
+	});
+
+	app.directive('mixinginvr', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/mixinginvr.html',
+			controller: 'MixingInVRController'
+		};
+	}).controller('MixingInVRController', function ($scope, $http, $sce) {
+		$scope.activePage = "mixinginvr";
+
+
+		$http.get('/media/images/AvroshPoster_VRDAW.pdf', {responseType:'arraybuffer'})
+		  	.success(function (response) {
+		       	var file = new Blob([response], {type: 'application/pdf'});
+		       	var fileURL = URL.createObjectURL(file);
+		       	$scope.content = $sce.trustAsResourceUrl(fileURL);
+		       	$scope.$apply();
+		});
+
+		
 	});
 
 	app.directive('info', function () {
