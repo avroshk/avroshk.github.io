@@ -635,3 +635,15 @@ div[id*="sample-"] {
     width: 100%;
     height: calc(100% - 45px);
 }
+
+/* Eclipse */
+
+.eclipse .centertext {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size: 50;
+}
+
+.eclipse #waveform {
+}

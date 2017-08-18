@@ -1,5 +1,5 @@
 (function () {
-	var app = angular.module('portfolio-website', ['ngRoute','ngAnimate','chart.js']);
+	var app = angular.module('portfolio-website', ['ngRoute','ngAnimate','chart.js','ngMaterial']);
 
 	app.config(function($routeProvider, $locationProvider) {
 	    $routeProvider
@@ -34,6 +34,10 @@
 	    	.when("/mixinginvr", {
 				templateUrl: 'templates/mixinginvr.html',
 				controller: 'MixingInVRController'
+	    	})
+	    	.when("/eclipse", {
+	    		controller: 'EclipseController',
+				templateUrl: 'templates/eclipse.html'
 	    	})
 	    	.when("/birdsong-segmentation", {
 				templateUrl: 'templates/birdsong-segmentation.html'
@@ -496,8 +500,68 @@
 		       	$scope.content = $sce.trustAsResourceUrl(fileURL);
 		       	// $scope.$apply();
 		});
-
 		
+	});
+
+	app.directive('eclipse', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/eclipse.html',
+			controller: 'EclipseController'
+		};
+	}).controller('EclipseController', function ($scope, $http, $sce) {
+		$scope.activePage = "eclipse";
+		$scope.vol = 70;
+		$scope.sound = new Howl({
+		  	src: ['media/audio/ogg/Eclipse_sonification_2.ogg'],
+		  	autoplay: true,
+		  	loop: true,
+		  	volume: $scope.vol/100,
+		  	onend: function() {
+		    	console.log('Finished!');
+		  	}
+		});
+
+		// $scope.wave = new SiriWave({
+		//     container: waveform,
+		//     width: window.innerWidth,
+		//     height: window.innerHeight * 0.3,
+		//     cover: true,
+		//     color: '#000',
+		//     speed: 0.03,
+		//     amplitude: 0.7,
+		//     frequency: 2
+		// });
+
+		// $scope.wave.start();
+
+		$scope.$watch('vol', function (newVal, oldVal, scope) {
+			$scope.sound.volume(newVal/100);
+			// $scope.wave.amplitude(newVal/100);
+		});
+
+
+
+
+
+		// $scope.sound = new Howl({
+		// 	src:['media/audio/ogg/Takumi-Avrosh.ogg'],
+		// 	volume: 0.5,
+		// 	sprite: {
+		//     	music: [0, 20000],
+		//     	takumi: [20000, 40000],
+		//     	avrosh: [2000000, 2200000]
+		//   	},
+		// 	onend: function() {
+		// 		console.log('Finished playing!');
+		// 	}
+		// });
+
+		// // Clear listener after first call.
+		// $scope.sound.once('load', function(){
+		//   	console.log('Loaded!');
+		//   	$scope.sound.play('avrosh');
+		// });
 	});
 
 	app.directive('info', function () {
