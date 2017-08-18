@@ -511,16 +511,26 @@
 		};
 	}).controller('EclipseController', function ($scope, $http, $sce) {
 		$scope.activePage = "eclipse";
-		$scope.vol = 70;
+		$scope.vol = 50;
+
 		$scope.sound = new Howl({
-		  	src: ['media/audio/ogg/Eclipse_sonification_2.ogg'],
-		  	autoplay: true,
+		  	src: ['media/audio/ogg/Eclipse_sonification_2.ogg','media/audio/m4a/Eclipse_sonification_2.m4a'],
 		  	loop: true,
+		  	autoplay: true,
+		  	html5: true,
 		  	volume: $scope.vol/100,
 		  	onend: function() {
 		    	console.log('Finished!');
 		  	}
 		});
+
+		
+		
+
+
+		// $scope.stopSound = function () {
+		// 	$scope.sound.stop();
+		// };
 
 		// $scope.wave = new SiriWave({
 		//     container: waveform,
