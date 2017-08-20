@@ -1,7 +1,15 @@
 (function () {
 	var app = angular.module('portfolio-website', ['ngRoute','ngAnimate','chart.js','ngMaterial']);
 
+	// Magic sauce, imediate so the value is stored and we don't need to lookup every check
+    var _isNotMobile = (function() {
+        var check = false;
+        (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4)))check = true})(navigator.userAgent||navigator.vendor||window.opera);
+        return !check;
+    })();
+
 	app.config(function($routeProvider, $locationProvider) {
+
 	    $routeProvider
 		    .when("/", {
 		    	templateUrl: 'templates/portfolio.html',
@@ -39,6 +47,14 @@
 	    		controller: 'EclipseController',
 				templateUrl: 'templates/eclipse.html'
 	    	})
+	    	.when("/eclipse/hopkinsville", {
+				templateUrl: 'templates/eclipse-hopkinsville.html',
+				controller: 'EclipseHopkinsvilleController'
+	    	})
+	    	.when("/eclipse/atlanta", {
+				templateUrl: 'templates/eclipse-atlanta.html',
+				controller: 'EclipseAtlantaController'
+	    	})
 	    	.when("/birdsong-segmentation", {
 				templateUrl: 'templates/birdsong-segmentation.html'
 	    	})
@@ -50,9 +66,30 @@
         $locationProvider.html5Mode(true);
 	});
 
+	app.run(function($rootScope, $route, $location){
+	   //Bind the `$locationChangeSuccess` event on the rootScope, so that we dont need to 
+	   //bind in induvidual controllers.
+
+	   $rootScope.$on('$locationChangeSuccess', function() {
+	        $rootScope.actualLocation = $location.path();
+	    });        
+
+	   $rootScope.$watch(function () {return $location.path()}, function (newLocation, oldLocation) {
+	        if($rootScope.actualLocation === newLocation) {
+	            if (newLocation == '/eclipse') {
+	            	$rootScope.$broadcast('stopplaying');
+	            }
+	        }
+	    });
+	});
+
 	// app.controller('RouteController', function ($rootScope, $scope, $route) {
 	// 	// $rootScope.$broadcast('loadPage', $route.scurrent.$$route.page);
 	// });
+
+	app.controller('TitleController', ['$scope','Page', function ($scope,Page) {
+		$scope.Page = Page;
+	}]);
 
 	app.controller('MainController', ['$rootScope','$scope','whichBrowser', function ($rootScope, $scope, whichBrowser) {
 		var currentBrowser = whichBrowser();
@@ -70,8 +107,9 @@
 			templateUrl: 'templates/portfolio.html',
 			controller: 'PortfolioController'
 		};
-	}).controller('PortfolioController', function ($scope) {
+	}).controller('PortfolioController', function ($rootScope, $scope, Page) {
 		$scope.activePage = "home";
+		Page.setTitle("Avrosh Kumar");
 	});
 
 	app.directive('portfolioHeader', function () {
@@ -350,8 +388,9 @@
 			controller: 'DiarizationController'
 			
 		};
-	}).controller('DiarizationController',['$scope','$location','$anchorScroll', function ($scope, $location, $anchorScroll) {
+	}).controller('DiarizationController',['$scope','$location','$anchorScroll', 'Page', function ($scope, $location, $anchorScroll, Page) {
 		$scope.activePage = "diarization";
+		Page.setTitle("Avrosh Kumar | Speaker Diarization");
 		$scope.file = 'media/content/rms_threshold.csv';
 		$scope.time = [];
 		$scope.rms = [];
@@ -489,8 +528,9 @@
 			templateUrl: 'templates/mixinginvr.html',
 			controller: 'MixingInVRController'
 		};
-	}).controller('MixingInVRController', function ($scope, $http, $sce) {
+	}).controller('MixingInVRController', function ($scope, $http, $sce, Page) {
 		$scope.activePage = "mixinginvr";
+		Page.setTitle('Avrosh Kumar | Audio Mixing in VR');
 
 
 		$http.get('/media/images/AvroshPoster_VRDAW.pdf', {responseType:'arraybuffer'})
@@ -509,14 +549,32 @@
 			templateUrl: 'templates/eclipse.html',
 			controller: 'EclipseController'
 		};
-	}).controller('EclipseController', function ($scope, $http, $sce) {
+	}).controller('EclipseController', function ($rootScope, $scope, $http, $sce, Page) {
+		Page.setTitle('2017 Solar Eclipse | Sonification');
 		$scope.activePage = "eclipse";
+		
+	});
+
+	app.directive('eclipseHopkinsville', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/eclipse-hopkinsville.html',
+			controller: 'EclipseHopkinsvilleController'
+		};
+	}).controller('EclipseHopkinsvilleController', function ($rootScope, $scope, Page, weatherData, $window, $interval) {
+		Page.setTitle('2017 Solar Eclipse | Sonification | Hopkinsville');
+
+		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
+
+		console.log('Hopkinsville: '+$scope.eclipseStartTime);
+
 		$scope.vol = 50;
+		$scope.weather = {};
+		$scope.readyToPlay = false;
 
 		$scope.sound = new Howl({
-		  	src: ['media/audio/ogg/Eclipse_sonification_2.ogg','media/audio/m4a/Eclipse_sonification_2.m4a'],
+		  	src: ['media/audio/ogg/Eclipse_time_click.ogg','media/audio/m4a/Eclipse_time_click.m4a'],
 		  	loop: true,
-		  	autoplay: true,
 		  	html5: true,
 		  	volume: $scope.vol/100,
 		  	onend: function() {
@@ -524,54 +582,277 @@
 		  	}
 		});
 
-		
-		
+		//Clear listener after first call.
+		$scope.sound.once('load', function(){
+		  	console.log('Loaded!');
+		  	$scope.readyToPlay = true;
+		});
 
+		var tick = function() {
+			var now = moment().utc();
+		    $scope.timeTillEclipse = moment.duration($scope.eclipseStartTime.diff(now));
+		    if ($scope.readyToPlay && !$scope.sound.playing()) {
+		    	$scope.sound.play();
+		    	$scope.readyToPlay = false;
+		    }
+		}
+		tick();
+		$interval(tick, 1000);
 
-		// $scope.stopSound = function () {
-		// 	$scope.sound.stop();
-		// };
-
-		// $scope.wave = new SiriWave({
-		//     container: waveform,
-		//     width: window.innerWidth,
-		//     height: window.innerHeight * 0.3,
-		//     cover: true,
-		//     color: '#000',
-		//     speed: 0.03,
-		//     amplitude: 0.7,
-		//     frequency: 2
-		// });
-
-		// $scope.wave.start();
-
-		$scope.$watch('vol', function (newVal, oldVal, scope) {
-			$scope.sound.volume(newVal/100);
-			// $scope.wave.amplitude(newVal/100);
+		$rootScope.$on('stopplaying', function () {
+    		$scope.sound.stop();
 		});
 
 
+		// function getAverageVolume(array) {
+	 //        var values = 0;
+	 //        var average;
+	 
+	 //        var length = array.length;
+	 
+	 //        // get all the frequency amplitudes
+	 //        for (var i = 0; i < length; i++) {
+	 //            values += array[i];
+	 //        }
+	 
+	 //        average = values / length;
+	 //        return average;
+  //   	}
+	
 
-
-
-		// $scope.sound = new Howl({
-		// 	src:['media/audio/ogg/Takumi-Avrosh.ogg'],
-		// 	volume: 0.5,
-		// 	sprite: {
-		//     	music: [0, 20000],
-		//     	takumi: [20000, 40000],
-		//     	avrosh: [2000000, 2200000]
-		//   	},
-		// 	onend: function() {
-		// 		console.log('Finished playing!');
-		// 	}
-		// });
-
-		// // Clear listener after first call.
+		// Clear listener after first call.
 		// $scope.sound.once('load', function(){
 		//   	console.log('Loaded!');
-		//   	$scope.sound.play('avrosh');
+		//   	$scope.sound.play();
+		//   	// console.log($scope.id2);
+		//   	// $scope.id1.stop();
 		// });
+		// $scope.count = 0;
+
+		// function tryOut () {
+		// 	$scope.count = $scope.count + 5;
+		// 	$scope.waves.waves[0].wavelength = $scope.count;
+		// }
+
+		// setInterval(tryOut, 100);
+
+		// function timeToPlay() {
+		// 	if (moment.utc())
+		// }
+
+		// var checkPlayTime = setInterval(timeToPlay, 100);
+
+
+		// $scope.count = 0;
+
+		// function getWeatherData() {
+		// 	weatherData.getAll()
+		//         .then(function (response) {
+		//         	// console.log($scope.count++);
+		//             console.log(response.data);
+		//             $scope.weather = response.data
+		//         }, function (error) {
+		//             console.log('Unable to load weather data: ' + error.message);
+		//         });
+		// }
+
+		// setInterval(getWeatherData,30000);
+
+		// $scope.touchEclipse = function () {
+			// $scope.id1 = dtm.music().play();
+			// console.log($scope.id1);
+
+			// $scope.sound = new Howl({
+			//   	src: ['media/audio/ogg/Eclipse_sonification_2.ogg','media/audio/m4a/Eclipse_sonification_2.m4a'],
+			//   	loop: true,
+			//   	html5: true,
+			//   	volume: $scope.vol/100,
+			//   	onend: function() {
+			//     	console.log('Finished!');
+			//   	}
+			// });
+
+			// // Clear listener after first call.
+			// $scope.sound.once('load', function(){
+			//   	console.log('Loaded!');
+			//   	// $scope.id2 = $scope.sound.play();
+			//   	// console.log($scope.id2);
+			//   	// $scope.id1.stop();
+			// });
+
+
+
+			
+			
+
+
+			$scope.stopSound = function () {
+				$scope.sound.stop();
+				$scope.readyToPlay = false;
+			};
+
+			// $scope.wave = new SiriWave({
+			//     container: waveform,
+			//     width: window.innerWidth,
+			//     height: window.innerHeight * 0.3,
+			//     cover: true,
+			//     color: '#000',
+			//     speed: 0.03,
+			//     amplitude: 0.7,
+			//     frequency: 2
+			// });
+
+			// $scope.wave.start();
+
+			// $scope.$watch('vol', function (newVal, oldVal, scope) {
+			// 	$scope.sound.volume(newVal/100);
+			// 	// $scope.wave.amplitude(newVal/100);
+			// });
+
+
+
+
+
+			// $scope.sound = new Howl({
+			// 	src:['media/audio/ogg/Takumi-Avrosh.ogg'],
+			// 	volume: 0.5,
+			// 	sprite: {
+			//     	music: [0, 20000],
+			//     	takumi: [20000, 40000],
+			//     	avrosh: [2000000, 2200000]
+			//   	},
+			// 	onend: function() {
+			// 		console.log('Finished playing!');
+			// 	}
+			// });
+
+			// // Clear listener after first call.
+			// $scope.sound.once('load', function(){
+			//   	console.log('Loaded!');
+			//   	$scope.sound.play('avrosh');
+			// });
+		// };
+
+		$scope.waves = new SineWaves({
+		  	el: waveform,
+		  	speed: 8,
+		  	// Ease function from left to right
+		  	ease: 'SineInOut',
+
+		  	// Specific how much the width of the canvas the waves should be
+		  	// This can either be a number or a percent
+		  	waveWidth: '100%',
+
+		  	// An array of wave options
+		  	waves: [
+		    	{
+			      	timeModifier: 1,
+			      	lineWidth: 2,
+			      	amplitude: 75,
+			      	wavelength: $window.innerWidth,
+			      	strokeStyle: 'rgba(20, 20, 20, 1)',
+			      	type: 'sine'       // Wave type
+			    }
+		  	],
+
+		  	// Perform any additional initializations here
+		  	initialize: function (){},
+
+		  	// This function is called whenver the window is resized
+		  	resizeEvent: function() {
+		  		var canvas = document.getElementById('waveform');
+		  		if (canvas) {
+		  			canvas.style.width = $window.innerWidth;
+		  		}
+		  	}
+		});
+
+	});
+
+	app.directive('eclipseAtlanta', function () {
+		return {
+			restrict: 'E',
+			templateUrl: 'templates/eclipse-atlanta.html',
+			controller: 'EclipseAtlantaController'
+		};
+	}).controller('EclipseAtlantaController', function ($rootScope, $scope, Page, weatherData, $window, $interval) {
+		Page.setTitle('2017 Solar Eclipse | Sonification | Atlanta');
+
+		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(17).minutes(05).seconds(50).milliseconds(5);
+		
+		console.log('Atlanta: '+$scope.eclipseStartTime);
+
+		$scope.vol = 50;
+		$scope.weather = {};
+		$scope.readyToPlay = false;
+
+		
+		$scope.sound = new Howl({
+		  	src: ['media/audio/ogg/Eclipse_time_click.ogg','media/audio/m4a/Eclipse_time_click.m4a'],
+		  	loop: true,
+		  	html5: true,
+		  	volume: $scope.vol/100,
+		  	onend: function() {
+		    	console.log('Finished!');
+		  	}
+		});	
+
+		
+		//Clear listener after first call.
+		$scope.sound.once('load', function(){
+		  	console.log('Loaded!');
+		  	$scope.readyToPlay = true;
+		});
+		
+		var tick = function() {
+			var now = moment().utc();
+		    $scope.timeTillEclipse = moment.duration($scope.eclipseStartTime.diff(now));
+		    if ($scope.readyToPlay && !$scope.sound.playing()) {
+		    	$scope.sound.play();
+		    	$scope.readyToPlay = false;
+		    }
+		}
+		tick();
+		$interval(tick, 1000);
+
+		$rootScope.$on('stopplaying', function () {
+    		$scope.sound.stop();
+		});
+
+
+		$scope.waves = new SineWaves({
+		  	el: waveform,
+		  	speed: 8,
+		  	// Ease function from left to right
+		  	ease: 'SineInOut',
+
+		  	// Specific how much the width of the canvas the waves should be
+		  	// This can either be a number or a percent
+		  	waveWidth: '100%',
+
+		  	// An array of wave options
+		  	waves: [
+		    	{
+			      	timeModifier: 1,
+			      	lineWidth: 2,
+			      	amplitude: 75,
+			      	wavelength: $window.innerWidth,
+			      	strokeStyle: 'rgba(20, 20, 20, 1)',
+			      	type: 'sine'       // Wave type
+			    }
+		  	],
+
+		  	// Perform any additional initializations here
+		  	initialize: function (){},
+
+		  	// This function is called whenever the window is resized
+		  	resizeEvent: function() {
+		  		var canvas = document.getElementById('waveform');
+		  		if (canvas) {
+		  			canvas.style.width = $window.innerWidth;
+		  		}
+		  	}
+		});
 	});
 
 	app.directive('info', function () {
@@ -580,8 +861,9 @@
 			templateUrl: 'templates/info.html',
 			controller: 'InfoController'
 		};
-	}).controller('InfoController', function ($scope) {
+	}).controller('InfoController', function ($scope, Page) {
 		$scope.activePage = "info";
+		Page.setTitle('Avrosh Kumar | Information');
 	});
 
 	app.directive('credits', function () {
@@ -590,8 +872,9 @@
 			templateUrl: 'templates/credits.html',
 			controller: 'CreditsController'
 		};
-	}).controller('CreditsController', function ($scope) {
+	}).controller('CreditsController', function ($scope, Page) {
 		$scope.activePage = "credits";
+		Page.setTitle('Avrosh Kumar | Credits');
 	});
 
 	app.directive('startpage', function () {
@@ -765,6 +1048,27 @@
 		console.log($scope.currentFolderArray);
 	});
 
+	app.factory('weatherData',['$http', function($http) {
+
+		var city = "Hopkinsville,us";
+		var url = 'http://api.openweathermap.org/data/2.5/weather?APPID=38661ee84bb22e906cd5f072ed37e044&units=imperial&q=';
+		var weatherData = {};
+
+		weatherData.getAll = function () {
+        	return $http.get(url+city);
+    	};
+
+		return weatherData;
+	}]);
+
+	app.factory('Page', function() {
+	   	var title = 'Avrosh Kumar';
+	   	return {
+	     	title: function() { return title; },
+	     	setTitle: function(newTitle) { title = newTitle; }
+	   	};
+	});
+
 
 	app.service('whichBrowser', ['$window', function($window) {
 	     return function() {
@@ -778,5 +1082,7 @@
 	       	return 'unknown';
 	    }
 	}]);
+
+
 
 })();
