@@ -8,6 +8,9 @@
         return !check;
     })();
 
+    //simulate mobile phone
+    // _isNotMobile = false;
+
 	app.config(function($routeProvider, $locationProvider) {
 
 	    $routeProvider
@@ -563,45 +566,75 @@
 		};
 	}).controller('EclipseHopkinsvilleController', function ($rootScope, $scope, Page, weatherData, $window, $interval) {
 		Page.setTitle('2017 Solar Eclipse | Sonification | Hopkinsville');
+		$scope.contextCreated = false;
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
-
 		console.log('Hopkinsville: '+$scope.eclipseStartTime);
 
 		$scope.vol = 50;
 		$scope.weather = {};
 		$scope.readyToPlay = false;
 
-		$scope.sound = new Howl({
-		  	src: ['media/audio/ogg/Eclipse_time_click.ogg','media/audio/m4a/Eclipse_time_click.m4a'],
-		  	loop: true,
-		  	html5: true,
-		  	volume: $scope.vol/100,
-		  	onend: function() {
-		    	console.log('Finished!');
-		  	}
-		});
 
-		//Clear listener after first call.
-		$scope.sound.once('load', function(){
-		  	console.log('Loaded!');
-		  	$scope.readyToPlay = true;
-		});
+		$scope.createSoundContext = function () {
+			$scope.sound = new Howl({
+			  	src: ['media/audio/ogg/Eclipse_time_click_1.ogg','media/audio/m4a/Eclipse_time_click_1.m4a'],
+			  	loop: true,
+			  	html5: true,
+			  	volume: $scope.vol/100,
+			  	onend: function() {
+			    	console.log('Finished!');
+			  	}
+			});
 
-		var tick = function() {
+			//Clear listener after first call.
+			$scope.sound.once('load', function(){
+			  	console.log('Loaded!');
+			  	$scope.readyToPlay = true;
+			});
+
+			var tick = function() {
 			var now = moment().utc();
 		    $scope.timeTillEclipse = moment.duration($scope.eclipseStartTime.diff(now));
-		    if ($scope.readyToPlay && !$scope.sound.playing()) {
-		    	$scope.sound.play();
-		    	$scope.readyToPlay = false;
-		    }
-		}
-		tick();
-		$interval(tick, 1000);
+			    if ($scope.readyToPlay && !$scope.sound.playing()) {
+			    	$scope.sound.play();
+			    	$scope.readyToPlay = false;
+			    }
+			}
+			tick();
+			$interval(tick, 1000);
 
-		$rootScope.$on('stopplaying', function () {
-    		$scope.sound.stop();
-		});
+			$rootScope.$on('stopplaying', function () {
+	    		$scope.sound.stop();
+			});
+
+			$scope.$watch('vol', function (newVal, oldVal, scope) {
+				$scope.sound.volume(newVal/100);
+			});
+
+
+			// $scope.stopSound = function () {
+			// 	$scope.sound.stop();
+			// 	$scope.readyToPlay = false;
+			// };
+		};
+
+		if (_isNotMobile) {
+			//is desktop
+			console.log(_isNotMobile);
+			$scope.createSoundContext();
+			$scope.contextCreated = true;
+		} else {
+			//is mobile
+		}
+
+		$scope.touchToStart = function () {
+			if (!_isNotMobile && !$scope.contextCreated) {
+				$scope.createSoundContext();
+				$scope.contextCreated = true;
+			}
+		};
+
 
 
 		// function getAverageVolume(array) {
@@ -686,10 +719,6 @@
 			
 
 
-			$scope.stopSound = function () {
-				$scope.sound.stop();
-				$scope.readyToPlay = false;
-			};
 
 			// $scope.wave = new SiriWave({
 			//     container: waveform,
@@ -762,7 +791,7 @@
 		  	resizeEvent: function() {
 		  		var canvas = document.getElementById('waveform');
 		  		if (canvas) {
-		  			canvas.style.width = $window.innerWidth;
+		  			canvas.style.width = $window.innerWidth+'px';
 		  		}
 		  	}
 		});
@@ -777,6 +806,7 @@
 		};
 	}).controller('EclipseAtlantaController', function ($rootScope, $scope, Page, weatherData, $window, $interval) {
 		Page.setTitle('2017 Solar Eclipse | Sonification | Atlanta');
+		$scope.contextCreated = false;
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(17).minutes(05).seconds(50).milliseconds(5);
 		
@@ -786,39 +816,49 @@
 		$scope.weather = {};
 		$scope.readyToPlay = false;
 
-		
-		$scope.sound = new Howl({
-		  	src: ['media/audio/ogg/Eclipse_time_click.ogg','media/audio/m4a/Eclipse_time_click.m4a'],
-		  	loop: true,
-		  	html5: true,
-		  	volume: $scope.vol/100,
-		  	onend: function() {
-		    	console.log('Finished!');
-		  	}
-		});	
+		$scope.createSoundContext = function () {
+
+			$scope.sound = new Howl({
+			  	src: ['media/audio/ogg/Eclipse_time_click_1.ogg','media/audio/m4a/Eclipse_time_click_1.m4a'],
+			  	loop: true,
+			  	html5: true,
+			  	volume: $scope.vol/100,
+			  	onend: function() {
+			    	console.log('Finished!');
+			  	}
+			});
+
+			//Clear listener after first call.
+			$scope.sound.once('load', function(){
+			  	console.log('Loaded!');
+			  	$scope.readyToPlay = true;
+			});
+			
+			var tick = function() {
+				var now = moment().utc();
+			    $scope.timeTillEclipse = moment.duration($scope.eclipseStartTime.diff(now));
+			    if ($scope.readyToPlay && !$scope.sound.playing()) {
+			    	$scope.sound.play();
+			    	$scope.readyToPlay = false;
+			    }
+			}
+			tick();
+			$interval(tick, 1000);
+
+			$rootScope.$on('stopplaying', function () {
+	    		$scope.sound.stop();
+			});
+
+			$scope.$watch('vol', function (newVal, oldVal, scope) {
+				$scope.sound.volume(newVal/100);
+			});
+	
+		};
 
 		
-		//Clear listener after first call.
-		$scope.sound.once('load', function(){
-		  	console.log('Loaded!');
-		  	$scope.readyToPlay = true;
-		});
+
+
 		
-		var tick = function() {
-			var now = moment().utc();
-		    $scope.timeTillEclipse = moment.duration($scope.eclipseStartTime.diff(now));
-		    if ($scope.readyToPlay && !$scope.sound.playing()) {
-		    	$scope.sound.play();
-		    	$scope.readyToPlay = false;
-		    }
-		}
-		tick();
-		$interval(tick, 1000);
-
-		$rootScope.$on('stopplaying', function () {
-    		$scope.sound.stop();
-		});
-
 
 		$scope.waves = new SineWaves({
 		  	el: waveform,
@@ -853,6 +893,22 @@
 		  		}
 		  	}
 		});
+
+		if (_isNotMobile) {
+			//is desktop
+			console.log(_isNotMobile);
+			$scope.createSoundContext();
+			$scope.contextCreated = true;
+		} else {
+			//is mobile
+		}
+
+		$scope.touchToStart = function () {
+			if (!_isNotMobile && !$scope.contextCreated) {
+				$scope.createSoundContext();
+				$scope.contextCreated = true;
+			}
+		};
 	});
 
 	app.directive('info', function () {

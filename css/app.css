@@ -766,6 +766,39 @@ div[id*="sample-"] {
 #eclipseHopkinsvilleContainer > div,
 #eclipseAtlantaContainer > div {
     width: 100%;
-    height: 33%;
+    height: 25%;
 }
+
+#eclipseHopkinsvilleContainer .vol-slider,
+#eclipseAtlantaContainer .vol-slider {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+}
+
+#eclipseAtlantaContainer .vol-slider span,
+#eclipseAtlantaContainer .vol-slider input,
+#eclipseHopkinsvilleContainer .vol-slider span,
+#eclipseHopkinsvilleContainer .vol-slider input {
+    text-align: center;
+    padding: 5%;
+}
+
+#eclipseHopkinsvilleContainer.opaque,
+#eclipseAtlantaContainer.opaque, 
+#eclipseHopkinsvilleContainer.opaque .slider-volume,
+#eclipseAtlantaContainer.opaque .slider-volume {
+    background: rgba(20,20,20,0.9);
+}
+
+.touchstart {
+    text-align: center;
+    position: fixed;
+    top: 40%;
+    margin: auto;
+    font-size: 40px;
+    color: white;
+    width: 100%;
+}
+
 

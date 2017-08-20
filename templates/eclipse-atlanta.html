@@ -1,5 +1,19 @@
-<div id="eclipseAtlantaContainer">
+<div id="eclipseAtlantaContainer" ng-class="(contextCreated) ? '':'opaque'" ng-click="touchToStart()">
 	<div class="centertext">Atlanta, GA</div>
 	<div><canvas id="waveform"></canvas></div>
 	<div class="timer">{{timeTillEclipse._data.days}} days, {{timeTillEclipse._data.hours}} hours, {{timeTillEclipse._data.minutes}} minutes, {{timeTillEclipse._data.seconds}} seconds</div>
+	<div class="vol-slider">
+		<md-content layout="row" class="slider-volume">
+			<span>Volume</span>
+			<md-slider-container>
+				<md-slider flex min="0" max="100" ng-model="vol" aria-label="volume" id="volume-slider">
+	      		</md-slider>
+	      		<md-input-container>
+	        		<input flex type="number" ng-model="vol" aria-label="volume" aria-controls="volume-slider">
+	      		</md-input-container>
+			</md-slider-container>
+		</md-content>
+	</div>
 </div>
+
+<div class="touchstart" ng-hide="contextCreated">Touch to Start</div>
