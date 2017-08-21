@@ -1,9 +1,27 @@
 
-<div id="eclipseHopkinsvilleContainer" ng-class="(contextCreated) ? '':'opaque'" ng-click="touchToStart()">
+<div id="eclipseHopkinsvilleContainer" ng-class="contextCreated ? (isTotality ? 'totality':'') :'opaque'" ng-click="touchToStart()">
 	<div class="centertext">Hopkinsville, KY</div>
 	<div><canvas id="waveform"></canvas></div>
-	<div class="timer">{{timeTillEclipse._data.days}} days, {{timeTillEclipse._data.hours}} hours, {{timeTillEclipse._data.minutes}} minutes, {{timeTillEclipse._data.seconds}} seconds</div>
-	<div class="vol-slider">
+	
+	<div ng-hide="sonificationStarted" class="timer">
+		Eclipse Sonification starts in
+		<span> {{timeTillEclipseSonification._data.hours}} hours, {{timeTillEclipseSonification._data.minutes}} minutes, {{timeTillEclipseSonification._data.seconds}} seconds</span>
+	</div>
+
+	<div ng-show="isPreTotality" class="timer">
+		Totality starts in 
+		<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span>
+	</div>
+
+	<div ng-show="isTotality" class="timer">  
+		<span>{{timeInTotality._data.minutes}} minutes, {{timeInTotality._data.seconds}} seconds</span> in Totality
+	</div>
+
+	<div ng-show="totalityEnded" class="timer">Totality ended  
+		<span>{{timeAfterTotality._data.hours}} hours, {{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
+	</div>
+
+	<div class="vol-slider" ng-hide="isPhone">
 		<md-content layout="row" class="slider-volume">
 			<span>Volume</span>
 			<md-slider-container>
@@ -20,8 +38,6 @@
 
 	<!-- <button class="playbutton" ng-click="stopSound();">Play</button> -->
 	
-	
-	
 	<!-- <p>Weather: {{weather.weather[0].main}}</p>
 	<p>Temp: {{weather.main.temp}}</p>
 	<p>Pressure: {{weather.main.pressure}}</p>
@@ -29,4 +45,8 @@
 	
 </div>
 
-<div class="touchstart" ng-hide="contextCreated">Touch to Start</div>
+<div class="weather">Clouds: <span>{{weather.weather[0].main}}</span></div>
+<div class="temperature">Temp: <span>{{weather.main.temp}}</span></div>
+
+<div class="touchstart" ng-hide="touched">Touch to Start</div>
+<div class="loading" ng-show="loading">..Loading..</div>

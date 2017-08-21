@@ -776,6 +776,11 @@ div[id*="sample-"] {
     flex-flow: column;
 }
 
+#eclipseHopkinsvilleContainer .timer span,
+#eclipseAtlantaContainer .timer span {
+    font-size: 25px;
+}
+
 #eclipseAtlantaContainer .vol-slider span,
 #eclipseAtlantaContainer .vol-slider input,
 #eclipseHopkinsvilleContainer .vol-slider span,
@@ -791,7 +796,20 @@ div[id*="sample-"] {
     background: rgba(20,20,20,0.9);
 }
 
-.touchstart {
+#eclipseHopkinsvilleContainer.totality,
+#eclipseAtlantaContainer.totality,
+#eclipseHopkinsvilleContainer.totality .slider-volume,
+#eclipseAtlantaContainer.totality .slider-volume,
+#eclipseAtlantaContainer.turndark, 
+#eclipseAtlantaContainer.turndark .slider-volume{
+    background: rgba(20,20,20,0.9);
+    -webkit-transition: background-color 30s linear;
+    -ms-transition: background-color 30s linear;
+    transition: background-color 30s linear;
+}
+
+.touchstart,
+.loading {
     text-align: center;
     position: fixed;
     top: 40%;
@@ -800,5 +818,19 @@ div[id*="sample-"] {
     color: white;
     width: 100%;
 }
+
+.weather,
+.temperature {
+    text-align: center;
+    width: 100%;
+    padding: 5px;
+}
+
+.weather span,
+.temperature span {
+    font-size: 20px;
+}
+
+
 
 

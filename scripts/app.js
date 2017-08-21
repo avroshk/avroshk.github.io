@@ -569,11 +569,31 @@
 		$scope.contextCreated = false;
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
-		console.log('Hopkinsville: '+$scope.eclipseStartTime);
+		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
 
-		$scope.vol = 50;
+		//////////////////////////////////////////////
+		//$scope.eclipseC2Time = moment().utc().year(2017).month(7).date(21).hours(18).minutes(24).seconds(41).milliseconds(4);
+		//$scope.eclipseC4Time = moment().utc().year(2017).month(7).date(21).hours(18).minutes(27).seconds(21).milliseconds(4);
+		$scope.eclipseC2Time = moment().year(2017).month(7).date(21).hours(6).minutes(43).seconds(20);
+		$scope.eclipseC4Time = moment().year(2017).month(7).date(21).hours(6).minutes(46).seconds(00);
+		
+		$scope.timeToStartSonification = $scope.eclipseC2Time.clone();
+		$scope.timeToStartSonification = $scope.timeToStartSonification.subtract(33, 'minutes');
+		$scope.timeToStartSonification = $scope.timeToStartSonification.subtract(20, 'seconds');
+
+		$scope.vol = 70;
 		$scope.weather = {};
+		var weatherid = "4295251"; //Hopkinsville
 		$scope.readyToPlay = false;
+		$scope.readyToPlayFinalPiece = false;
+		$scope.sonificationStarted = false;
+		$scope.isPreTotality = false;
+		$scope.isTotality = false;
+		$scope.totalityEnded = false;
+		$scope.touched = false;
+		$scope.loading = false;
+		$scope.isDesktop = false;
+		$scope.isPhone = false;
 
 
 		$scope.createSoundContext = function () {
@@ -587,180 +607,124 @@
 			  	}
 			});
 
+			$scope.finalpiece = new Howl({
+			  	src: ['media/audio/ogg/Eclipse_sonification_hopkinsville_master.ogg','media/audio/m4a/Eclipse_sonification_hopkinsville_master.m4a'],
+			  	html5: true,
+			  	volume: $scope.vol/100,
+			  	onend: function() {
+			    	console.log('Finished!');
+			  	}
+			});
+
 			//Clear listener after first call.
-			$scope.sound.once('load', function(){
+			$scope.sound.once('load', function() {
 			  	console.log('Loaded!');
 			  	$scope.readyToPlay = true;
 			});
 
+			//Clear listener after first call.
+			$scope.finalpiece.once('load', function() {
+			  	console.log('Final piece Loaded!');
+			  	$scope.readyToPlayFinalPiece = true;
+			  	$scope.contextCreated = true;
+			  	$scope.loading = false;
+			});
+
 			var tick = function() {
-			var now = moment().utc();
-		    $scope.timeTillEclipse = moment.duration($scope.eclipseStartTime.diff(now));
-			    if ($scope.readyToPlay && !$scope.sound.playing()) {
-			    	$scope.sound.play();
-			    	$scope.readyToPlay = false;
-			    }
+				var now = moment().utc();
+		    	
+		    	if (now >= $scope.timeToStartSonification) {
+
+		    		$scope.timeTillTotality = moment.duration($scope.eclipseC2Time.utc().diff(now));
+		    		$scope.timeInTotality = moment.duration(now.diff($scope.eclipseC2Time.utc()));
+		    		$scope.timeAfterTotality = moment.duration(now.diff($scope.eclipseC4Time.utc()));
+
+		    		if ($scope.timeTillTotality.asSeconds() < 0 && $scope.timeAfterTotality.asSeconds() < 0) {
+		    			$scope.isPreTotality = false;
+		    			$scope.isTotality = true;
+		    		}  else if ($scope.timeAfterTotality.asSeconds() > 0) {
+		    			$scope.isPreTotality = false;
+		    			$scope.isTotality = false;
+		    			$scope.totalityEnded = true;
+		    		}
+
+		    		if ($scope.readyToPlayFinalPiece) {
+		    			//Eclipse sonifications has started
+			    		$scope.sound.stop();
+			    		$scope.readyToPlay = false;
+
+			    		$scope.seekTime = moment.duration(now.diff($scope.timeToStartSonification));
+
+			    		$scope.finalpiece.seek($scope.seekTime.asSeconds());
+			    		$scope.finalpiece.play();
+			    		$scope.sonificationStarted = true;
+			    		$scope.isPreTotality = true;
+			    		$scope.readyToPlayFinalPiece = false;
+		    		}
+		    		
+		    	} else {
+
+		    		$scope.timeTillEclipseSonification = moment.duration($scope.timeToStartSonification.diff(now));
+
+		    		if ($scope.readyToPlay && !$scope.sound.playing()) {
+				    	$scope.sound.play();
+				    	$scope.readyToPlay = false;
+				    }
+		    	}
+		    		
 			}
+
 			tick();
 			$interval(tick, 1000);
 
 			$rootScope.$on('stopplaying', function () {
 	    		$scope.sound.stop();
+	    		$scope.finalpiece.stop();
 			});
 
 			$scope.$watch('vol', function (newVal, oldVal, scope) {
-				$scope.sound.volume(newVal/100);
+				// console.log($scope.finalpiece.volume());
+				Howler.volume(newVal/100);
 			});
 
-
-			// $scope.stopSound = function () {
-			// 	$scope.sound.stop();
-			// 	$scope.readyToPlay = false;
-			// };
 		};
+
+
+		
 
 		if (_isNotMobile) {
 			//is desktop
+			$scope.isDesktop = true;
 			console.log(_isNotMobile);
 			$scope.createSoundContext();
 			$scope.contextCreated = true;
+			$scope.touched = true;
 		} else {
 			//is mobile
+			$scope.isPhone = true;
 		}
 
 		$scope.touchToStart = function () {
 			if (!_isNotMobile && !$scope.contextCreated) {
 				$scope.createSoundContext();
-				$scope.contextCreated = true;
+				$scope.touched = true;
+				$scope.loading = true;
 			}
 		};
+		
 
-
-
-		// function getAverageVolume(array) {
-	 //        var values = 0;
-	 //        var average;
-	 
-	 //        var length = array.length;
-	 
-	 //        // get all the frequency amplitudes
-	 //        for (var i = 0; i < length; i++) {
-	 //            values += array[i];
-	 //        }
-	 
-	 //        average = values / length;
-	 //        return average;
-  //   	}
-	
-
-		// Clear listener after first call.
-		// $scope.sound.once('load', function(){
-		//   	console.log('Loaded!');
-		//   	$scope.sound.play();
-		//   	// console.log($scope.id2);
-		//   	// $scope.id1.stop();
-		// });
-		// $scope.count = 0;
-
-		// function tryOut () {
-		// 	$scope.count = $scope.count + 5;
-		// 	$scope.waves.waves[0].wavelength = $scope.count;
-		// }
-
-		// setInterval(tryOut, 100);
-
-		// function timeToPlay() {
-		// 	if (moment.utc())
-		// }
-
-		// var checkPlayTime = setInterval(timeToPlay, 100);
-
-
-		// $scope.count = 0;
-
-		// function getWeatherData() {
-		// 	weatherData.getAll()
-		//         .then(function (response) {
-		//         	// console.log($scope.count++);
-		//             console.log(response.data);
-		//             $scope.weather = response.data
-		//         }, function (error) {
-		//             console.log('Unable to load weather data: ' + error.message);
-		//         });
-		// }
-
-		// setInterval(getWeatherData,30000);
-
-		// $scope.touchEclipse = function () {
-			// $scope.id1 = dtm.music().play();
-			// console.log($scope.id1);
-
-			// $scope.sound = new Howl({
-			//   	src: ['media/audio/ogg/Eclipse_sonification_2.ogg','media/audio/m4a/Eclipse_sonification_2.m4a'],
-			//   	loop: true,
-			//   	html5: true,
-			//   	volume: $scope.vol/100,
-			//   	onend: function() {
-			//     	console.log('Finished!');
-			//   	}
-			// });
-
-			// // Clear listener after first call.
-			// $scope.sound.once('load', function(){
-			//   	console.log('Loaded!');
-			//   	// $scope.id2 = $scope.sound.play();
-			//   	// console.log($scope.id2);
-			//   	// $scope.id1.stop();
-			// });
-
-
-
-			
-			
-
-
-
-			// $scope.wave = new SiriWave({
-			//     container: waveform,
-			//     width: window.innerWidth,
-			//     height: window.innerHeight * 0.3,
-			//     cover: true,
-			//     color: '#000',
-			//     speed: 0.03,
-			//     amplitude: 0.7,
-			//     frequency: 2
-			// });
-
-			// $scope.wave.start();
-
-			// $scope.$watch('vol', function (newVal, oldVal, scope) {
-			// 	$scope.sound.volume(newVal/100);
-			// 	// $scope.wave.amplitude(newVal/100);
-			// });
-
-
-
-
-
-			// $scope.sound = new Howl({
-			// 	src:['media/audio/ogg/Takumi-Avrosh.ogg'],
-			// 	volume: 0.5,
-			// 	sprite: {
-			//     	music: [0, 20000],
-			//     	takumi: [20000, 40000],
-			//     	avrosh: [2000000, 2200000]
-			//   	},
-			// 	onend: function() {
-			// 		console.log('Finished playing!');
-			// 	}
-			// });
-
-			// // Clear listener after first call.
-			// $scope.sound.once('load', function(){
-			//   	console.log('Loaded!');
-			//   	$scope.sound.play('avrosh');
-			// });
-		// };
+		function getWeatherData() {
+			weatherData.getAll(weatherid)
+		        .then(function (response) {
+		        	// console.log($scope.count++);
+		            console.log(response.data);
+		            $scope.weather = response.data
+		        }, function (error) {
+		            console.log('Unable to load weather data: ' + error.message);
+		        });
+		}
+		getWeatherData();
+		setInterval(getWeatherData,600000*5);		
 
 		$scope.waves = new SineWaves({
 		  	el: waveform,
@@ -796,6 +760,7 @@
 		  	}
 		});
 
+
 	});
 
 	app.directive('eclipseAtlanta', function () {
@@ -810,11 +775,35 @@
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(17).minutes(05).seconds(50).milliseconds(5);
 		
-		console.log('Atlanta: '+$scope.eclipseStartTime);
+		console.log('Atlanta: '+$scope.eclipseStartTime.format());
 
-		$scope.vol = 50;
+		////////////////
+		//$scope.maxEclipseTime = moment().utc().year(2017).month(7).date(21).hours(18).minutes(36).seconds(44).milliseconds(9);
+		$scope.maxEclipseTime = moment().year(2017).month(7).date(21).hours(6).minutes(44).seconds(20);
+		
+		$scope.maxEclipseTime_30sbefore = $scope.maxEclipseTime.clone();
+		$scope.maxEclipseTime_30safter = $scope.maxEclipseTime.clone();
+
+		$scope.maxEclipseTime_30sbefore = $scope.maxEclipseTime_30sbefore.subtract(30,'seconds');
+		$scope.maxEclipseTime_30safter = $scope.maxEclipseTime_30safter.add(30,'seconds');
+
+
+		$scope.timeToStartSonification = $scope.maxEclipseTime.clone();
+		$scope.timeToStartSonification = $scope.timeToStartSonification.subtract(34, 'minutes');
+		$scope.timeToStartSonification = $scope.timeToStartSonification.subtract(20, 'seconds');
+
+		$scope.vol = 70;
 		$scope.weather = {};
+		var weatherid = "4180439"; //Atlanta
 		$scope.readyToPlay = false;
+		$scope.readyToPlayFinalPiece = false;
+		$scope.sonificationStarted = false;
+		$scope.isPreTotality = false;
+		$scope.totalityEnded = false;
+		$scope.touched = false;
+		$scope.loading = false;
+		$scope.isDesktop = false;
+		$scope.isPhone = false;
 
 		$scope.createSoundContext = function () {
 
@@ -828,37 +817,93 @@
 			  	}
 			});
 
+			$scope.finalpiece = new Howl({
+			  	src: ['media/audio/ogg/Eclipse_sonification_atlanta_master.ogg','media/audio/m4a/Eclipse_sonification_atlanta_master.m4a'],
+			  	html5: true,
+			  	volume: $scope.vol/100,
+			  	onend: function() {
+			    	console.log('Finished!');
+			  	}
+			});
+
 			//Clear listener after first call.
 			$scope.sound.once('load', function(){
 			  	console.log('Loaded!');
 			  	$scope.readyToPlay = true;
 			});
+
+			//Clear listener after first call.
+			$scope.finalpiece.once('load', function() {
+			  	console.log('Final piece Loaded!');
+			  	$scope.readyToPlayFinalPiece = true;
+			  	$scope.contextCreated = true;
+			  	$scope.loading = false;
+			});
 			
 			var tick = function() {
 				var now = moment().utc();
-			    $scope.timeTillEclipse = moment.duration($scope.eclipseStartTime.diff(now));
-			    if ($scope.readyToPlay && !$scope.sound.playing()) {
-			    	$scope.sound.play();
-			    	$scope.readyToPlay = false;
-			    }
+		    	
+		    	if (now >= $scope.timeToStartSonification) {
+
+		    		$scope.timeToTurnDark = moment.duration($scope.maxEclipseTime_30sbefore.utc().diff(now));
+		    		$scope.timeTillTotality = moment.duration($scope.maxEclipseTime.utc().diff(now));
+		    		$scope.timeToTurnBright = moment.duration($scope.maxEclipseTime_30safter.utc().diff(now));
+		    		$scope.timeAfterTotality = moment.duration(now.diff($scope.maxEclipseTime.utc()));
+
+		    		if ($scope.timeToTurnDark.asSeconds() < 0 && $scope.timeToTurnBright.asSeconds() > 0) {
+		    			$scope.turndark = true;
+		    		} else {
+		    			$scope.turndark = false;
+		    		} 
+
+		    		if ($scope.timeTillTotality.asSeconds() < 0) {
+		    			$scope.isPreTotality = true;
+		    		} 
+
+		    		if ($scope.timeAfterTotality.asSeconds() > 0) {
+		    			$scope.isPreTotality = false;
+		    			$scope.totalityEnded = true;
+		    		}
+
+		    		if ($scope.readyToPlayFinalPiece) {
+		    			//Eclipse sonifications has started
+			    		$scope.sound.stop();
+			    		$scope.readyToPlay = false;
+
+			    		$scope.seekTime = moment.duration(now.diff($scope.timeToStartSonification));
+
+			    		$scope.finalpiece.seek($scope.seekTime.asSeconds());
+			    		$scope.finalpiece.play();
+			    		$scope.sonificationStarted = true;
+			    		$scope.isPreTotality = true;
+			    		$scope.readyToPlayFinalPiece = false;
+		    		}
+		    		
+		    	} else {
+
+		    		$scope.timeTillEclipseSonification = moment.duration($scope.timeToStartSonification.diff(now));
+
+		    		if ($scope.readyToPlay && !$scope.sound.playing()) {
+				    	$scope.sound.play();
+				    	$scope.readyToPlay = false;
+				    }
+		    	}
+		    		
 			}
+
 			tick();
 			$interval(tick, 1000);
 
 			$rootScope.$on('stopplaying', function () {
 	    		$scope.sound.stop();
+	    		$scope.finalpiece.stop();
 			});
 
 			$scope.$watch('vol', function (newVal, oldVal, scope) {
-				$scope.sound.volume(newVal/100);
+				Howler.volume(newVal/100);
 			});
 	
 		};
-
-		
-
-
-		
 
 		$scope.waves = new SineWaves({
 		  	el: waveform,
@@ -889,26 +934,45 @@
 		  	resizeEvent: function() {
 		  		var canvas = document.getElementById('waveform');
 		  		if (canvas) {
-		  			canvas.style.width = $window.innerWidth;
+		  			canvas.style.width = $window.innerWidth + 'px';
 		  		}
 		  	}
 		});
 
 		if (_isNotMobile) {
 			//is desktop
+			$scope.isDesktop = true;
 			console.log(_isNotMobile);
 			$scope.createSoundContext();
 			$scope.contextCreated = true;
+			$scope.touched = true;
 		} else {
 			//is mobile
+			$scope.isPhone = true;
 		}
 
 		$scope.touchToStart = function () {
 			if (!_isNotMobile && !$scope.contextCreated) {
 				$scope.createSoundContext();
-				$scope.contextCreated = true;
+				$scope.touched = true;
+				$scope.loading = true;
 			}
 		};
+
+
+		function getWeatherData() {
+			weatherData.getAll(weatherid)
+		        .then(function (response) {
+		        	// console.log($scope.count++);
+		            console.log(response.data);
+		            $scope.weather = response.data
+		        }, function (error) {
+		            console.log('Unable to load weather data: ' + error.message);
+		        });
+		}
+		getWeatherData();
+		setInterval(getWeatherData,600000*5);		
+
 	});
 
 	app.directive('info', function () {
@@ -1106,12 +1170,11 @@
 
 	app.factory('weatherData',['$http', function($http) {
 
-		var city = "Hopkinsville,us";
-		var url = 'http://api.openweathermap.org/data/2.5/weather?APPID=38661ee84bb22e906cd5f072ed37e044&units=imperial&q=';
+		var url = 'http://api.openweathermap.org/data/2.5/weather?APPID=38661ee84bb22e906cd5f072ed37e044&units=imperial&id=';
 		var weatherData = {};
 
-		weatherData.getAll = function () {
-        	return $http.get(url+city);
+		weatherData.getAll = function (id) {
+        	return $http.get(url+id);
     	};
 
 		return weatherData;
@@ -1138,7 +1201,5 @@
 	       	return 'unknown';
 	    }
 	}]);
-
-
 
 })();
