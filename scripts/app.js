@@ -572,10 +572,10 @@
 		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
 
 		//////////////////////////////////////////////
-		//$scope.eclipseC2Time = moment().utc().year(2017).month(7).date(21).hours(18).minutes(24).seconds(41).milliseconds(4);
-		//$scope.eclipseC4Time = moment().utc().year(2017).month(7).date(21).hours(18).minutes(27).seconds(21).milliseconds(4);
-		$scope.eclipseC2Time = moment().year(2017).month(7).date(21).hours(6).minutes(43).seconds(20);
-		$scope.eclipseC4Time = moment().year(2017).month(7).date(21).hours(6).minutes(46).seconds(00);
+		$scope.eclipseC2Time = moment().utc().year(2017).month(7).date(21).hours(18).minutes(24).seconds(41).milliseconds(4);
+		$scope.eclipseC4Time = moment().utc().year(2017).month(7).date(21).hours(18).minutes(27).seconds(21).milliseconds(4);
+		// $scope.eclipseC2Time = moment().year(2017).month(7).date(21).hours(6).minutes(43).seconds(20);
+		// $scope.eclipseC4Time = moment().year(2017).month(7).date(21).hours(6).minutes(46).seconds(00);
 		
 		$scope.timeToStartSonification = $scope.eclipseC2Time.clone();
 		$scope.timeToStartSonification = $scope.timeToStartSonification.subtract(33, 'minutes');
@@ -778,8 +778,8 @@
 		console.log('Atlanta: '+$scope.eclipseStartTime.format());
 
 		////////////////
-		//$scope.maxEclipseTime = moment().utc().year(2017).month(7).date(21).hours(18).minutes(36).seconds(44).milliseconds(9);
-		$scope.maxEclipseTime = moment().year(2017).month(7).date(21).hours(6).minutes(44).seconds(20);
+		$scope.maxEclipseTime = moment().utc().year(2017).month(7).date(21).hours(18).minutes(36).seconds(44).milliseconds(9);
+		// $scope.maxEclipseTime = moment().year(2017).month(7).date(21).hours(7).minutes(09).seconds(20);
 		
 		$scope.maxEclipseTime_30sbefore = $scope.maxEclipseTime.clone();
 		$scope.maxEclipseTime_30safter = $scope.maxEclipseTime.clone();
