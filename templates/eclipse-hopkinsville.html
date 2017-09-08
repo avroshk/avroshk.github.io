@@ -1,6 +1,6 @@
 
-<div id="eclipseHopkinsvilleContainer" ng-class="contextCreated ? (isTotality ? 'totality':'') :'opaque'" ng-click="touchToStart()">
-	<div class="centertext">Hopkinsville, KY</div>
+<div id="eclipseHopkinsvilleContainer" ng-style="bgInTotality" ng-class="contextCreated ? '' :'opaque'" ng-click="touchToStart()">
+	<div class="centertext city-title">Hopkinsville, KY</div>
 	<div><canvas id="waveform"></canvas></div>
 	
 	<div ng-hide="sonificationStarted" class="timer">
@@ -9,44 +9,58 @@
 	</div>
 
 	<div ng-show="isPreTotality" class="timer">
-		Totality starts in 
-		<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span>
+		<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span> till Totality
 	</div>
 
 	<div ng-show="isTotality" class="timer">  
-		<span>{{timeInTotality._data.minutes}} minutes, {{timeInTotality._data.seconds}} seconds</span> in Totality
+		<span>{{timeInTotality._data.minutes}} minutes, {{timeInTotality._data.seconds}} seconds</span> into Totality
 	</div>
 
 	<div ng-show="totalityEnded" class="timer">Totality ended  
-		<span>{{timeAfterTotality._data.days}} days, {{timeAfterTotality._data.hours}} hours, {{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
+		<span>{{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
 	</div>
 
-	<div class="vol-slider" ng-hide="isPhone">
-		<md-content layout="row" class="slider-volume">
-			<span>Volume</span>
-			<md-slider-container>
-				<md-slider flex min="0" max="100" ng-model="vol" aria-label="volume" id="volume-slider">
-	      		</md-slider>
-	      		<md-input-container>
-	        		<input flex type="number" ng-model="vol" aria-label="volume" aria-controls="volume-slider">
-	      		</md-input-container>
-			</md-slider-container>
-		</md-content>
+	<div class="transport-slider">
+		<md-slider flex min="0" max="{{lengthOfFinalPiece}}" ng-model="timeNow" aria-label="red" class="timeline-slider">
+    	</md-slider>
 	</div>
 
-	
+	<div class="transport">
+		<div class="play-pause" ng-click="playOrPausePiece()">
+			<span ng-show="!finalpiece.playing()">
+				<div><span>Start</span></div>
+				<i class="icon icon-play3"></i>
+			</span>
+			<span ng-show="finalpiece.playing()">
+				<div><span>Pause</span></div>
+				<i class="icon icon-pause2"></i>
+			</span>
+		</div>
+		<div class="stop" ng-click="stopPiece()">
+			<div><span>Stop</span></div>
+			<span><i class="icon icon-stop2"></i></span>
+		</div>
+		<div class="forward" ng-click="forwardToTotality()">
+			<div><span>Totality</span></div>
+			<span><i class="icon icon-sun2"></i></span>
+		</div>
 
-	<!-- <button class="playbutton" ng-click="stopSound();">Play</button> -->
-	
-	<!-- <p>Weather: {{weather.weather[0].main}}</p>
-	<p>Temp: {{weather.main.temp}}</p>
-	<p>Pressure: {{weather.main.pressure}}</p>
-	<p>Wind: {{weather.wind.speed}}</p> -->
-	
+		<div class="vol-slider" ng-hide="isPhone">
+			<md-slider flex min="0" max="100" ng-model="vol" aria-label="volume" id="volume-slider">
+	  		</md-slider>
+			<span>
+				<i ng-show="vol >= 70" class="icon icon icon-volume-high"></i>
+				<i ng-show="vol >= 30 && vol < 70" class="icon icon-volume-medium"></i>
+				<i ng-show="vol >= 1 && vol < 30" class="icon icon-volume-low"></i>
+				<i ng-show="vol < 1" class="icon icon-volume-mute2"></i>
+			</span>
+			
+		</div>
+	</div>
 </div>
 
-<div class="weather">Clouds: <span>{{weather.weather[0].main}}</span></div>
-<div class="temperature">Temp: <span>{{weather.main.temp}}</span></div>
-
-<div class="touchstart" ng-hide="touched">Touch to Start</div>
+<!-- <div class="weather">Clouds: <span>{{weather.weather[0].main}}</span></div>
+<div class="temperature">Temp: <span>{{weather.main.temp}}</span></div> -->
+<div class="background" ng-style="bgInTotality"></div>
+<div class="touchstart" ng-hide="touched">Tap to Start</div>
 <div class="loading" ng-show="loading">..Loading..</div>

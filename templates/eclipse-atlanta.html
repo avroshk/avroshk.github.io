@@ -1,5 +1,5 @@
-<div id="eclipseAtlantaContainer" ng-class="contextCreated ? (turndark ? 'turndark':'') :'opaque'" ng-click="touchToStart()">
-	<div class="centertext">Atlanta, GA</div>
+<div id="eclipseAtlantaContainer" ng-style="bgInTotality" ng-class="contextCreated ? '' :'opaque'" ng-click="touchToStart()">
+	<div class="centertext city-title">Atlanta, GA</div>
 	<div><canvas id="waveform"></canvas></div>
 	
 	<div ng-hide="sonificationStarted" class="timer">
@@ -8,31 +8,51 @@
 	</div>
 
 	<div ng-show="isPreTotality" class="timer">
-		Partial Eclipse in 
-		<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span>
+		<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span> till Partial Eclipse
 	</div>
 
-	<div ng-show="totalityEnded" class="timer">Partial Eclipse   
-		<span>{{timeAfterTotality._data.days}} days, {{timeAfterTotality._data.hours}} hours, {{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
+	<div ng-show="totalityEnded" class="timer">Partial Eclipse ended
+		<span>{{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
 	</div>
 
-	<div class="vol-slider" ng-hide="isPhone">
-		<md-content layout="row" class="slider-volume">
-			<span>Volume</span>
-			<md-slider-container>
-				<md-slider flex min="0" max="100" ng-model="vol" aria-label="volume" id="volume-slider">
-	      		</md-slider>
-	      		<md-input-container>
-	        		<input flex type="number" ng-model="vol" aria-label="volume" aria-controls="volume-slider">
-	      		</md-input-container>
-			</md-slider-container>
-		</md-content>
+	<div class="transport-slider">
+		<md-slider flex min="0" max="{{lengthOfFinalPiece}}" ng-model="timeNow" aria-label="red" class="timeline-slider">
+    	</md-slider>
+	</div>
+	<div class="transport">
+		<div class="play-pause" ng-click="playOrPausePiece()">
+			<span ng-show="!finalpiece.playing()">
+				<div><span>Start</span></div>
+				<i class="icon icon-play3"></i>
+			</span>
+			<span ng-show="finalpiece.playing()">
+				<div><span>Pause</span></div>
+				<i class="icon icon-pause2"></i>
+			</span>
+		</div>
+		<div class="stop" ng-click="stopPiece()">
+			<div><span>Stop</span></div>
+			<span><i class="icon icon-stop2"></i></span>
+		</div>
+		<div class="forward" ng-click="forwardToTotality()">
+			<div><span>Eclipse</span></div>
+			<span><i class="icon icon-sun2"></i></span>
+		</div>
+
+		<div class="vol-slider" ng-hide="isPhone">
+			<md-slider min="0" max="100" ng-model="vol">
+	  		</md-slider>
+			<span>
+				<i ng-show="vol >= 70" class="icon icon icon-volume-high"></i>
+				<i ng-show="vol >= 30 && vol < 70" class="icon icon-volume-medium"></i>
+				<i ng-show="vol >= 1 && vol < 30" class="icon icon-volume-low"></i>
+				<i ng-show="vol < 1" class="icon icon-volume-mute2"></i>
+			</span>
+		</div>
 	</div>
 </div>
-
-<div class="weather">Clouds: <span>{{weather.weather[0].main}}</span></div>
-<div class="temperature">Temp: <span>{{weather.main.temp}}</span></div>
-
-<div class="touchstart" ng-hide="touched">Touch to Start</div>
+<!-- <div class="weather">Clouds: <span>{{weather.weather[0].main}}</span></div>
+<div class="temperature">Temp: <span>{{weather.main.temp}}</span></div> -->
+<div class="background" ng-style="bgInTotality"></div>
+<div class="touchstart" ng-hide="touched">Tap to Start</div>
 <div class="loading" ng-show="loading">..Loading..</div>
-<

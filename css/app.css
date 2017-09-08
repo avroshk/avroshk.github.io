@@ -744,7 +744,9 @@ div[id*="sample-"] {
     width: 100%;
     margin: 0px;
     padding: 0px;
-    height: 200px;
+    height: 400px;
+    top: 50%;
+    z-index: -1;
 }
 
 #eclipseHopkinsvilleContainer .centertext, #eclipseAtlantaContainer .centertext  {
@@ -754,39 +756,106 @@ div[id*="sample-"] {
     font-size: 40px;
 }
 
-#eclipseHopkinsvilleContainer .timer, #eclipseAtlantaContainer .timer{
+#eclipseHopkinsvilleContainer .timer, 
+#eclipseAtlantaContainer .timer{
     font-size: 20px;
     text-align: center;
+     -webkit-transition: color 0.5s linear;
+    -ms-transition: color 0.5s linear;
+    transition: color 0.5s linear;
+    top: 50%;
 }
 
-.slider-volume {
-    /*z-index: 10;*/
+#eclipseHopkinsvilleContainer .timeline-slider,
+#eclipseAtlantaContainer .timeline-slider{
+    width: 90%;
 }
 
 #eclipseHopkinsvilleContainer > div,
 #eclipseAtlantaContainer > div {
     width: 100%;
+    position: absolute;
+    /*border: 1px solid blue;*/
+}
+
+#eclipseHopkinsvilleContainer .city-title,
+#eclipseAtlantaContainer .city-title {
+    top: 0px;
     height: 25%;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider,
+#eclipseAtlantaContainer .transport-slider {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    bottom: 20%;
+    height: 20%;
 }
 
 #eclipseHopkinsvilleContainer .vol-slider,
 #eclipseAtlantaContainer .vol-slider {
-    display: flex;
-    align-items: center;
-    flex-flow: column;
+    margin-top: -50px;
 }
+
+#eclipseHopkinsvilleContainer .transport,
+#eclipseAtlantaContainer .transport {
+    bottom: 10%;
+    height: 10%;
+    text-align: center;
+    -webkit-transition: color 0.5s linear;
+    -ms-transition: color 0.5s linear;
+    transition: color 0.5s linear;
+}
+
+
+#eclipseHopkinsvilleContainer,
+#eclipseAtlantaContainer {
+     -webkit-transition: background-color 1s linear;
+    -ms-transition: background-color 1s linear;
+    transition: background-color 1s linear;
+     
+}
+   
+
+#eclipseHopkinsvilleContainer .transport > div,
+#eclipseAtlantaContainer .transport > div {
+    margin: 0 auto;
+    display: inline-block;
+    /*border: 1px solid black;*/
+    padding: 20px; 
+    z-index: 100;
+}
+
+#eclipseHopkinsvilleContainer .transport ,
+#eclipseAtlantaContainer .transport {
+    font-size: 22px;
+}
+
+#eclipseHopkinsvilleContainer .transport .icon,
+#eclipseAtlantaContainer .transport .icon{
+    padding-top: 20px;
+}
+
+
+#eclipseHopkinsvilleContainer .transport .forward .icon,
+#eclipseAtlantaContainer .transport .forward .icon{
+    font-size: 30px;
+}
+
+#eclipseHopkinsvilleContainer .forward:hover,
+#eclipseHopkinsvilleContainer .play-pause:hover,
+#eclipseHopkinsvilleContainer .stop:hover,
+#eclipseAtlantaContainer .forward:hover,
+#eclipseAtlantaContainer .play-pause:hover,
+#eclipseAtlantaContainer .stop:hover {
+    text-shadow: 0px 0px 10px #ffff00;   
+}
+
 
 #eclipseHopkinsvilleContainer .timer span,
 #eclipseAtlantaContainer .timer span {
     font-size: 25px;
-}
-
-#eclipseAtlantaContainer .vol-slider span,
-#eclipseAtlantaContainer .vol-slider input,
-#eclipseHopkinsvilleContainer .vol-slider span,
-#eclipseHopkinsvilleContainer .vol-slider input {
-    text-align: center;
-    padding: 5%;
 }
 
 #eclipseHopkinsvilleContainer.opaque,
@@ -794,18 +863,6 @@ div[id*="sample-"] {
 #eclipseHopkinsvilleContainer.opaque .slider-volume,
 #eclipseAtlantaContainer.opaque .slider-volume {
     background: rgba(20,20,20,0.9);
-}
-
-#eclipseHopkinsvilleContainer.totality,
-#eclipseAtlantaContainer.totality,
-#eclipseHopkinsvilleContainer.totality .slider-volume,
-#eclipseAtlantaContainer.totality .slider-volume,
-#eclipseAtlantaContainer.turndark, 
-#eclipseAtlantaContainer.turndark .slider-volume{
-    background: rgba(20,20,20,0.9);
-    -webkit-transition: background-color 30s linear;
-    -ms-transition: background-color 30s linear;
-    transition: background-color 30s linear;
 }
 
 .touchstart,
@@ -831,6 +888,27 @@ div[id*="sample-"] {
     font-size: 20px;
 }
 
+#eclipseHopkinsvilleContainer .ng-hide,
+#eclipseAtlantaContainer .ng-hide {
+    color: transparent;
+}
 
+.background { 
+    -webkit-transition: background-color 1s linear;
+    -ms-transition: background-color 1s linear;
+    transition: background-color 1s linear;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
 
-
+#eclipseHopkinsvilleContainer .play-pause > span > div > span,
+#eclipseAtlantaContainer .play-pause > span > div > span,
+#eclipseHopkinsvilleContainer .stop > div > span,
+#eclipseAtlantaContainer .stop > div > span  {
+    position: relative;
+    top: -8px;
+}
