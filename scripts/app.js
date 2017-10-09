@@ -70,12 +70,12 @@
 	});
 
 	app.run(function($rootScope, $route, $location){
-	   //Bind the `$locationChangeSuccess` event on the rootScope, so that we dont need to 
+	   //Bind the `$locationChangeSuccess` event on the rootScope, so that we dont need to
 	   //bind in induvidual controllers.
 
 	   $rootScope.$on('$locationChangeSuccess', function() {
 	        $rootScope.actualLocation = $location.path();
-	    });        
+	    });
 
 	   $rootScope.$watch(function () {return $location.path()}, function (newLocation, oldLocation) {
 	        if($rootScope.actualLocation === newLocation) {
@@ -137,7 +137,7 @@
 				$scope.testfile = $attrs.testfile;
 			},
 			controller: 'DiarizationSampleController'
-			
+
 		};
 	}).controller('DiarizationSampleController',['$scope','whichBrowser','$location','$anchorScroll', function ($scope, whichBrowser, $location, $anchorScroll) {
 		$scope.currentBrowser = whichBrowser();
@@ -149,8 +149,8 @@
 		$scope.loadedSnippets = 0;
 		$scope.areSnippetsLoaded = false;
 		$scope.currentPlayTime = 0;
-		$scope.activeSpeaker = -1; 
-		$scope.activeClip = -1; 
+		$scope.activeSpeaker = -1;
+		$scope.activeClip = -1;
 		$scope.oldActiveClip = -1;
 		$scope.loadingComplete = false;
 
@@ -164,19 +164,19 @@
 		} else {
 			$scope.extension = 'ogg';
 		}
-		
+
 		$scope.csv = [];
 		$scope.clips = [];
 		$scope.rawFile = new XMLHttpRequest();
 		$scope.transcriptionFile = new XMLHttpRequest();
-	    
+
 		$scope.rawFile.open("GET", $scope.file, true);
-	    
+
 	    $scope.rawFile.onload = function () {
 	        if($scope.rawFile.readyState === 4)
 	        {
 	            if($scope.rawFile.status === 200 || $scope.rawFile.status == 0)
-	            {	
+	            {
                 	angular.forEach($scope.rawFile.responseText.split('\n'), function(line) {
 	                	if (line == "") {
 
@@ -186,30 +186,30 @@
 					        $scope.csv.push(json);
 					        $scope.numSnippets++;
 	                	}
-	                });	
+	                });
 
 
 	                if ($scope.transcription === "true") {
 		        		$scope.transcriptionFile.open("GET", $scope.transcription_file, true);
 		        		$scope.transcriptionFile.send(null);
 		        	} else {
-		        		$scope.loadSample();        
-		        	}	                
+		        		$scope.loadSample();
+		        	}
 	            }
-	        } 
+	        }
 	    };
 
 	    $scope.transcriptionFile.onload = function () {
 	        if($scope.transcriptionFile.readyState === 4)
 	        {
 	            if($scope.transcriptionFile.status === 200 || $scope.transcriptionFile.status == 0)
-	            {	
+	            {
                 	angular.forEach($scope.transcriptionFile.responseText.split('\n'), function(line,id) {
 	            		if(id > 1 && id < $scope.numSnippets+2) {
 	            			$scope.csv[id-2].text = line;
 	            		}
 	                });
-	                $scope.loadSample();        
+	                $scope.loadSample();
 	            }
 	        }
 	    };
@@ -219,17 +219,17 @@
 	    		event.preventDefault();
 	    	}
 		});
-	
+
 		$scope.play = function () {
 			$scope.sample.play();
 			if ($scope.id < 4) {
 				$location.hash($scope.id);
 				$anchorScroll();
-			}	
+			}
 		}
 
 		$scope.pause = function () {
-			$scope.sample.pause();			
+			$scope.sample.pause();
 		}
 
 		$scope.stop = function () {
@@ -243,14 +243,14 @@
 		$scope.reloadSnippets = function () {
 
 			angular.forEach($scope.csv, function(obj) {
-		
+
 				var widthPerc = $scope.snippets[parseInt(obj.id)-1].getDuration()*100/$scope.sample.getDuration();
-				
+
 				angular.forEach($scope.speakers[parseInt(obj.speaker)], function (clip,i) {
 					if (clip.id == obj.id) {
-						
-						var marginPerc = clip.timestamp*100/$scope.sample.getDuration(); 
-						
+
+						var marginPerc = clip.timestamp*100/$scope.sample.getDuration();
+
 						$scope.speakers[parseInt(obj.speaker)][i].margin = marginPerc;
 						$scope.speakers[parseInt(obj.speaker)][i].clipwidth = $scope.snippets[parseInt(obj.id)-1].getDuration();
 						$scope.speakers[parseInt(obj.speaker)][i].clipboundary = parseFloat(obj.timestamp) + parseFloat($scope.speakers[parseInt(obj.speaker)][i].clipwidth);
@@ -258,11 +258,11 @@
 
 					}
 				});
-	
+
 			});
 			$scope.loadingComplete = true;
 			$scope.$apply();
-			angular.forEach($scope.csv, function(obj) {	
+			angular.forEach($scope.csv, function(obj) {
 				$scope.snippets[parseInt(obj.id)-1].load('media/audio/'+$scope.extension+'/'+$scope.testfile+'_'+obj.id+'_'+obj.speaker+'.'+$scope.extension);
 			});
 
@@ -284,7 +284,7 @@
 				$scope.areSnippetsLoaded = true;
 				$scope.reloadSnippets();
 			}
-			
+
 		}
 
 		$scope.isReady = function () {
@@ -332,7 +332,7 @@
 			}
 
 			$scope.$apply();
-		
+
 			$scope.sample = WaveSurfer.create({
 			    container: '#sample-'+$scope.testfile,
 			    waveColor: 'rgba(0,31,111,0.8)',
@@ -347,7 +347,7 @@
 			$scope.sample.on('ready', function() {
 				$scope.isReady();
 			});
-			
+
 			$scope.sample.on('audioprocess', function() {
 				$scope.currentPlayTime = $scope.sample.getCurrentTime();
 
@@ -363,7 +363,7 @@
 								$scope.oldActiveClip = $scope.activeClip;
 								$scope.appendToTranscription(clip);
 							}
-						} 
+						}
 					})
 				});
 
@@ -381,7 +381,7 @@
 		};
 
 		$scope.rawFile.send(null);
-		
+
 	}]);
 
 	app.directive('diarization', function () {
@@ -389,7 +389,7 @@
 			restrict: 'E',
 			templateUrl: 'templates/diarization.html',
 			controller: 'DiarizationController'
-			
+
 		};
 	}).controller('DiarizationController',['$scope','$location','$anchorScroll', 'Page', function ($scope, $location, $anchorScroll, Page) {
 		$scope.activePage = "diarization";
@@ -403,12 +403,12 @@
 
 		$scope.rmsFile = new XMLHttpRequest();
 		$scope.rmsFile.open("GET", $scope.file, true);
-	    
+
 	    $scope.rmsFile.onload = function () {
 	        if($scope.rmsFile.readyState === 4)
 	        {
 	            if($scope.rmsFile.status === 200 || $scope.rmsFile.status == 0)
-	            {	
+	            {
 	            	var lineNum = 0;
                 	angular.forEach($scope.rmsFile.responseText.split('\n'), function(line) {
 	                	if (line == "") {
@@ -423,7 +423,7 @@
 	                		}
 	              			lineNum++;
 	                	}
-	                });	
+	                });
 
 					$scope.labels  = $scope.time;
 					$scope.series = ['RMS', 'Threshold','Time'];
@@ -431,7 +431,7 @@
 				  		$scope.rms,
 				  		$scope.threshold
 				  	];
-				    	
+
 				  	$scope.onClickChart = function (points, evt) {
 				    	console.log(points, evt);
 				  	};
@@ -483,9 +483,9 @@
 					          	display: true
 					        }
 				    	}
-			  		};	                
+			  		};
 	            }
-	        } 
+	        }
 	    };
 
 	    $scope.rmsFile.send(null);
@@ -504,7 +504,7 @@
 	app.directive('transcription', function() {
 	    return {
 	        restrict: "E",
-	        replace: true, 
+	        replace: true,
 	        template: "<div class='transcription'><div class='fillspace'><div>"+
 	        		"<div class='transcription-line' ng-repeat='line in lines.slice().reverse() track by $index' "+
 	        		"ng-class=\"activeClip === line.id ? 'underline' : ''\">"+
@@ -543,7 +543,7 @@
 		       	$scope.content = $sce.trustAsResourceUrl(fileURL);
 		       	// $scope.$apply();
 		});
-		
+
 	});
 
 	app.directive('eclipse', function () {
@@ -555,7 +555,7 @@
 	}).controller('EclipseController', function ($rootScope, $scope, $http, $sce, Page) {
 		Page.setTitle('2017 Solar Eclipse | Sonification');
 		$scope.activePage = "eclipse";
-		
+
 	});
 
 	app.directive('eclipseHopkinsville', function () {
@@ -576,7 +576,7 @@
 		$scope.eclipseC4Time = moment().utc().year(2017).month(7).date(21).hours(18).minutes(27).seconds(21).milliseconds(4);
 		// $scope.eclipseC2Time = moment().year(2017).month(7).date(21).hours(6).minutes(43).seconds(20);
 		// $scope.eclipseC4Time = moment().year(2017).month(7).date(21).hours(6).minutes(46).seconds(00);
-		
+
 		$scope.timeToStartSonification = $scope.eclipseC2Time.clone();
 		$scope.timeToStartSonification = $scope.timeToStartSonification.subtract(33, 'minutes');
 		$scope.timeToStartSonification = $scope.timeToStartSonification.subtract(20, 'seconds');
@@ -596,7 +596,7 @@
 		$scope.justStoppedPiece = false;
 		var bufferLength = 0;
 		var dataArray = [];
-		
+
 		var player = 0;
 		var alpha = 0.75;
 		var prevAmp = 0;
@@ -606,7 +606,7 @@
 
 		$scope.initEclipse = function() {
 			$scope.timeNow = 0;
-			$scope.isPreTotality = true; 
+			$scope.isPreTotality = true;
 			$scope.isTotality = false;
 			$scope.totalityEnded = false;
 			$scope.seekTime = moment.duration(0);
@@ -633,7 +633,7 @@
 
 			var analyserNode = Howler.ctx.createAnalyser();
 			var sourceNode = Howler.ctx.createMediaElementSource($scope.finalpiece._sounds[0]._node);
-			
+
 
 			//Clear listener after first call.
 			$scope.finalpiece.once('load', function() {
@@ -676,7 +676,7 @@
 						player = 0;
 					} else {
 						$scope.playPiece();
-					}					
+					}
 				}
 			};
 
@@ -693,7 +693,7 @@
 			};
 
 			$scope.forwardToTotality = function () {
-				$scope.timeNow = 1770; 
+				$scope.timeNow = 1770;
 				$scope.playPiece();
 			};
 
@@ -701,7 +701,7 @@
 				let now = $scope.timeNowinMoment.clone();
 				now.add($scope.timeNow, 'seconds');
 				$scope.timeNow++;
-		    	$scope.calcTime(now);	    		
+		    	$scope.calcTime(now);
 			}
 
 			$scope.calcTime = function(now) {
@@ -738,7 +738,7 @@
 					};
 	    		} else {
 	    			//Pre-totality
-					$scope.isPreTotality = true; 
+					$scope.isPreTotality = true;
 					$scope.isTotality = false;
 					$scope.totalityEnded = false;
 	    		}
@@ -748,11 +748,12 @@
 		    		$scope.seekTo($scope.seekTime.asSeconds());
 		    		$scope.seekTimeChanged = false;
 	    		}
-		    		
+
 		    	$scope.timeTillEclipseSonification = moment.duration($scope.timeToStartSonification.diff(now));
 			};
 
 			$scope.sonificationStarted = true;
+			$scope.playPiece();
 
 			$rootScope.$on('stopplaying', function () {
 	    		$scope.stopPiece();
@@ -775,18 +776,18 @@
 						$scope.justStoppedPiece = false;
 					} else {
 						$scope.playPiece();
-					}			
+					}
 
 					if (newVal == $scope.lengthOfFinalPiece) {
 						$interval.cancel(player);
 						player = 0;
 						$scope.finalpiece.stop();
 					}
-				} 
+				}
 			});
 
 			function updateWave() {
-				
+
 				analyserNode.getByteTimeDomainData(dataArray);
 
 				let amp = 0;
@@ -802,7 +803,7 @@
 				amp = amp * (1-alpha) + alpha * prevAmp;
 				$scope.waves.waves[0].amplitude = (amp-1)*1000;
 				prevAmp = amp;
-				
+
 				window.requestAnimationFrame(updateWave);
 			}
 		};
@@ -828,7 +829,7 @@
 				$scope.loading = true;
 			}
 		};
-		
+
 
 		// function getWeatherData() {
 		// 	weatherData.getAll(weatherid)
@@ -850,7 +851,7 @@
 		// }
 		// getWeatherData();
 		// getEclipseTemperature();
-		// setInterval(getWeatherData,600000*5);		
+		// setInterval(getWeatherData,600000*5);
 
 		$scope.waves = new SineWaves({
 		  	el: waveform,
@@ -898,13 +899,13 @@
 		$scope.contextCreated = false;
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(17).minutes(05).seconds(50).milliseconds(5);
-		
+
 		console.log('Atlanta: '+$scope.eclipseStartTime.format());
 
 		////////////////
 		$scope.maxEclipseTime = moment().utc().year(2017).month(7).date(21).hours(18).minutes(36).seconds(44).milliseconds(9);
 		// $scope.maxEclipseTime = moment().year(2017).month(7).date(21).hours(7).minutes(09).seconds(20);
-		
+
 		$scope.maxEclipseTime_30sbefore = $scope.maxEclipseTime.clone();
 		$scope.maxEclipseTime_30safter = $scope.maxEclipseTime.clone();
 
@@ -931,7 +932,7 @@
 		$scope.justStoppedPiece = false;
 		var bufferLength = 0;
 		var dataArray = [];
-		
+
 		var player = 0;
 		var alpha = 0.75;
 		var prevAmp = 0;
@@ -1010,7 +1011,7 @@
 						player = 0;
 					} else {
 						$scope.playPiece();
-					}					
+					}
 				}
 			};
 
@@ -1027,7 +1028,7 @@
 			};
 
 			$scope.forwardToTotality = function () {
-				$scope.timeNow = 1913; 
+				$scope.timeNow = 1913;
 				$scope.playPiece();
 			};
 
@@ -1071,18 +1072,19 @@
 		    		$scope.seekTo($scope.seekTime.asSeconds());
 		    		$scope.seekTimeChanged = false;
 	    		}
-		    		
+
 		    	$scope.timeTillEclipseSonification = moment.duration($scope.timeToStartSonification.diff(now));
 			};
-			
+
 			var tick = function() {
 				let now = $scope.timeNowinMoment.clone();
 				now.add($scope.timeNow, 'seconds');
 				$scope.timeNow++;
-		    	$scope.calcTime(now);		
+		    	$scope.calcTime(now);
 			};
 
 			$scope.sonificationStarted = true;
+			$scope.playPiece();
 
 			$rootScope.$on('stopplaying', function () {
 	    		$scope.stopPiece();
@@ -1105,18 +1107,18 @@
 						$scope.justStoppedPiece = false;
 					} else {
 						$scope.playPiece();
-					}			
+					}
 
 					if (newVal == $scope.lengthOfFinalPiece) {
 						$interval.cancel(player);
 						player = 0;
 						$scope.finalpiece.stop();
 					}
-				} 
+				}
 			});
 
 			function updateWave() {
-				
+
 				analyserNode.getByteTimeDomainData(dataArray);
 
 				let amp = 0;
@@ -1132,11 +1134,11 @@
 				amp = amp * (1-alpha) + alpha * prevAmp;
 				$scope.waves.waves[0].amplitude = (amp-1)*1000;
 				prevAmp = amp;
-				
-				window.requestAnimationFrame(updateWave);
-			}	
 
-	
+				window.requestAnimationFrame(updateWave);
+			}
+
+
 		};
 
 		$scope.waves = new SineWaves({
@@ -1216,7 +1218,7 @@
 		// }
 		// getWeatherData();
 		// getEclipseTemperature();
-		// setInterval(getWeatherData,600000*5);		
+		// setInterval(getWeatherData,600000*5);
 
 	});
 
@@ -1249,7 +1251,7 @@
 			controller: 'StartpageController'
 		};
 	}).controller('StartpageController', function ($scope) {
-		
+
 	});
 
 	app.directive('startpage', function () {
@@ -1259,7 +1261,7 @@
 			controller: 'StartpageController'
 		};
 	}).controller('StartpageController', function ($scope) {
-		
+
 	});
 
 	app.directive('question', function () {
@@ -1278,12 +1280,12 @@
 
 		$scope.folderIndex = -1;
 		$scope.questionIndex = -1;
-		
+
 		$scope.answers = [];
 
 		$scope.videoContainer = document.getElementById('testVideo');
 		var source = document.createElement('source');
-		
+
 
 		$scope.resetQuestionArray = function () {
 			$scope.currentQuestionArray = [];
@@ -1314,11 +1316,11 @@
 			if (!$scope.contactForm.$valid) {
 				$scope.hasErrors = true;
 			} else {
-		
+
 				var url = 'https://avroshk.000webhostapp.com/scripts/submitanswers.php?';
 
 				url = url+'fullname='+$scope.fullname+'&'+'emailaddress='+$scope.emailaddress+'&'+'message='+$scope.message+'&'+'answers='+ $scope.answers.toString();
-			
+
 				return $http.get(url).then(function(result) {
 		            console.log('Contact form: success');
 	            	$scope.formSubmitted = true;
@@ -1336,7 +1338,7 @@
 		$scope.loadNextQuestion = function(answer) {
 			var currentAnswer = {};
 			if (answer !== undefined) {
-				if (answer) 
+				if (answer)
 					say = "yes";
 				else
 					say = "no";
@@ -1356,10 +1358,10 @@
 					$scope.testended = true;
 					console.log($scope.answers);
 				}
-			} 
+			}
 
 			if (!$scope.testended) {
-				$scope.videoSrc = 'media/video/' + $scope.currentFolderArray[$scope.folderIndex] + '/' + 
+				$scope.videoSrc = 'media/video/' + $scope.currentFolderArray[$scope.folderIndex] + '/' +
 					$scope.currentQuestionArray[$scope.questionIndex] + '.mp4';
 
 				console.log($scope.videoSrc);
