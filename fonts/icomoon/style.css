@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?puydyh');
-  src:  url('fonts/icomoon.eot?puydyh#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?puydyh') format('truetype'),
-    url('fonts/icomoon.woff?puydyh') format('woff'),
-    url('fonts/icomoon.svg?puydyh#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?h0gde5');
+  src:  url('fonts/icomoon.eot?h0gde5#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?h0gde5') format('truetype'),
+    url('fonts/icomoon.woff?h0gde5') format('woff'),
+    url('fonts/icomoon.svg?h0gde5#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,54 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-plus:before {
+  content: "\e909";
+}
+.icon-code2:before {
+  content: "\e908";
+}
+.icon-long-thin-arrow-right:before {
+  content: "\e907";
+}
+.icon-earsketch-logo:before {
+  content: "\e901";
+}
+.icon-stroke:before {
+  content: "\e902";
+}
+.icon-quaver:before {
+  content: "\e905";
+}
+.icon-waveform:before {
+  content: "\e906";
+}
+.icon-code:before {
+  content: "\e915";
+}
+.icon-file-css2:before {
+  content: "\e9be";
+}
+.icon-cog:before {
+  content: "\eb5c";
+}
+.icon-plus2:before {
+  content: "\ed58";
+}
+.icon-sun:before {
+  content: "\e90a";
+}
+.icon-music:before {
+  content: "\e900";
+}
+.icon-brightness_high:before {
+  content: "\e90b";
+}
+.icon-brightness_4:before {
+  content: "\e90c";
+}
+.icon-brightness_3:before {
+  content: "\e90d";
+}
 .icon-sun2:before {
   content: "\e90e";
 }
@@ -87,56 +135,11 @@
 .icon-volume-mute2:before {
   content: "\ea2a";
 }
-.icon-brightness_high:before {
-  content: "\e90b";
+.icon-menu:before {
+  content: "\e9bd";
 }
-.icon-brightness_4:before {
-  content: "\e90c";
-}
-.icon-brightness_3:before {
-  content: "\e90d";
-}
-.icon-sun:before {
-  content: "\e90a";
-}
-.icon-music:before {
-  content: "\e900";
-}
-.icon-long-thin-arrow-right:before {
-  content: "\e907";
-}
-.icon-plus:before {
-  content: "\e909";
-}
-.icon-code2:before {
-  content: "\e908";
-}
-.icon-long-thin-arrow-right:before {
-  content: "\e907";
-}
-.icon-earsketch-logo:before {
-  content: "\e901";
-}
-.icon-stroke:before {
-  content: "\e902";
-}
-.icon-quaver:before {
-  content: "\e905";
-}
-.icon-waveform:before {
-  content: "\e906";
-}
-.icon-code:before {
-  content: "\e915";
-}
-.icon-file-css2:before {
-  content: "\e9be";
-}
-.icon-cog:before {
-  content: "\eb5c";
-}
-.icon-plus2:before {
-  content: "\ed58";
+.icon-cross:before {
+  content: "\ea0f";
 }
 .icon-long-arrow-right:before {
   content: "\e904";

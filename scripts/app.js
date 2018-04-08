@@ -567,6 +567,7 @@
 	}).controller('EclipseHopkinsvilleController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory) {
 		Page.setTitle('2017 Solar Eclipse | Sonification | Hopkinsville');
 		$scope.contextCreated = false;
+		$scope.showInfo = false;
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
 		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
@@ -582,6 +583,8 @@
 		$scope.timeToStartSonification = $scope.timeToStartSonification.subtract(20, 'seconds');
 
 		$scope.timeNowinMoment = $scope.timeToStartSonification.clone();
+
+		$scope.part1InPerc = 43;
 
 		$scope.vol = 70;
 		$scope.weather = {};
@@ -615,6 +618,10 @@
 
 		$scope.initEclipse();
 
+		$scope.toggleInfo = function() {
+			$scope.showInfo = !$scope.showInfo;
+		}
+
 		$scope.bgInTotality = {
 			'background-color': ''
 		};
@@ -642,6 +649,8 @@
 			  	$scope.contextCreated = true;
 			  	$scope.loading = false;
 			  	$scope.lengthOfFinalPiece = $scope.finalpiece.duration();
+
+					console.log($scope.lengthOfFinalPiece);
 
 			  	sourceNode.connect(analyserNode);
 		    	analyserNode.connect(Howler.ctx.destination);
@@ -829,7 +838,6 @@
 				$scope.loading = true;
 			}
 		};
-
 
 		// function getWeatherData() {
 		// 	weatherData.getAll(weatherid)
