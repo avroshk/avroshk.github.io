@@ -963,7 +963,7 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .transport-slider .info-graphics .description {
   background: #f5f5f5ed;
   width: 100%;
-  height: 345px;
+  height: 365px;
   position: absolute;
   bottom: 0px;
   border: 1px solid gray;
@@ -1004,7 +1004,7 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table {
   display: flex;
   flex-direction: column;
-  height: 300px;
+  height: 315px;
   border-bottom: 1px solid gray;
 }
 
@@ -1044,19 +1044,19 @@ div[id*="sample-"] {
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.one,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.one{
-  background: #FFD4D4;
+  background: #FFD4D4BF;
 }
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.two,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.two{
-  background: #FF6B6B;
+  background: #FF6B6BBF;
 }
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.three,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.three{
-  background: #FFFFFF;
+  background: #FFFFFFBF;
 }
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.four,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.four{
-  background: #FF9B9B;
+  background: #FF9B9BBF;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section:not(.show):hover,
@@ -1111,14 +1111,14 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.one.show .content .area-header,
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.two.show .content .area-header,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.two.show .content .area-header {
-  background: #FF9B9B;
+  background: #FF9B9BBF;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.three.show .content .area-header,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.three.show .content .area-header,
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.four.show .content .area-header,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.four.show .content .area-header  {
-  background: #FFD4D4;
+  background: #FFD4D4BF;
 }
 
 
