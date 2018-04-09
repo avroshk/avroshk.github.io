@@ -845,7 +845,7 @@
 			
 			$scope.events = $scope.events.map(function(event) {
 				var event = {};
-				event.perc = event*100/lengthOfFinalPiece;
+				event.perc = event*100/$scope.lengthOfFinalPiece;
 				if (event <= 50) {
 					event.latch = event + 0.2*(50 - event);
 				} else {
