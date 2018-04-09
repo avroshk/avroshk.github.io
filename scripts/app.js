@@ -671,10 +671,10 @@
 				$scope.events = $scope.events.map(function(pos) {
 					var event = {};
 					event.perc = pos*100/$scope.lengthOfFinalPiece;
-					if (event <= 50) {
-						event.latch = pos + 0.2*(50 - pos);
+					if (event.perc <= 50) {
+						event.latch = event.perc + 0.2*(50 - event.perc);
 					} else {
-						event.latch = pos - 0.2*(pos - 50);
+						event.latch = event.perc - 0.2*(event.perc - 50);
 					}
 					return event;
 				});
