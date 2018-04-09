@@ -33,7 +33,7 @@
 					<div class="option">Movements</div>
 					<div class="option">Events</div>
 				</div>
-				<div class="table">
+				<div class="table" ng-style="tableHeightStyle">
 					<div class="row">
 						<div ng-class="selectedSection == 1 ? 'column grow' : 'column'">
 							<div ng-class="selectedSection == 1 ? 'section show' : 'section'" class="one" ng-click="selectedSection != 1 ? selectSection(1) : ''">
