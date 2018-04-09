@@ -920,13 +920,13 @@ div[id*="sample-"] {
   position: absolute;
   display: flex;
   justify-content: flex-end;
-  z-index: 10;
+  z-index: 9;
 }
 
 #eclipseHopkinsvilleContainer .info .icon,
 #eclipseAtlantaContainer .info .icon {
   font-size: 28px;
-  padding: 20px;
+  margin: 20px;
 }
 
 #eclipseHopkinsvilleContainer .info.show,
@@ -949,12 +949,14 @@ div[id*="sample-"] {
   position: absolute;
   height: 10px;
   top: -45px;
+  z-index: -2;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics.show,
 #eclipseAtlantaContainer .transport-slider .info-graphics.show {
   visibility: visible;
   opacity: 1;
+  z-index: 0;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description,
@@ -966,11 +968,211 @@ div[id*="sample-"] {
   bottom: 0px;
   border: 1px solid gray;
   border-radius: 3px;
+  z-index: 10;
+}
+
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  border-bottom: 1px solid gray;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .row,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .row {
+  display: flex;
+  height: 100%;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column {
+  transition: flex-grow 0.5s;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column:focus,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column:focus,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section:focus,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section:focus,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section .row-header:focus,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section .row-header:focus,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area-header:focus,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area-header:focus {
+  outline: none;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column.grow,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column.grow {
+  flex-grow: 1;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.one,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.one{
+  background: #FFD4D4;
+}
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.two,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.two{
+  background: #FF6B6B;
+}
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.three,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.three{
+  background: #FFFFFF;
+}
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.four,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.four{
+  background: #FF9B9B;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section:not(.show):hover,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section:not(.show):hover {
+  cursor: pointer;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section .row,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section .row {
+  visibility: hidden;
+  opacity: 0;
+  max-width: 20px;
+  transition: opacity 0.3s, max-width 0.1s;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .row,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .row {
+  visibility: visible;
+  opacity: 1;
+  max-width: 3000px;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content {
+  display: flex;
+  flex-direction: column;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area {
+  transition: flex-grow 0.3s;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area.grow,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area .grow {
+  flex-grow: 1;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area-header:hover,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area-header:hover {
+  background: #ff9b9b8f !important;
+  cursor: pointer;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area-header,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area-header {
+  text-align: center;
+  font-size: 17px;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.one.show .content .area-header,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.one.show .content .area-header,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.two.show .content .area-header,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.two.show .content .area-header {
+  background: #FF9B9B;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.three.show .content .area-header,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.three.show .content .area-header,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.four.show .content .area-header,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.four.show .content .area-header  {
+  background: #FFD4D4;
+}
+
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area-header.selected,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area-header.selected {
+
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area .cell,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area .cell {
+  visibility: hidden;
+  opacity: 0;
+  max-height: 0px;
+  transition: opacity 0.3s, max-height 0.1s;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area .cell.show,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area .cell.show {
+  visibility: visible;
+  opacity: 1;
+  max-height: 1000px;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section .row-header:hover,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section .row-header:hover {
+  cursor: pointer;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section .row-header:not(.selected) .rotate,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section .row-header:not(.selected) .rotate {
+  display: block;
+  width: 26px;
+  white-space: nowrap;
+  transform-origin: 10px 13px;
+  transform: rotate(90deg);
+  /* Safari */
+  -webkit-transform: rotate(90deg);
+  /* Firefox */
+  -moz-transform: rotate(90deg);
+  /* IE */
+  -ms-transform: rotate(90deg);
+  /* Opera */
+  -o-transform: rotate(90deg);
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section .row-header.selected,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section .row-header.selected {
+  padding-left: 5px;
+  font-size: 22px;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .section-1,
+#eclipseAtlantaContainer .transport-slider .info-graphics .section-1,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .section-2,
+#eclipseAtlantaContainer .transport-slider .info-graphics .section-2,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .section-3,
+#eclipseAtlantaContainer .transport-slider .info-graphics .section-3,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .section-4,
+#eclipseAtlantaContainer .transport-slider .info-graphics .section-4 {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .section-1.show,
+#eclipseAtlantaContainer .transport-slider .info-graphics .section-1.show,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .section-2.show,
+#eclipseAtlantaContainer .transport-slider .info-graphics .section-2.show,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .section-3.show,
+#eclipseAtlantaContainer .transport-slider .info-graphics .section-3.show,
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .section-4.show,
+#eclipseAtlantaContainer .transport-slider .info-graphics .section-4.show  {
+  visibility: visible;
+  opacity: 1;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics svg,
 #eclipseAtlantaContainer .transport-slider .info-graphics svg {
   width: 100%;
+  position: absolute;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics svg line,

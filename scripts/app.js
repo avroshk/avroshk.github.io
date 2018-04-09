@@ -568,6 +568,8 @@
 		Page.setTitle('2017 Solar Eclipse | Sonification | Hopkinsville');
 		$scope.contextCreated = false;
 		$scope.showInfo = false;
+		$scope.selectedSection = 1;
+		$scope.selectedInfoType = 'desc'; // desc, mappings, sound-objs
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
 		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
@@ -585,6 +587,8 @@
 		$scope.timeNowinMoment = $scope.timeToStartSonification.clone();
 
 		$scope.part1InPerc = 43;
+		$scope.part2InPerc = 79.78;
+		$scope.part3InPerc = 86.16;
 
 		$scope.vol = 70;
 		$scope.weather = {};
@@ -792,6 +796,17 @@
 						player = 0;
 						$scope.finalpiece.stop();
 					}
+
+					// select section based on time
+					if ($scope.timeNow >=0 && $scope.timeNow < $scope.part1InPerc*$scope.lengthOfFinalPiece/100) {
+						$scope.selectSection(1);
+					} else if ($scope.timeNow >= $scope.part1InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow < $scope.part2InPerc*$scope.lengthOfFinalPiece/100) {
+						scope.selectSection(2);
+					} else if ($scope.timeNow >= $scope.part2InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow < $scope.part3InPerc*$scope.lengthOfFinalPiece/100) {
+						scope.selectSection(3);
+					} else if ($scope.timeNow >= $scope.part3InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow <= $scope.lengthOfFinalPiece) {
+						scope.selectSection(4);
+					}
 				}
 			});
 
@@ -814,6 +829,47 @@
 				prevAmp = amp;
 
 				window.requestAnimationFrame(updateWave);
+			}
+
+			$scope.selectSection = function (section) {
+				$scope.selectedSection = section
+
+				switch(section) {
+					case 1:
+						if ($scope.timeNow >=0 && $scope.timeNow < $scope.part1InPerc*$scope.lengthOfFinalPiece/100) {
+
+						} else {
+							$scope.timeNow = 0;
+						}
+						break;
+					case 2:
+						if ($scope.timeNow >= $scope.part1InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow < $scope.part2InPerc*$scope.lengthOfFinalPiece/100) {
+
+						} else {
+							$scope.timeNow = $scope.part1InPerc*$scope.lengthOfFinalPiece/100;
+						}
+						break;
+					case 3:
+						if ($scope.timeNow >= $scope.part2InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow < $scope.part3InPerc*$scope.lengthOfFinalPiece/100) {
+
+						} else {
+							$scope.timeNow = $scope.part2InPerc*$scope.lengthOfFinalPiece/100;
+						}
+						break;
+					case 4:
+						if ($scope.timeNow >= $scope.part3InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow <= $scope.lengthOfFinalPiece) {
+
+						} else {
+							$scope.timeNow = $scope.part3InPerc*$scope.lengthOfFinalPiece/100;
+						}
+						break;
+					default:
+						break;
+				}
+			}
+
+			$scope.selectInfoType = function (infoType) {
+				$scope.selectedInfoType = infoType
 			}
 		};
 

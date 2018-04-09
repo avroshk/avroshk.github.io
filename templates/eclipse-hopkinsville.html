@@ -1,10 +1,10 @@
 
 <div id="eclipseHopkinsvilleContainer" ng-style="bgInTotality" ng-class="contextCreated ? '' :'opaque'" ng-click="touchToStart()">
-	<div ng-class="showInfo ? 'info show' : 'info'" ng-click="toggleInfo()">
-		<i class="icon icon-cross"></i>
+	<div ng-class="showInfo ? 'info show' : 'info'">
+		<i class="icon icon-cross" ng-click="toggleInfo()"></i>
 	</div>
-	<div ng-class="showInfo ? 'info' : 'info show'" ng-click="toggleInfo()">
-		<i class="icon icon-info"></i>
+	<div ng-class="showInfo ? 'info' : 'info show'">
+		<i class="icon icon-info" ng-click="toggleInfo()"></i>
 	</div>
 	<div class="centertext city-title">Hopkinsville, KY</div>
 	<div><canvas id="waveform"></canvas></div>
@@ -29,19 +29,101 @@
 		<div ng-class="showInfo ? 'info-graphics show':'info-graphics'">
 			<div class="description">
 				<div class="table">
-					<div class="columns">
-					</div>
-					<div class="columns">
-					</div>
-					<div class="columns">
-					</div>
-					<div class="columns">
-					</div>
-					<div class="columns">
+					<div class="row">
+						<div class="column">
+							<div class="section show">
+								<div class="column grow">Sections</div>
+								<div class="column grow">Events</div>
+							</div>
+						</div>
+						<div ng-class="selectedSection == 1 ? 'column grow' : 'column'">
+							<div ng-class="selectedSection == 1 ? 'section show' : 'section'" class="one" ng-click="selectedSection != 1 ? selectSection(1) : ''">
+								<div ng-class="selectedSection == 1 ? 'row-header selected' : 'row-header'" ng-click="selectSection(1)">
+									<span ng-class="selectSection == 1 ? '':'rotate'">Pre-pre</span>
+								</div>
+								<div class="content row">
+									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
+										<div ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">Hellow!!!!!!!!</div>
+									</div>
+									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'">Hellowdwe!!!!!!!!</div>
+									</div>
+									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
+										<div ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'">meow!</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-class="selectedSection == 2 ? 'column grow' : 'column'">
+							<div ng-class="selectedSection == 2 ? 'section show' : 'section'" class="two" ng-click="selectedSection != 2 ? selectSection(2) : ''">
+								<div ng-class="selectedSection == 2 ? 'row-header selected' : 'row-header'" ng-click="selectSection(2)">
+									<span ng-class="selectSection == 2 ? '':'rotate'">Pre-totality</span>
+								</div>
+								<div class="content row">
+									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
+										<div ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">Hellow!!!!!!!!</div>
+									</div>
+									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'">Hellowdwe!!!!!!!!</div>
+									</div>
+									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
+										<div ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'">meow!</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-class="selectedSection == 3 ? 'column grow' : 'column'">
+							<div ng-class="selectedSection == 3 ? 'section show' : 'section'" class="three" ng-click="selectedSection != 3 ? selectSection(3) : ''">
+								<div ng-class="selectedSection == 3 ? 'row-header selected' : 'row-header'" ng-click="selectSection(3)">
+									<span ng-class="selectSection == 3 ? '':'rotate'">Totality</span>
+								</div>
+								<div class="content row">
+									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
+										<div ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">Hellow!!!!!!!!</div>
+									</div>
+									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'">Hellowdwe!!!!!!!!</div>
+									</div>
+									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
+										<div ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'">meow!</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-class="selectedSection == 4 ? 'column grow' : 'column'">
+							<div ng-class="selectedSection == 4 ? 'section show' : 'section'" class="four" ng-click="selectedSection != 4 ? selectSection(4) : ''">
+								<div ng-class="selectedSection == 4 ? 'row-header selected' : 'row-header'" ng-click="selectSection(4)">
+									<span ng-class="selectSection == 4 ? '':'rotate'">Post-totality</span>
+								</div>
+								<div class="content row">
+									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
+										<div ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">Hellow!!!!!!!!</div>
+									</div>
+									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'">Hellowdwe!!!!!!!!</div>
+									</div>
+									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
+										<div ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'">meow!</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<svg class="section-1">
+			<svg ng-class="selectedSection == 1 ? 'section-1 show':'section-1'">
 				<g class="part-1">
 					<line x1="{{part1InPerc/2}}%" y1="10" x2="{{part1InPerc/2}}%" y2="45" />
 					<line x1="0" y1="45" x2="0" y2="55" />
@@ -49,11 +131,36 @@
 					<line x1="{{part1InPerc}}%" y1="45" x2="{{part1InPerc}}%" y2="55" />
 				</g>
 			</svg>
+			<svg ng-class="selectedSection == 2 ? 'section-2 show':'section-2'">
+				<g class="part-2">
+					<line x1="{{part1InPerc+((part2InPerc-part1InPerc)/2)}}%" y1="10" x2="{{part1InPerc+((part2InPerc-part1InPerc)/2)}}%" y2="45" />
+					<line x1="{{part1InPerc}}%" y1="45" x2="{{part1InPerc}}%" y2="55" />
+			    <line x1="{{part1InPerc}}%" y1="45" x2="{{part2InPerc}}%" y2="45" />
+					<line x1="{{part2InPerc}}%" y1="45" x2="{{part2InPerc}}%" y2="55" />
+				</g>
+			</svg>
+			<svg ng-class="selectedSection == 3 ? 'section-3 show':'section-3'">
+				<g class="part-3">
+					<line x1="{{part2InPerc+((part3InPerc-part2InPerc)/2)}}%" y1="10" x2="{{part2InPerc+((part3InPerc-part2InPerc)/2)}}%" y2="45" />
+					<line x1="{{part2InPerc}}%" y1="45" x2="{{part2InPerc}}%" y2="55" />
+			    <line x1="{{part2InPerc}}%" y1="45" x2="{{part3InPerc}}%" y2="45" />
+					<line x1="{{part3InPerc}}%" y1="45" x2="{{part3InPerc}}%" y2="55" />
+				</g>
+			</svg>
+			<svg ng-class="selectedSection == 4 ? 'section-4 show':'section-4'">
+				<g class="part-4">
+					<line x1="{{part3InPerc+((100-part3InPerc)/2)}}%" y1="10" x2="{{part3InPerc+((100-part3InPerc)/2)}}%" y2="45" />
+					<line x1="{{part3InPerc}}%" y1="45" x2="{{part3InPerc}}%" y2="55" />
+			    <line x1="{{part3InPerc}}%" y1="45" x2="100%" y2="45" />
+					<line x1="100%" y1="45" x2="100%" y2="55" />
+				</g>
+			</svg>
 		</div>
 		<md-slider flex min="0" max="{{lengthOfFinalPiece}}" ng-model="timeNow" aria-label="red" class="timeline-slider">
     	</md-slider>
 	</div>
-
+	{{timeNow}}
+	{{lengthOfFinalPiece}}
 	<div class="transport">
 		<div class="play-pause" ng-click="playOrPausePiece()">
 			<span ng-show="!finalpiece.playing()">
@@ -73,7 +180,6 @@
 			<div><span>Totality</span></div>
 			<span><i class="icon icon-sun2"></i></span>
 		</div>
-
 		<div class="vol-slider" ng-hide="isPhone">
 			<md-slider flex min="0" max="100" ng-model="vol" aria-label="volume" id="volume-slider">
 	  		</md-slider>
@@ -83,7 +189,6 @@
 				<i ng-show="vol >= 1 && vol < 30" class="icon icon-volume-low"></i>
 				<i ng-show="vol < 1" class="icon icon-volume-mute2"></i>
 			</span>
-
 		</div>
 	</div>
 </div>
