@@ -30,12 +30,6 @@
 			<div class="description">
 				<div class="table">
 					<div class="row">
-						<div class="column">
-							<div class="section show">
-								<div class="column grow">Movements</div>
-								<div class="column grow">Events</div>
-							</div>
-						</div>
 						<div ng-class="selectedSection == 1 ? 'column grow' : 'column'">
 							<div ng-class="selectedSection == 1 ? 'section show' : 'section'" class="one" ng-click="selectedSection != 1 ? selectSection(1) : ''">
 								<div ng-class="selectedSection == 1 ? 'row-header selected' : 'row-header'" ng-click="selectSection(1)">
@@ -121,6 +115,10 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="options">
+					<div class="option">Movements</div>
+					<div class="option">Events</div>
 				</div>
 			</div>
 			<svg ng-class="selectedSection == 1 ? 'section-1 show':'section-1'">
