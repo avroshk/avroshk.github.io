@@ -28,6 +28,11 @@
 	<div class="transport-slider">
 		<div ng-class="showInfo ? 'info-graphics show':'info-graphics'">
 			<div class="description" ng-style="infoHeightStyle">
+				<div class="options">
+					<div class="option">About this Sonification</div>
+					<div class="option">Movements</div>
+					<div class="option">Events</div>
+				</div>
 				<div class="table">
 					<div class="row">
 						<div ng-class="selectedSection == 1 ? 'column grow' : 'column'">
@@ -115,10 +120,6 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="options">
-					<div class="option">Movements</div>
-					<div class="option">Events</div>
 				</div>
 			</div>
 			<svg ng-class="selectedSection == 1 ? 'section-1 show':'section-1'">
