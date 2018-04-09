@@ -29,11 +29,14 @@
 		<div ng-class="showInfo ? 'info-graphics show':'info-graphics'">
 			<div class="description" ng-style="infoHeightStyle">
 				<div class="options">
-					<div class="option">About this Sonification</div>
-					<div class="option">Movements</div>
-					<div class="option">Events</div>
+					<div ng-class="selectedMode == 'about' ? 'option selected':'option'" ng-click="selectMode('about')">About this Sonification</div>
+					<div ng-class="selectedMode == 'movements' ? 'option selected':'option'" ng-click="selectMode('movements')">Movements</div>
+					<div ng-class="selectedMode == 'events' ? 'option selected':'option'" ng-click="selectMode('events')">Events</div>
 				</div>
-				<div class="table" ng-style="tableHeightStyle">
+				<div ng-class="selectedMode == 'about' ? 'about' : 'about hide'" ng-style="tableHeightStyle">
+					August 21st, 2017
+				</div>
+				<div ng-class="selectedMode == 'movements' ? 'table' : 'table hide'" ng-style="tableHeightStyle">
 					<div class="row">
 						<div ng-class="selectedSection == 1 ? 'column grow' : 'column'">
 							<div ng-class="selectedSection == 1 ? 'section show' : 'section'" class="one" ng-click="selectedSection != 1 ? selectSection(1) : ''">
@@ -121,8 +124,11 @@
 						</div>
 					</div>
 				</div>
+				<div ng-class="selectedMode == 'events' ? 'events' : 'events hide'" ng-style="tableHeightStyle">
+					Events
+				</div>
 			</div>
-			<svg ng-class="selectedSection == 1 ? 'section-1 show':'section-1'">
+			<svg ng-class="selectedMode == 'movements' && selectedSection == 1 ? 'section-1 show':'section-1'">
 				<g class="part-1">
 					<line x1="{{part1InPerc/2}}%" y1="10" x2="{{part1InPerc/2}}%" y2="45" />
 					<line x1="0" y1="45" x2="0" y2="55" />
@@ -130,7 +136,7 @@
 					<line x1="{{part1InPerc}}%" y1="45" x2="{{part1InPerc}}%" y2="55" />
 				</g>
 			</svg>
-			<svg ng-class="selectedSection == 2 ? 'section-2 show':'section-2'">
+			<svg ng-class="selectedMode == 'movements' && selectedSection == 2 ? 'section-2 show':'section-2'">
 				<g class="part-2">
 					<line x1="{{part1InPerc+((part2InPerc-part1InPerc)/2)}}%" y1="10" x2="{{part1InPerc+((part2InPerc-part1InPerc)/2)}}%" y2="45" />
 					<line x1="{{part1InPerc}}%" y1="45" x2="{{part1InPerc}}%" y2="55" />
@@ -138,7 +144,7 @@
 					<line x1="{{part2InPerc}}%" y1="45" x2="{{part2InPerc}}%" y2="55" />
 				</g>
 			</svg>
-			<svg ng-class="selectedSection == 3 ? 'section-3 show':'section-3'">
+			<svg ng-class="selectedMode == 'movements' && selectedSection == 3 ? 'section-3 show':'section-3'">
 				<g class="part-3">
 					<line x1="{{part2InPerc+((part3InPerc-part2InPerc)/2)}}%" y1="10" x2="{{part2InPerc+((part3InPerc-part2InPerc)/2)}}%" y2="45" />
 					<line x1="{{part2InPerc}}%" y1="45" x2="{{part2InPerc}}%" y2="55" />
@@ -146,8 +152,16 @@
 					<line x1="{{part3InPerc}}%" y1="45" x2="{{part3InPerc}}%" y2="55" />
 				</g>
 			</svg>
-			<svg ng-class="selectedSection == 4 ? 'section-4 show':'section-4'">
+			<svg ng-class="selectedMode == 'movements' && selectedSection == 4 ? 'section-4 show':'section-4'">
 				<g class="part-4">
+					<line x1="{{part3InPerc+((100-part3InPerc)/2)}}%" y1="10" x2="{{part3InPerc+((100-part3InPerc)/2)}}%" y2="45" />
+					<line x1="{{part3InPerc}}%" y1="45" x2="{{part3InPerc}}%" y2="55" />
+			    <line x1="{{part3InPerc}}%" y1="45" x2="100%" y2="45" />
+					<line x1="100%" y1="45" x2="100%" y2="55" />
+				</g>
+			</svg>
+			<svg ng-class="selectedMode == 'events' ? 'event-markers show':'event-markers'">
+				<g class="markers">
 					<line x1="{{part3InPerc+((100-part3InPerc)/2)}}%" y1="10" x2="{{part3InPerc+((100-part3InPerc)/2)}}%" y2="45" />
 					<line x1="{{part3InPerc}}%" y1="45" x2="{{part3InPerc}}%" y2="55" />
 			    <line x1="{{part3InPerc}}%" y1="45" x2="100%" y2="45" />
