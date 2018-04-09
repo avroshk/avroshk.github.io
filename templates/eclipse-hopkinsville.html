@@ -163,6 +163,9 @@ video watched by many people across the world, could arguably have made this eve
 				</g>
 			</svg>
 			<svg ng-class="selectedMode == 'events' ? 'event-markers show':'event-markers'">
+				<g ng-repeat="event in events" class="markers">
+					<line x1="{{event/lengthOfFinalPiece}}%" y1="45" x2="{{event/lengthOfFinalPiece}}%" y2="55" />
+				</g>
 				<g class="markers">
 					<line x1="{{part3InPerc+((100-part3InPerc)/2)}}%" y1="10" x2="{{part3InPerc+((100-part3InPerc)/2)}}%" y2="45" />
 					<line x1="{{part3InPerc}}%" y1="45" x2="{{part3InPerc}}%" y2="55" />
