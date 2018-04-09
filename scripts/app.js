@@ -573,7 +573,6 @@
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
 		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
-		console.log(angular.element(document.querySelector('#eclipseHopkinsvilleContainer .transport-slider .info-graphics')).prop('offsetTop'));
 
 		//////////////////////////////////////////////
 		$scope.eclipseC2Time = moment().utc().year(2017).month(7).date(21).hours(18).minutes(24).seconds(41).milliseconds(4);
@@ -625,6 +624,7 @@
 
 		$scope.toggleInfo = function() {
 			$scope.showInfo = !$scope.showInfo;
+			console.log(angular.element(document.querySelector('#eclipseHopkinsvilleContainer .transport-slider .info-graphics')).prop('offsetTop'));
 		}
 
 		$scope.bgInTotality = {
