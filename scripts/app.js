@@ -575,17 +575,6 @@
 		$scope.infoHeightStyle = {'height' : '0px'}
 		$scope.tableHeightStyle = {'height' : '0px'}
 		$scope.events = [100,200,500,800,1000,1500,1900,2000]
-		
-		$scope.events = $scope.events.map(function(event) {
-			var event = {};
-			event.perc = event*100/lengthOfFinalPiece;
-			if (event <= 50) {
-				event.latch = event + 0.2*(50 - event);
-			} else {
-				event.latch = event - 0.2*(event - 50);
-			}
-			return event;
-		})
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
 		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
@@ -853,6 +842,18 @@
 
 				window.requestAnimationFrame(updateWave);
 			}
+			
+			$scope.events = $scope.events.map(function(event) {
+				var event = {};
+				event.perc = event*100/lengthOfFinalPiece;
+				if (event <= 50) {
+					event.latch = event + 0.2*(50 - event);
+				} else {
+					event.latch = event - 0.2*(event - 50);
+				}
+				return event;
+			})
+
 
 			$scope.selectSection = function (section) {
 				$scope.selectedSection = section
@@ -895,7 +896,6 @@
 				$scope.selectedInfoType = infoType
 			}
 		};
-
 
 		if (_isNotMobile) {
 			//is desktop
