@@ -570,6 +570,7 @@
 		$scope.showInfo = false;
 		$scope.selectedSection = 1;
 		$scope.selectedInfoType = 'desc'; // desc, mappings, sound-objs
+		$scope.infoPosition = 0
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
 		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
@@ -623,8 +624,8 @@
 		$scope.initEclipse();
 
 		$scope.toggleInfo = function() {
+			$scope.infoPosition = angular.element(document.querySelector('#eclipseHopkinsvilleContainer .transport-slider')).prop('offsetTop') - 90;
 			$scope.showInfo = !$scope.showInfo;
-			console.log(angular.element(document.querySelector('#eclipseHopkinsvilleContainer .transport-slider .info-graphics')).prop('offsetTop'));
 		}
 
 		$scope.bgInTotality = {
