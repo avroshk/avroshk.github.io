@@ -920,13 +920,13 @@ div[id*="sample-"] {
   position: absolute;
   display: flex;
   justify-content: flex-end;
-  z-index: 9;
 }
 
 #eclipseHopkinsvilleContainer .info .icon,
 #eclipseAtlantaContainer .info .icon {
   font-size: 28px;
   margin: 20px;
+  z-index: 9;
 }
 
 #eclipseHopkinsvilleContainer .info.show,
@@ -983,6 +983,11 @@ div[id*="sample-"] {
  padding: 5px;
 }
 
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .options .option:focus,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .options .option:focus {
+ outline: none;
+}
+
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .options .option.selected,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .options .option.selected {
   background: #ff9b2b54;
@@ -1011,6 +1016,8 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .events {
   visibility: visible;
   opacity: 1;
+  overflow-y: scroll;
+  padding: 5px;	
 }
 
 
