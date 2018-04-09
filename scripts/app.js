@@ -672,9 +672,9 @@
 					var event = {};
 					event.perc = pos*100/$scope.lengthOfFinalPiece;
 					if (event.perc <= 50) {
-						event.latch = event.perc + 0.5*(50 - event.perc);
+						event.latch = event.perc + 0.4*(50 - event.perc);
 					} else {
-						event.latch = event.perc - 0.5*(event.perc - 50);
+						event.latch = event.perc - 0.4*(event.perc - 50);
 					}
 					return event;
 				});
