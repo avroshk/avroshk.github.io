@@ -165,7 +165,8 @@ video watched by many people across the world, could arguably have made this eve
 			<svg ng-class="selectedMode == 'events' ? 'event-markers show':'event-markers'">
 				<g ng-repeat="event in events track by $index" class="markers">
 					<line x1="{{event*100/lengthOfFinalPiece}}%" y1="45" x2="{{event*100/lengthOfFinalPiece}}%" y2="55" />
-					<line x1="{{10+($index*0.8/events.length)}}%" y1="45" x2="{{10+($index*0.8/events.length)}}%" y2="55" />
+					<line x1="{{event*100/lengthOfFinalPiece}}%" y1="45" x2="{{10+($index*0.8*100/events.length)}}%" y2="10" />
+					<line x1="{{10+($index*0.8*100/events.length)}}%" y1="45" x2="{{10+($index*0.8*100/events.length)}}%" y2="55" />
 				</g>
 			</svg>
 		</div>
