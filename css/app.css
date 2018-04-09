@@ -1002,7 +1002,7 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .events.hide {
   visibility: hidden;
   opacity: 0;
-  transform: opacity 0.5s;
+  display: none;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .about,
