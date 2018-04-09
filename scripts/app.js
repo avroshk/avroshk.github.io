@@ -572,6 +572,7 @@
 		$scope.selectedInfoType = 'desc'; // desc, mappings, sound-objs
 		$scope.infoPosition = 0
 		$scope.infoHeightStyle = {'height' : '0px'}
+		$scope.tableHeightStyle = {'height' : '0px'}
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
 		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
@@ -627,6 +628,7 @@
 		$scope.toggleInfo = function() {
 			$scope.infoPosition = angular.element(document.querySelector('#eclipseHopkinsvilleContainer .transport-slider')).prop('offsetTop') - 90;
 			$scope.infoHeightStyle = { 'height' : $scope.infoPosition+'px' }
+			$scope.tableHeightStyle = {'height' : ($scope.infoPosition-80)+'px'}
 			$scope.showInfo = !$scope.showInfo;
 		}
 
