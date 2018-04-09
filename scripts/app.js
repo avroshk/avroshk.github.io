@@ -668,13 +668,13 @@
 
 				console.log($scope.lengthOfFinalPiece);
 				
-				$scope.events = $scope.events.map(function(event) {
+				$scope.events = $scope.events.map(function(pos) {
 					var event = {};
-					event.perc = event*100/$scope.lengthOfFinalPiece;
+					event.perc = pos*100/$scope.lengthOfFinalPiece;
 					if (event <= 50) {
-						event.latch = event + 0.2*(50 - event);
+						event.latch = pos + 0.2*(50 - pos);
 					} else {
-						event.latch = event - 0.2*(event - 50);
+						event.latch = pos - 0.2*(pos - 50);
 					}
 					return event;
 				});
