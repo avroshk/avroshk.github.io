@@ -1198,8 +1198,8 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .transport-slider .info-graphics .section-3,
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .section-4,
 #eclipseAtlantaContainer .transport-slider .info-graphics .section-4,
-#eclipseHopkinsvilleContainer .transport-slider .info-graphics .events-marker,
-#eclipseAtlantaContainer .transport-slider .info-graphics .events-marker {
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .event-markers,
+#eclipseAtlantaContainer .transport-slider .info-graphics .event-markers {
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.5s;
@@ -1213,8 +1213,8 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .transport-slider .info-graphics .section-3.show,
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .section-4.show,
 #eclipseAtlantaContainer .transport-slider .info-graphics .section-4.show,
-#eclipseHopkinsvilleContainer .transport-slider .info-graphics .events-marker.show,
-#eclipseAtlantaContainer .transport-slider .info-graphics .events-marker.show {
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .event-markers.show,
+#eclipseAtlantaContainer .transport-slider .info-graphics .event-markers.show {
   visibility: visible;
   opacity: 1;
 }
