@@ -666,7 +666,18 @@
 			  	$scope.loading = false;
 			  	$scope.lengthOfFinalPiece = $scope.finalpiece.duration();
 
-					console.log($scope.lengthOfFinalPiece);
+				console.log($scope.lengthOfFinalPiece);
+				
+				$scope.events = $scope.events.map(function(event) {
+					var event = {};
+					event.perc = event*100/$scope.lengthOfFinalPiece;
+					if (event <= 50) {
+						event.latch = event + 0.2*(50 - event);
+					} else {
+						event.latch = event - 0.2*(event - 50);
+					}
+					return event;
+				});
 
 			  	sourceNode.connect(analyserNode);
 		    	analyserNode.connect(Howler.ctx.destination);
@@ -842,18 +853,6 @@
 
 				window.requestAnimationFrame(updateWave);
 			}
-			
-			$scope.events = $scope.events.map(function(event) {
-				var event = {};
-				event.perc = event*100/$scope.lengthOfFinalPiece;
-				if (event <= 50) {
-					event.latch = event + 0.2*(50 - event);
-				} else {
-					event.latch = event - 0.2*(event - 50);
-				}
-				return event;
-			});
-
 
 			$scope.selectSection = function (section) {
 				$scope.selectedSection = section
