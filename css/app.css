@@ -979,24 +979,19 @@ div[id*="sample-"] {
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .options .option,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .options .option {
-  display: block;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-radius: 5px;
-  margin-top: 10px;
-  margin-left: 5px;
-  border: 1px solid gray;
-  z-index: 12;
+ border-right: 1px solid #80808078;
+ padding: 5px;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .options .option.selected,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .options .option.selected {
-  background: #FF9B9B;
+  background: #ff9b2b54;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .options .option:hover,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .options .option:hover {
-  background: #FF9B2B;
+  background: #ff9b2b30;
+  cursor: pointer;
 }
 
 
