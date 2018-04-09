@@ -570,6 +570,7 @@
 		$scope.showInfo = false;
 		$scope.selectedSection = 1;
 		$scope.selectedInfoType = 'desc'; // desc, mappings, sound-objs
+		$scope.selectedMode = 'movements'; // about, movements, events
 		$scope.infoPosition = 0
 		$scope.infoHeightStyle = {'height' : '0px'}
 		$scope.tableHeightStyle = {'height' : '0px'}
@@ -630,6 +631,10 @@
 			$scope.infoHeightStyle = { 'height' : $scope.infoPosition+'px' }
 			$scope.tableHeightStyle = {'height' : ($scope.infoPosition-80)+'px'}
 			$scope.showInfo = !$scope.showInfo;
+		}
+
+		$scope.selectMode = function (mode) {
+			$scope.selectedMode = mode
 		}
 
 		$scope.bgInTotality = {
