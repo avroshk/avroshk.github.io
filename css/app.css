@@ -999,7 +999,7 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table {
   display: flex;
   flex-direction: column;
-  height: 315px;
+  min-height: 100px;
   border-bottom: 1px solid gray;
 }
 
