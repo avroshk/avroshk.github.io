@@ -852,7 +852,7 @@
 					event.latch = event - 0.2*(event - 50);
 				}
 				return event;
-			})
+			});
 
 
 			$scope.selectSection = function (section) {
