@@ -1017,7 +1017,10 @@ div[id*="sample-"] {
   visibility: visible;
   opacity: 1;
   overflow-y: scroll;
-  padding: 5px;	
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: justify;
+  background: #ffebcdb5;
 }
 
 
