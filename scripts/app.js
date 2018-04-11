@@ -574,6 +574,7 @@
 		$scope.infoPosition = 0
 		$scope.infoHeightStyle = {'height' : '0px'}
 		$scope.tableHeightStyle = {'height' : '0px'}
+		$scope.cellHeightStyle = {'height' : '0px', 'max-height' : '0px'}
 		$scope.events = [100,200,500,800,1000,1500,1900,2000]
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
@@ -631,6 +632,7 @@
 			$scope.infoPosition = angular.element(document.querySelector('#eclipseHopkinsvilleContainer .transport-slider')).prop('offsetTop') - 90;
 			$scope.infoHeightStyle = { 'height' : $scope.infoPosition+'px' }
 			$scope.tableHeightStyle = {'height' : ($scope.infoPosition-80)+'px'}
+			$scope.cellHeightStyle = {'height' : ($scope.infoPosition-161)+'px', 'max-height' : ($scope.infoPosition-161)+'px'}
 		}
 
 		$scope.toggleInfo = function() {
@@ -974,6 +976,7 @@
 		  		if (canvas) {
 		  			canvas.style.width = $window.innerWidth+'px';
 		  		}
+					calcInfoHeight();
 		  	}
 		});
 	});

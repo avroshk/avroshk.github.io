@@ -1059,8 +1059,8 @@ div[id*="sample-"] {
   visibility: visible;
   opacity: 1;
   overflow-y: scroll;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   text-align: justify;
   background: #ffebcdb5;
 }
@@ -1218,13 +1218,22 @@ div[id*="sample-"] {
   opacity: 0;
   max-height: 0px;
   transition: opacity 0.3s, max-height 0.1s;
+  font-size: 16px;
+  overflow-y: scroll;
+  text-align: justify;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area .cell.show,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area .cell.show {
   visibility: visible;
   opacity: 1;
-  max-height: 1000px;
+  width: 100%;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area .cell.show p,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area .cell.show p {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section .row-header:hover,

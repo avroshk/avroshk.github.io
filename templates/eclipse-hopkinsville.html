@@ -35,6 +35,7 @@
 video watched by many people across the world, could arguably have made this event one of the most watched in history, and a truly shared social experience.</p>
 					<p>This piece of sonification was broadcasted live during the eclipse to allow individuals with visual impairments to experience this phenomenon with everyone else.</p>
 					<p>The eclipse has phases described by the movements of this piece. You can also learn about the events that drive sonification.</p>
+					<p><a target="_blank" href="http://sonify.psych.gatech.edu/research/eclipse/index.html">More details about the project.</a></p>
 				</div>
 				<div ng-class="selectedMode == 'movements' ? 'table' : 'table hide'" ng-style="tableHeightStyle">
 					<div class="row">
@@ -46,15 +47,21 @@ video watched by many people across the world, could arguably have made this eve
 								<div class="content row">
 									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
-										<div ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">
+											<p>The total solar eclipse that took place on the 21st of August 2017 lay the moon’s shadow  diagonally  across  the  North  American  continent. The  population  of 12.25 million people living in the path of totality, combined with live-stream
+						video watched by many people across the world, could arguably have made this event one of the most watched in history, and a truly shared social experience.</p>
+											<p>This piece of sonification was broadcasted live during the eclipse to allow individuals with visual impairments to experience this phenomenon with everyone else.</p>
+											<p>The eclipse has phases described by the movements of this piece. You can also learn about the events that drive sonification.</p>
+											<p><a target="_blank" href="http://sonify.psych.gatech.edu/research/eclipse/index.html">More details about the project.</a></p>
+										</div>
 									</div>
 									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
-										<div ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'sound-objs' && cellHeightStyle" ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'"></div>
 									</div>
 									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
-										<div ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'mappings' && cellHeightStyle" ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'"></div>
 									</div>
 								</div>
 							</div>
@@ -67,15 +74,15 @@ video watched by many people across the world, could arguably have made this eve
 								<div class="content row">
 									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
-										<div ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'"></div>
 									</div>
 									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
-										<div ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'sound-objs' && cellHeightStyle" ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'"></div>
 									</div>
 									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
-										<div ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'mappings' && cellHeightStyle" ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'"></div>
 									</div>
 								</div>
 							</div>
@@ -88,15 +95,15 @@ video watched by many people across the world, could arguably have made this eve
 								<div class="content row">
 									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
-										<div ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'"></div>
 									</div>
 									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
-										<div ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'sound-objs' && cellHeightStyle" ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'"></div>
 									</div>
 									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
-										<div ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'mappings' && cellHeightStyle" ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'"></div>
 									</div>
 								</div>
 							</div>
@@ -109,15 +116,31 @@ video watched by many people across the world, could arguably have made this eve
 								<div class="content row">
 									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
-										<div ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'"></div>
 									</div>
 									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
-										<div ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'sound-objs' && cellHeightStyle" ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'"></div>
 									</div>
 									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
-										<div ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'mappings' && cellHeightStyle" ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'">
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+											<p>Lorem ipsum</p>
+										</div>
 									</div>
 								</div>
 							</div>
