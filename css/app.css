@@ -958,9 +958,20 @@ div[id*="sample-"] {
 
 #eclipseHopkinsvilleContainer .info .icon,
 #eclipseAtlantaContainer .info .icon {
-  font-size: 28px;
+  font-size: 48px;
   margin: 20px;
   z-index: 9;
+}
+#eclipseHopkinsvilleContainer .info .icon:focus,
+#eclipseAtlantaContainer .info .icon:focus {
+  outline: none;
+}
+
+#eclipseHopkinsvilleContainer .info .icon:hover,
+#eclipseAtlantaContainer .info .icon:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 10px 10px yellow;
+  border-radius: 48px;
 }
 
 #eclipseHopkinsvilleContainer .info.show,
