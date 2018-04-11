@@ -682,7 +682,7 @@
 			  	$scope.lengthOfFinalPiece = $scope.finalpiece.duration();
 
 					$scope.part1InPerc = 983*100/$scope.lengthOfFinalPiece;
-					$scope.part2InPerc = 79.78;
+					$scope.part2InPerc = 1770*100/$scope.lengthOfFinalPiece;
 					$scope.part3InPerc = 86.16;
 
 				console.log($scope.lengthOfFinalPiece);
