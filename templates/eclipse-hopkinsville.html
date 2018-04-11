@@ -214,9 +214,15 @@ video watched by many people across the world, could arguably have made this eve
 					</div>
 				</div>
 				<div ng-class="selectedMode == 'events' ? 'events' : 'events hide'" ng-style="tableHeightStyle">
-					<div ng-click="playFilterSweep()">Sweep</div>
-					<div ng-click="playMoon()">Moon</div>
-					<div ng-click="playSun()">Sun</div>
+					<div ng-click="playFilterSweep()" class="event-players">
+						<div>Listen to the resonance filter in the first movement as it sweeps over time.</div>
+					</div>
+					<div ng-click="playMoon()" class="event-players">
+						<div>The moon: Listen to the transposition of the chords due to noted variations in temperature.</div>
+					</div>
+					<div ng-click="playSun()" class="event-players">
+						<div>The sun: Listen to the parts where sun is depicted.</div>
+					</div>
 				</div>
 				<div ng-class="showInfo ? 'timer-container' : 'timer-container hide'">
 					<div ng-class="sonificationStarted ? 'timer hide' : 'timer'">

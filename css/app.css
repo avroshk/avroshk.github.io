@@ -1357,3 +1357,21 @@ div[id*="sample-"] {
   position: relative;
   top: 100px;
 }
+
+#eclipseHopkinsvilleContainer .event-players,
+#eclipseAtlantaContainer .event-players {
+  border: 1px solid gray;
+  border-radius: 3px;
+  margin-top: 10px;
+}
+
+#eclipseHopkinsvilleContainer .event-players:hover,
+#eclipseAtlantaContainer .event-players:hover {
+  background: beige;
+  cursor: pointer;
+}
+
+#eclipseHopkinsvilleContainer .event-players:focus,
+#eclipseAtlantaContainer .event-players:focus {
+  outline: none;
+}

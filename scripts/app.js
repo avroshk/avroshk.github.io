@@ -584,7 +584,9 @@
 		$scope.infoHeightStyle = {'height' : '0px'}
 		$scope.tableHeightStyle = {'height' : '0px'}
 		$scope.cellHeightStyle = {'height' : '0px'}
-		$scope.events = [101,370,560,838,900,1500,1900,2000]
+		$scope.events = [];
+
+		//[101,370,560,838,1018, 1500,1900,2000]
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
 		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
@@ -641,6 +643,19 @@
 
 		$scope.initEclipse();
 
+		$scope.updateEvents = function () {
+			$scope.events = $scope.events.map(function(pos) {
+				var event = {};
+				event.perc = pos*100/$scope.lengthOfFinalPiece;
+				if (event.perc <= 50) {
+					event.latch = event.perc + 0.4*(50 - event.perc);
+				} else {
+					event.latch = event.perc - 0.4*(event.perc - 50);
+				}
+				return event;
+			});
+		}
+
 		var calcInfoHeight = function () {
 			$scope.infoPosition = angular.element(document.querySelector('#eclipseHopkinsvilleContainer .transport-slider')).prop('offsetTop') - 90;
 			$scope.infoHeightStyle = { 'height' : $scope.infoPosition+'px' }
@@ -691,16 +706,7 @@
 
 				console.log($scope.lengthOfFinalPiece);
 
-				$scope.events = $scope.events.map(function(pos) {
-					var event = {};
-					event.perc = pos*100/$scope.lengthOfFinalPiece;
-					if (event.perc <= 50) {
-						event.latch = event.perc + 0.4*(50 - event.perc);
-					} else {
-						event.latch = event.perc - 0.4*(event.perc - 50);
-					}
-					return event;
-				});
+				$scope.updateEvents();
 
 			  	sourceNode.connect(analyserNode);
 		    	analyserNode.connect(Howler.ctx.destination);
@@ -718,8 +724,11 @@
 			});
 
 			$scope.playSun = function() {
+
 				$scope.resetSweepTimers();
-				var sun_array = [1348, 1382, 1430, 1470, 1507, 1566, 1615, 1665, 1690];
+				var sun_array = [983, 1115, 1127, 1155, 1175, 1241, 1823, 1920];
+				$scope.events = sun_array;
+				$scope.updateEvents();
 
 				var index = 0;
 
@@ -752,6 +761,8 @@
 			$scope.playMoon = function() {
 				$scope.resetSweepTimers();
 				var moon_array = [1348, 1382, 1430, 1470, 1507, 1566, 1615, 1665, 1690];
+				$scope.events = moon_array;
+				$scope.updateEvents();
 
 				var index = 0;
 
@@ -784,6 +795,8 @@
 			$scope.playFilterSweep = function() {
 				$scope.resetSweepTimers();
 				var sweep_array = [65, 159, 315, 436, 672, 859];
+				$scope.events = sweep_array;
+				$scope.updateEvents();
 
 				var index = 0;
 
