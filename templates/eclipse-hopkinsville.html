@@ -1,4 +1,5 @@
 <div id="eclipseHopkinsvilleContainer" ng-style="bgInTotality" ng-class="contextCreated ? '' :'opaque'" ng-click="touchToStart()">
+	{{timeNow}}
 	<div ng-class="showInfo ? 'info show' : 'info'">
 		<i class="icon icon-cross" ng-click="toggleInfo()"></i>
 	</div>
@@ -124,7 +125,11 @@ video watched by many people across the world, could arguably have made this eve
 								<div class="content row">
 									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
-										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">
+											<p>The second movement depicts the change in the environment. It introduces the moon and sun as the two main actors of the narration.</p>
+											<p>The moon partly eclipsing the sun causes its rays to fall more obliquely. It results in almost a unique atmosphere; different from a sunset or a sunrise. There is a noticeable change in the surroundings.</p>
+											<p>The piece tries to depict a duel between the sun's rays and the moon's shadow.</p>
+										</div>
 									</div>
 									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>

@@ -681,6 +681,10 @@
 			  	$scope.loading = false;
 			  	$scope.lengthOfFinalPiece = $scope.finalpiece.duration();
 
+					$scope.part1InPerc = 983*100/$scope.lengthOfFinalPiece;
+					$scope.part2InPerc = 79.78;
+					$scope.part3InPerc = 86.16;
+
 				console.log($scope.lengthOfFinalPiece);
 
 				$scope.events = $scope.events.map(function(pos) {
@@ -752,7 +756,7 @@
 				let now = $scope.timeNowinMoment.clone();
 				now.add($scope.timeNow, 'seconds');
 				$scope.timeNow++;
-		    	$scope.calcTime(now);
+		    $scope.calcTime(now);
 			}
 
 			$scope.calcTime = function(now) {
