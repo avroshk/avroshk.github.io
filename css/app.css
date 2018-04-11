@@ -1320,3 +1320,29 @@ div[id*="sample-"] {
   overflow-x: hidden;
   overflow-y :hidden;
 }
+
+#eclipseHopkinsvilleContainer .link-me,
+#eclipseAtlantaContainer .link-me {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#eclipseHopkinsvilleContainer .eclipse-contact,
+#eclipseAtlantaContainer .eclipse-contact {
+  display: flex;
+  justify-content: space-around;
+  height: 125px;
+}
+
+#eclipseHopkinsvilleContainer .eclipse-contact .first-contact > span,
+#eclipseAtlantaContainer .eclipse-contact .first-contact > span {
+  position: relative;
+  left: 42%;
+  top: 100px;
+}
+
+#eclipseHopkinsvilleContainer .eclipse-contact .second-contact > span,
+#eclipseAtlantaContainer .eclipse-contact .second-contact > span {
+  position: relative;
+  top: 100px;
+}

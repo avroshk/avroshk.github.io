@@ -34,7 +34,9 @@
 					<p>The total solar eclipse that took place on the 21st of August 2017 lay the moon’s shadow  diagonally  across  the  North  American  continent. The  population  of 12.25 million people living in the path of totality, combined with live-stream
 video watched by many people across the world, could arguably have made this event one of the most watched in history, and a truly shared social experience.</p>
 					<p>This piece of sonification was broadcasted live during the eclipse to allow individuals with visual impairments to experience this phenomenon with everyone else.</p>
-					<p>The eclipse has phases described by the movements of this piece. You can also learn about the events that drive sonification.</p>
+					<p>The different movements (sections) of the piece can be explored <span class="link-me" ng-click="selectMode('movements')">here</span>.</p>
+					<p>Describe : what are sound objects? </p>
+					<p>What does mapping represent? </p>
 					<p><a target="_blank" href="http://sonify.psych.gatech.edu/research/eclipse/index.html">More details about the project.</a></p>
 				</div>
 				<div ng-class="selectedMode == 'movements' ? 'table' : 'table hide'" ng-style="tableHeightStyle">
@@ -42,22 +44,66 @@ video watched by many people across the world, could arguably have made this eve
 						<div ng-class="selectedSection == 1 ? 'column grow' : 'column'">
 							<div ng-class="selectedSection == 1 ? 'section show' : 'section'" class="one" ng-click="selectedSection != 1 ? selectSection(1) : ''">
 								<div ng-class="selectedSection == 1 ? 'row-header selected' : 'row-header'" ng-click="selectSection(1)">
-									<span ng-class="selectSection == 1 ? '':'rotate'">Contact</span>
+									<span ng-class="selectSection == 1 ? '':'rotate'">Post-Contact</span>
 								</div>
 								<div class="content row">
 									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
 										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">
-											<p>The total solar eclipse that took place on the 21st of August 2017 lay the moon’s shadow  diagonally  across  the  North  American  continent. The  population  of 12.25 million people living in the path of totality, combined with live-stream
-						video watched by many people across the world, could arguably have made this event one of the most watched in history, and a truly shared social experience.</p>
-											<p>This piece of sonification was broadcasted live during the eclipse to allow individuals with visual impairments to experience this phenomenon with everyone else.</p>
-											<p>The eclipse has phases described by the movements of this piece. You can also learn about the events that drive sonification.</p>
-											<p><a target="_blank" href="http://sonify.psych.gatech.edu/research/eclipse/index.html">More details about the project.</a></p>
+											<p>The phenomenon of solar eclipse begins when the moon becomes visible over the sun's circumference slowly biting its way through into the sun. This event is called the "first contact". It is the moon's slow and tedious ascent toward the "second contant" when it covers the maximum surface of sun's visible disk depending upon where the viewer is located. </p>
+											<div class="eclipse-contact">
+												<div class="first-contact">
+													<svg>
+														<defs>
+															<!-- a transparent grey glow with no offset -->
+															<filter id="glow">
+																 <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+																 <feMerge>
+																		 <feMergeNode in="coloredBlur"/>
+																		 <feMergeNode in="SourceGraphic"/>
+																 </feMerge>
+														 </filter>
+														</defs>
+														<g>
+															<circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="white" filter="url(#glow)" />
+															<circle cx="122" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
+														</g>
+													</svg>
+													<span>First Contact</span>
+												</div>
+												<div class="second-contact">
+													<svg >
+														<defs>
+															<!-- a transparent grey glow with no offset -->
+															<filter id="glow">
+																 <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+																 <feMerge>
+																		 <feMergeNode in="coloredBlur"/>
+																		 <feMergeNode in="SourceGraphic"/>
+																 </feMerge>
+														 </filter>
+														</defs>
+														<g>
+															<circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="white" filter="url(#glow)" />
+															<circle cx="52" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
+														</g>
+													</svg>
+													<span>Second Contact</span>
+												</div>
+											</div>
+											<p>This sonification starts about 30 minutes before totality. The first movement is a slow uneventful ascent toward the totality.</p>
 										</div>
 									</div>
 									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
-										<div ng-style="selectedInfoType == 'sound-objs' && cellHeightStyle" ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'"></div>
+										<div ng-style="selectedInfoType == 'sound-objs' && cellHeightStyle" ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'">
+											<p>The first movement is an opportunity to introduce sound objects to allow the listener to create relationships between the phenomenon and the sonification.</p>
+											<p>In the field of sonification these metaphorical sound objects, are referred to as "Audiotory Icons". In this movement, I wanted to introduce the idea of time. It will help the listener estimate the proximity to the final event </p>
+											<p></p>
+											<p>Heartbeat, ticking clock, pluck, tempo</p>
+											<p></p>
+											<p></p>
+										</div>
 									</div>
 									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
 										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
@@ -69,7 +115,7 @@ video watched by many people across the world, could arguably have made this eve
 						<div ng-class="selectedSection == 2 ? 'column grow' : 'column'">
 							<div ng-class="selectedSection == 2 ? 'section show' : 'section'" class="two" ng-click="selectedSection != 2 ? selectSection(2) : ''">
 								<div ng-class="selectedSection == 2 ? 'row-header selected' : 'row-header'" ng-click="selectSection(2)">
-									<span ng-class="selectSection == 2 ? '':'rotate'">Pre-totality</span>
+									<span ng-class="selectSection == 2 ? '':'rotate'">Pre-Totality</span>
 								</div>
 								<div class="content row">
 									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
@@ -111,7 +157,7 @@ video watched by many people across the world, could arguably have made this eve
 						<div ng-class="selectedSection == 4 ? 'column grow' : 'column'">
 							<div ng-class="selectedSection == 4 ? 'section show' : 'section'" class="four" ng-click="selectedSection != 4 ? selectSection(4) : ''">
 								<div ng-class="selectedSection == 4 ? 'row-header selected' : 'row-header'" ng-click="selectSection(4)">
-									<span ng-class="selectSection == 4 ? '':'rotate'">Post-totality</span>
+									<span ng-class="selectSection == 4 ? '':'rotate'">Post-Totality</span>
 								</div>
 								<div class="content row">
 									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
