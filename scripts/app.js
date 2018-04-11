@@ -564,7 +564,7 @@
 			templateUrl: 'templates/eclipse-hopkinsville.html',
 			controller: 'EclipseHopkinsvilleController'
 		};
-	}).controller('EclipseHopkinsvilleController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory) {
+	}).controller('EclipseHopkinsvilleController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory, $timeout) {
 		Page.setTitle('2017 Solar Eclipse | Sonification | Hopkinsville');
 		$scope.contextCreated = false;
 		$scope.showInfo = false;
@@ -627,10 +627,14 @@
 
 		$scope.initEclipse();
 
-		$scope.toggleInfo = function() {
+		var calcInfoHeight = function () {
 			$scope.infoPosition = angular.element(document.querySelector('#eclipseHopkinsvilleContainer .transport-slider')).prop('offsetTop') - 90;
 			$scope.infoHeightStyle = { 'height' : $scope.infoPosition+'px' }
 			$scope.tableHeightStyle = {'height' : ($scope.infoPosition-80)+'px'}
+		}
+
+		$scope.toggleInfo = function() {
+			$timeout(calcInfoHeight, 320);
 			$scope.showInfo = !$scope.showInfo;
 		}
 
@@ -667,7 +671,7 @@
 			  	$scope.lengthOfFinalPiece = $scope.finalpiece.duration();
 
 				console.log($scope.lengthOfFinalPiece);
-				
+
 				$scope.events = $scope.events.map(function(pos) {
 					var event = {};
 					event.perc = pos*100/$scope.lengthOfFinalPiece;

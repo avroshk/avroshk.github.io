@@ -1,4 +1,3 @@
-
 <div id="eclipseHopkinsvilleContainer" ng-style="bgInTotality" ng-class="contextCreated ? '' :'opaque'" ng-click="touchToStart()">
 	<div ng-class="showInfo ? 'info show' : 'info'">
 		<i class="icon icon-cross" ng-click="toggleInfo()"></i>
@@ -8,24 +7,22 @@
 	</div>
 	<div class="centertext city-title">Hopkinsville, KY</div>
 	<div><canvas id="waveform"></canvas></div>
-
-	<div ng-hide="sonificationStarted" class="timer">
-		Eclipse Sonification starts in
-		<span> {{timeTillEclipseSonification._data.hours}} hours, {{timeTillEclipseSonification._data.minutes}} minutes, {{timeTillEclipseSonification._data.seconds}} seconds</span>
+	<div ng-class="showInfo ? 'timer-container hide' : 'timer-container'">
+		<div ng-class="sonificationStarted ? 'timer hide' : 'timer'">
+			Eclipse Sonification starts in
+			<span> {{timeTillEclipseSonification._data.hours}} hours, {{timeTillEclipseSonification._data.minutes}} minutes, {{timeTillEclipseSonification._data.seconds}} seconds</span>
+		</div>
+		<div ng-class="isPreTotality ? 'timer' : 'timer hide'">
+			<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span> till Totality
+		</div>
+		<div ng-class="isTotality ? 'timer' : 'timer hide'">
+			<span>{{timeInTotality._data.minutes}} minutes, {{timeInTotality._data.seconds}} seconds</span> into Totality
+		</div>
+		<div ng-class="totalityEnded ? 'timer ' : 'timer hide'">Totality ended
+			<span>{{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
+		</div>
 	</div>
-
-	<div ng-show="isPreTotality" class="timer">
-		<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span> till Totality
-	</div>
-
-	<div ng-show="isTotality" class="timer">
-		<span>{{timeInTotality._data.minutes}} minutes, {{timeInTotality._data.seconds}} seconds</span> into Totality
-	</div>
-
-	<div ng-show="totalityEnded" class="timer">Totality ended
-		<span>{{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
-	</div>
-	<div class="transport-slider">
+	<div ng-class="showInfo ? 'transport-slider expand' : 'transport-slider'">
 		<div ng-class="showInfo ? 'info-graphics show':'info-graphics'">
 			<div class="description" ng-style="infoHeightStyle">
 				<div class="options">
@@ -130,51 +127,69 @@ video watched by many people across the world, could arguably have made this eve
 				<div ng-class="selectedMode == 'events' ? 'events' : 'events hide'" ng-style="tableHeightStyle">
 					Events
 				</div>
+				<div ng-class="showInfo ? 'timer-container' : 'timer-container hide'">
+					<div ng-class="sonificationStarted ? 'timer hide' : 'timer'">
+						Eclipse Sonification starts in
+						<span> {{timeTillEclipseSonification._data.hours}} hours, {{timeTillEclipseSonification._data.minutes}} minutes, {{timeTillEclipseSonification._data.seconds}} seconds</span>
+					</div>
+
+					<div ng-class="isPreTotality ? 'timer' : 'timer hide'">
+						<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span> till Totality
+					</div>
+
+					<div ng-class="isTotality ? 'timer' : 'timer hide'">
+						<span>{{timeInTotality._data.minutes}} minutes, {{timeInTotality._data.seconds}} seconds</span> into Totality
+					</div>
+
+					<div ng-class="totalityEnded ? 'timer ' : 'timer hide'">Totality ended
+						<span>{{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
+					</div>
+				</div>
 			</div>
 			<svg ng-class="selectedMode == 'movements' && selectedSection == 1 ? 'section-1 show':'section-1'">
 				<g class="part-1">
-					<line x1="{{part1InPerc/2}}%" y1="10" x2="{{part1InPerc/2}}%" y2="45" />
+					<line ng-attr-x1="{{part1InPerc/2}}%" y1="10" ng-attr-x2="{{part1InPerc/2}}%" y2="45" />
 					<line x1="0" y1="45" x2="0" y2="55" />
-			    <line x1="0" y1="45" x2="{{part1InPerc}}%" y2="45" />
-					<line x1="{{part1InPerc}}%" y1="45" x2="{{part1InPerc}}%" y2="55" />
+			    <line x1="0" y1="45" ng-attr-x2="{{part1InPerc}}%" y2="45" />
+					<line ng-attr-x1="{{part1InPerc}}%" y1="45" ng-attr-x2="{{part1InPerc}}%" y2="55" />
 				</g>
 			</svg>
 			<svg ng-class="selectedMode == 'movements' && selectedSection == 2 ? 'section-2 show':'section-2'">
 				<g class="part-2">
-					<line x1="{{part1InPerc+((part2InPerc-part1InPerc)/2)}}%" y1="10" x2="{{part1InPerc+((part2InPerc-part1InPerc)/2)}}%" y2="45" />
-					<line x1="{{part1InPerc}}%" y1="45" x2="{{part1InPerc}}%" y2="55" />
-			    <line x1="{{part1InPerc}}%" y1="45" x2="{{part2InPerc}}%" y2="45" />
-					<line x1="{{part2InPerc}}%" y1="45" x2="{{part2InPerc}}%" y2="55" />
+					<line ng-attr-x1="{{part1InPerc+((part2InPerc-part1InPerc)/2)}}%" y1="10" ng-attr-x2="{{part1InPerc+((part2InPerc-part1InPerc)/2)}}%" y2="45" />
+					<line ng-attr-x1="{{part1InPerc}}%" y1="45" ng-attr-x2="{{part1InPerc}}%" y2="55" />
+			    <line ng-attr-x1="{{part1InPerc}}%" y1="45" ng-attr-x2="{{part2InPerc}}%" y2="45" />
+					<line ng-attr-x1="{{part2InPerc}}%" y1="45" ng-attr-x2="{{part2InPerc}}%" y2="55" />
 				</g>
 			</svg>
 			<svg ng-class="selectedMode == 'movements' && selectedSection == 3 ? 'section-3 show':'section-3'">
 				<g class="part-3">
-					<line x1="{{part2InPerc+((part3InPerc-part2InPerc)/2)}}%" y1="10" x2="{{part2InPerc+((part3InPerc-part2InPerc)/2)}}%" y2="45" />
-					<line x1="{{part2InPerc}}%" y1="45" x2="{{part2InPerc}}%" y2="55" />
-			    <line x1="{{part2InPerc}}%" y1="45" x2="{{part3InPerc}}%" y2="45" />
-					<line x1="{{part3InPerc}}%" y1="45" x2="{{part3InPerc}}%" y2="55" />
+					<line ng-attr-x1="{{part2InPerc+((part3InPerc-part2InPerc)/2)}}%" y1="10" ng-attr-x2="{{part2InPerc+((part3InPerc-part2InPerc)/2)}}%" y2="45" />
+					<line ng-attr-x1="{{part2InPerc}}%" y1="45" ng-attr-x2="{{part2InPerc}}%" y2="55" />
+			    <line ng-attr-x1="{{part2InPerc}}%" y1="45" ng-attr-x2="{{part3InPerc}}%" y2="45" />
+					<line ng-attr-x1="{{part3InPerc}}%" y1="45" ng-attr-x2="{{part3InPerc}}%" y2="55" />
 				</g>
 			</svg>
 			<svg ng-class="selectedMode == 'movements' && selectedSection == 4 ? 'section-4 show':'section-4'">
 				<g class="part-4">
-					<line x1="{{part3InPerc+((100-part3InPerc)/2)}}%" y1="10" x2="{{part3InPerc+((100-part3InPerc)/2)}}%" y2="45" />
-					<line x1="{{part3InPerc}}%" y1="45" x2="{{part3InPerc}}%" y2="55" />
-			    <line x1="{{part3InPerc}}%" y1="45" x2="100%" y2="45" />
+					<line ng-attr-x1="{{part3InPerc+((100-part3InPerc)/2)}}%" y1="10" ng-attr-x2="{{part3InPerc+((100-part3InPerc)/2)}}%" y2="45" />
+					<line ng-attr-x1="{{part3InPerc}}%" y1="45" ng-attr-x2="{{part3InPerc}}%" y2="55" />
+			    <line ng-attr-x1="{{part3InPerc}}%" y1="45" x2="100%" y2="45" />
 					<line x1="100%" y1="45" x2="100%" y2="55" />
 				</g>
 			</svg>
 			<svg ng-class="selectedMode == 'events' ? 'event-markers show':'event-markers'">
 				<g ng-repeat="event in events" class="markers">
-					<line x1="{{event.perc}}%" y1="45" x2="{{event.perc}}%" y2="55" />
-					<line x1="{{event.perc}}%" y1="45" x2="{{event.latch}}%" y2="20" />
-					<line x1="{{event.latch}}%" y1="10" x2="{{event.latch}}%" y2="20" />
+					<line ng-attr-x1="{{event.perc}}%" y1="45" ng-attr-x2="{{event.perc}}%" y2="55" />
+					<line ng-attr-x1="{{event.perc}}%" y1="45" ng-attr-x2="{{event.latch}}%" y2="20" />
+					<line ng-attr-x1="{{event.latch}}%" y1="10" ng-attr-x2="{{event.latch}}%" y2="20" />
 				</g>
 			</svg>
 		</div>
 		<md-slider flex min="0" max="{{lengthOfFinalPiece}}" ng-model="timeNow" aria-label="red" class="timeline-slider">
     	</md-slider>
 	</div>
-	<div class="transport">
+	<div ng-class="showInfo ? 'transport expand' : 'transport'">
 		<div class="play-pause" ng-click="playOrPausePiece()">
 			<span ng-show="!finalpiece.playing()">
 				<div><span>Start</span></div>
@@ -208,6 +223,6 @@ video watched by many people across the world, could arguably have made this eve
 
 <!-- <div class="weather">Clouds: <span>{{weather.weather[0].main}}</span></div>
 <div class="temperature">Temp: <span>{{weather.main.temp}}</span></div> -->
-<div class="background" ng-style="bgInTotality"></div>
+<!-- <div class="background" ng-style="bgInTotality"></div> -->
 <div class="touchstart" ng-hide="touched">Tap to Start</div>
 <div class="loading" ng-show="loading">..Loading..</div>

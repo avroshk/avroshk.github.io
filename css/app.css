@@ -17,6 +17,7 @@ body {
     -ms-transition: background 0.2s linear;
     -o-transition: background 0.2s linear;
     transition: background 0.2s linear;
+    overflow-x: hidden;
 }
 
 body::after{
@@ -756,15 +757,33 @@ div[id*="sample-"] {
     font-size: 40px;
 }
 
+#eclipseHopkinsvilleContainer .timer-container.hide,
+#eclipseAtlantaContainer .timer-container.hide {
+    visibility: hidden;
+    opacity: 0;
+    display: none;
+}
+
+#eclipseHopkinsvilleContainer .timer-container,
+#eclipseAtlantaContainer .timer-container {
+    top: 50%;
+    margin-top: 10px;
+}
+
 #eclipseHopkinsvilleContainer .timer,
-#eclipseAtlantaContainer .timer{
+#eclipseAtlantaContainer .timer {
     font-size: 20px;
     text-align: center;
      -webkit-transition: color 0.5s linear;
     -ms-transition: color 0.5s linear;
     transition: color 0.5s linear;
-    top: 50%;
     z-index: 11;
+}
+
+
+#eclipseHopkinsvilleContainer .timer.hide,
+#eclipseAtlantaContainer .timer.hide {
+    display: none;
 }
 
 #eclipseHopkinsvilleContainer .timeline-slider,
@@ -792,6 +811,7 @@ div[id*="sample-"] {
     flex-flow: column;
     bottom: 20%;
     height: 20%;
+    transition: all 0.3s;
 }
 
 #eclipseHopkinsvilleContainer .vol-slider,
@@ -804,11 +824,16 @@ div[id*="sample-"] {
     bottom: 10%;
     height: 10%;
     text-align: center;
-    -webkit-transition: color 0.5s linear;
-    -ms-transition: color 0.5s linear;
-    transition: color 0.5s linear;
+    -webkit-transition: all 0.5s linear;
+    -ms-transition: all 0.5s linear;
+    transition: all 0.5s linear;
 }
 
+#eclipseHopkinsvilleContainer .transport.expand,
+#eclipseAtlantaContainer .transport.expand {
+  height: auto;
+  bottom: 0px;
+}
 
 #eclipseHopkinsvilleContainer,
 #eclipseAtlantaContainer {
@@ -851,8 +876,17 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .play-pause:hover,
 #eclipseAtlantaContainer .stop:hover {
     text-shadow: 0px 0px 10px #ffff00;
+    cursor: pointer;
 }
 
+#eclipseHopkinsvilleContainer .forward:focus,
+#eclipseHopkinsvilleContainer .play-pause:focus,
+#eclipseHopkinsvilleContainer .stop:focus,
+#eclipseAtlantaContainer .forward:focus,
+#eclipseAtlantaContainer .play-pause:focus,
+#eclipseAtlantaContainer .stop:focus {
+    outline: none;
+}
 
 #eclipseHopkinsvilleContainer .timer span,
 #eclipseAtlantaContainer .timer span {
@@ -939,6 +973,12 @@ div[id*="sample-"] {
   position: absolute;
 }
 
+#eclipseHopkinsvilleContainer .transport-slider.expand,
+#eclipseAtlantaContainer .transport-slider.expand {
+  height: 50px;
+  bottom: 15%;
+}
+
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics,
 #eclipseAtlantaContainer .transport-slider .info-graphics {
   position: absolute;
@@ -969,6 +1009,7 @@ div[id*="sample-"] {
   border: 1px solid gray;
   border-radius: 3px;
   z-index: 10;
+  transition: height 0.3s;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .options,
