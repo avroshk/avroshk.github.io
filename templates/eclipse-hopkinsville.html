@@ -1,3 +1,4 @@
+{{timeNow}}
 <div id="eclipseHopkinsvilleContainer" ng-style="bgInTotality" ng-class="contextCreated ? '' :'opaque'" ng-click="touchToStart()">
 	<div ng-class="showInfo ? 'info show' : 'info'">
 		<i class="icon icon-cross" ng-click="toggleInfo()"></i>
@@ -85,7 +86,7 @@ video watched by many people across the world, could arguably have made this eve
 														</defs>
 														<g>
 															<circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="white" filter="url(#glow)" />
-															<circle cx="52" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
+															<circle cx="53" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
 														</g>
 													</svg>
 													<span>Second Contact</span>
@@ -213,7 +214,9 @@ video watched by many people across the world, could arguably have made this eve
 					</div>
 				</div>
 				<div ng-class="selectedMode == 'events' ? 'events' : 'events hide'" ng-style="tableHeightStyle">
-					Events
+					<div ng-click="playFilterSweep()">Sweep</div>
+					<div ng-click="playMoon()">Moon</div>
+					<div ng-click="playSun()">Sun</div>
 				</div>
 				<div ng-class="showInfo ? 'timer-container' : 'timer-container hide'">
 					<div ng-class="sonificationStarted ? 'timer hide' : 'timer'">

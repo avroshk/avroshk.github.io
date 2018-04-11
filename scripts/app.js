@@ -584,7 +584,7 @@
 		$scope.infoHeightStyle = {'height' : '0px'}
 		$scope.tableHeightStyle = {'height' : '0px'}
 		$scope.cellHeightStyle = {'height' : '0px'}
-		$scope.events = [100,200,500,800,1000,1500,1900,2000]
+		$scope.events = [101,370,560,838,900,1500,1900,2000]
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
 		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
@@ -616,10 +616,14 @@
 		$scope.isDesktop = false;
 		$scope.isPhone = false;
 		$scope.justStoppedPiece = false;
+
 		var bufferLength = 0;
 		var dataArray = [];
 
 		var player = 0;
+		var sweep_player = 0;
+		var moon_player = 0;
+		var sun_player = 0;
 		var alpha = 0.75;
 		var prevAmp = 0;
 
@@ -665,7 +669,7 @@
 			  	volume: $scope.vol/100,
 			  	onend: function() {
 			    	$interval.cancel(player);
-					player = 0;
+						player = 0;
 			  	}
 			});
 
@@ -713,6 +717,101 @@
 		    	$scope.$apply();
 			});
 
+			$scope.playSun = function() {
+				$scope.resetSweepTimers();
+				var sun_array = [1348, 1382, 1430, 1470, 1507, 1566, 1615, 1665, 1690];
+
+				var index = 0;
+
+				if (!sun_player) {
+					$scope.seekTo(sun_array[index]);
+					$scope.timeNow = sun_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					sun_player = $interval(function () {
+						if (index < sun_array.length) {
+							$scope.seekTo(sun_array[index]);
+							$scope.timeNow = sun_array[index];
+							index++;
+						} else {
+							if (!$scope.finalpiece.playing()) {
+								$scope.playPiece();
+							} else {
+								$scope.pausePiece();
+							}
+						}
+					}, 1000);
+				}
+
+			}
+
+			$scope.playMoon = function() {
+				$scope.resetSweepTimers();
+				var moon_array = [1348, 1382, 1430, 1470, 1507, 1566, 1615, 1665, 1690];
+
+				var index = 0;
+
+				if (!moon_player) {
+					$scope.seekTo(moon_array[index]);
+					$scope.timeNow = moon_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					moon_player = $interval(function () {
+						if (index < moon_array.length) {
+							$scope.seekTo(moon_array[index]);
+							$scope.timeNow = moon_array[index];
+							index++;
+						} else {
+							if (!$scope.finalpiece.playing()) {
+								$scope.playPiece();
+							} else {
+								$scope.pausePiece();
+							}
+						}
+					}, 1000);
+				}
+
+			}
+
+			$scope.playFilterSweep = function() {
+				$scope.resetSweepTimers();
+				var sweep_array = [65, 159, 315, 436, 672, 859];
+
+				var index = 0;
+
+				if (!sweep_player) {
+					$scope.seekTo(sweep_array[index]);
+					$scope.timeNow = sweep_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					sweep_player = $interval(function () {
+						if (index < sweep_array.length) {
+							$scope.seekTo(sweep_array[index]);
+							$scope.timeNow = sweep_array[index];
+							index++;
+						} else {
+							if (!$scope.finalpiece.playing()) {
+								$scope.playPiece();
+							} else {
+								$scope.pausePiece();
+							}
+						}
+					}, 600);
+				}
+			}
+
 			$scope.playPiece = function () {
 				$scope.seekTo($scope.seekTime.asSeconds());
 				if (!$scope.finalpiece.playing()) {
@@ -726,14 +825,38 @@
 			$scope.playOrPausePiece = function () {
 				if ($scope.readyToPlayFinalPiece) {
 					if ($scope.finalpiece.playing()) {
-						$scope.finalpiece.pause();
-						$interval.cancel(player);
-						player = 0;
+						$scope.pausePiece();
 					} else {
 						$scope.playPiece();
 					}
 				}
 			};
+
+			$scope.resetSweepTimers = function () {
+				if (sun_player) {
+					$interval.cancel(sun_player);
+					sun_player = 0;
+				}
+				if (moon_player) {
+					$interval.cancel(moon_player);
+					moon_player = 0;
+				}
+				if (sweep_player) {
+					$interval.cancel(sweep_player);
+					sweep_player = 0;
+				}
+			}
+
+			$scope.pausePiece = function () {
+				if ($scope.finalpiece.playing()) {
+					$scope.finalpiece.pause();
+					if (player) {
+						$interval.cancel(player);
+						player = 0;
+					}
+					$scope.resetSweepTimers();
+				}
+			}
 
 			$scope.seekTo = function(time) {
 				$scope.finalpiece.seek(time);
@@ -745,6 +868,8 @@
 				player = 0;
 				$scope.finalpiece.stop();
 				$scope.initEclipse();
+
+				$scope.resetSweepTimers();
 			};
 
 			$scope.forwardToTotality = function () {
@@ -759,7 +884,7 @@
 		    $scope.calcTime(now);
 			}
 
-			$scope.calcTime = function(now) {
+			$scope.calcTime = function(now, triggerPlay) {
 				$scope.timeTillTotality = moment.duration($scope.eclipseC2Time.utc().diff(now));
 	    		$scope.timeInTotality = moment.duration(now.diff($scope.eclipseC2Time.utc()));
 	    		$scope.timeAfterTotality = moment.duration(now.diff($scope.eclipseC4Time.utc()));
@@ -802,6 +927,10 @@
 		    		$scope.seekTime = moment.duration(now.diff($scope.timeToStartSonification));
 		    		$scope.seekTo($scope.seekTime.asSeconds());
 		    		$scope.seekTimeChanged = false;
+
+						if (triggerPlay) {
+							$scope.playPiece();
+						}
 	    		}
 
 		    	$scope.timeTillEclipseSonification = moment.duration($scope.timeToStartSonification.diff(now));
@@ -825,13 +954,7 @@
 					let now = $scope.timeNowinMoment.clone();
 					now.add(newVal, 'seconds');
 
-					$scope.calcTime(now);
-
-					if ($scope.justStoppedPiece) {
-						$scope.justStoppedPiece = false;
-					} else {
-						$scope.playPiece();
-					}
+					$scope.calcTime(now, oldVal === 0);
 
 					if (newVal == $scope.lengthOfFinalPiece) {
 						$interval.cancel(player);
@@ -1070,7 +1193,7 @@
 			  	volume: $scope.vol/100,
 			  	onend: function() {
 			    	$interval.cancel(player);
-					player = 0;
+						player = 0;
 			  	}
 			});
 
@@ -1109,6 +1232,28 @@
 				}
 			}
 
+			$scope.pausePiece = function () {
+				if ($scope.finalpiece.playing()) {
+					$scope.finalpiece.pause();
+					if (player) {
+						$interval.cancel(player);
+						player = 0;
+					}
+					if (sun_player) {
+						$interval.cancel(sun_player);
+						sun_player = 0;
+					}
+					if (moon_player) {
+						$interval.cancel(moon_player);
+						moon_player = 0;
+					}
+					if (sweep_player) {
+						$interval.cancel(sweep_player);
+						sweep_player = 0;
+					}
+				}
+			}
+
 			$scope.playOrPausePiece = function () {
 				if ($scope.readyToPlayFinalPiece) {
 					if ($scope.finalpiece.playing()) {
@@ -1138,7 +1283,7 @@
 				$scope.playPiece();
 			};
 
-			$scope.calcTime = function(now) {
+			$scope.calcTime = function(now, triggerPlay) {
 				$scope.timeToTurnDark = moment.duration($scope.maxEclipseTime_30sbefore.utc().diff(now));
 	    		$scope.timeTillTotality = moment.duration($scope.maxEclipseTime.utc().diff(now));
 	    		$scope.timeToTurnBright = moment.duration($scope.maxEclipseTime_30safter.utc().diff(now));
@@ -1176,7 +1321,11 @@
 	    		if ($scope.seekTimeChanged) {
 		    		$scope.seekTime = moment.duration(now.diff($scope.timeToStartSonification));
 		    		$scope.seekTo($scope.seekTime.asSeconds());
-		    		$scope.seekTimeChanged = false;
+		    		$scope.seekTimeChanged = false
+
+						if (triggerPlay) {
+							$scope.playPiece();
+						}
 	    		}
 
 		    	$scope.timeTillEclipseSonification = moment.duration($scope.timeToStartSonification.diff(now));
@@ -1207,13 +1356,7 @@
 					let now = $scope.timeNowinMoment.clone();
 					now.add(newVal, 'seconds');
 
-					$scope.calcTime(now);
-
-					if ($scope.justStoppedPiece) {
-						$scope.justStoppedPiece = false;
-					} else {
-						$scope.playPiece();
-					}
+					$scope.calcTime(now, oldVal === 0);
 
 					if (newVal == $scope.lengthOfFinalPiece) {
 						$interval.cancel(player);
