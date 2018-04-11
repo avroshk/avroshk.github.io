@@ -1016,6 +1016,7 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .options {
   display: flex;
   flex-direction: row;
+  border-bottom: 1px solid lightgray;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .options .option,
@@ -1162,6 +1163,11 @@ div[id*="sample-"] {
   flex-grow: 1;
 }
 
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area:not(:last-child).grow,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area:not(:last-child).grow {
+  border-bottom: 1px solid gray;
+}
+
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area-header:hover,
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area-header:hover {
   background: #ff9b9b8f !important;
@@ -1173,6 +1179,17 @@ div[id*="sample-"] {
   text-align: left;
   padding-left: 10px;
   font-size: 15px;
+  border-bottom: 1px solid gray;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area:last-child .area-header:not(.selected),
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area:last-child .area-header:not(.selected) {
+  border-bottom: none;
+}
+
+#eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.show .content .area:first-child .area-header,
+#eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area:first-child .area-header {
+  border-top: 1px solid gray;
 }
 
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics .description .table .column .section.one.show .content .area-header,
