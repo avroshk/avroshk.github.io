@@ -1216,8 +1216,8 @@ div[id*="sample-"] {
 #eclipseAtlantaContainer .transport-slider .info-graphics .description .table .column .section.show .content .area .cell {
   visibility: hidden;
   opacity: 0;
-  max-height: 0px;
-  transition: opacity 0.3s, max-height 0.1s;
+  height: 0px;
+  transition: opacity 0.3s, height 0.5s;
   font-size: 16px;
   overflow-y: scroll;
   text-align: justify;
@@ -1314,4 +1314,9 @@ div[id*="sample-"] {
 #eclipseHopkinsvilleContainer .transport-slider .info-graphics svg g.part-1:hover line,
 #eclipseAtlantaContainer .transport-slider .info-graphics svg g.part-1:hover line {
   stroke: black;
+}
+
+.limit-page-scroll {
+  overflow-x: hidden;
+  overflow-y :hidden;
 }

@@ -52,11 +52,13 @@
 	    	})
 	    	.when("/eclipse/hopkinsville", {
 				templateUrl: 'templates/eclipse-hopkinsville.html',
-				controller: 'EclipseHopkinsvilleController'
+				controller: 'EclipseHopkinsvilleController',
+				className: 'limit-page-scroll'
 	    	})
 	    	.when("/eclipse/atlanta", {
 				templateUrl: 'templates/eclipse-atlanta.html',
-				controller: 'EclipseAtlantaController'
+				controller: 'EclipseAtlantaController',
+				className: 'limit-page-scroll'
 	    	})
 	    	.when("/birdsong-segmentation", {
 				templateUrl: 'templates/birdsong-segmentation.html'
@@ -94,7 +96,7 @@
 		$scope.Page = Page;
 	}]);
 
-	app.controller('MainController', ['$rootScope','$scope','whichBrowser', function ($rootScope, $scope, whichBrowser) {
+	app.controller('MainController', ['$rootScope','$scope','whichBrowser','$route', function ($rootScope, $scope, whichBrowser, $route) {
 		var currentBrowser = whichBrowser();
 		$scope.teststarted = false;
 		$scope.testended = false;
@@ -102,6 +104,13 @@
    		$scope.startTest = function () {
 			$scope.teststarted = true;
 		};
+		$scope.$on('$routeChangeSuccess', function(newVal, oldVal) {
+	    if (oldVal !== newVal) {
+				if ($route.current.className) {
+					$scope.routeClassName = $route.current.className;
+				}
+	    }
+		});
 	}]);
 
 	app.directive('portfolio', function () {
@@ -574,7 +583,7 @@
 		$scope.infoPosition = 0
 		$scope.infoHeightStyle = {'height' : '0px'}
 		$scope.tableHeightStyle = {'height' : '0px'}
-		$scope.cellHeightStyle = {'height' : '0px', 'max-height' : '0px'}
+		$scope.cellHeightStyle = {'height' : '0px'}
 		$scope.events = [100,200,500,800,1000,1500,1900,2000]
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
@@ -632,7 +641,7 @@
 			$scope.infoPosition = angular.element(document.querySelector('#eclipseHopkinsvilleContainer .transport-slider')).prop('offsetTop') - 90;
 			$scope.infoHeightStyle = { 'height' : $scope.infoPosition+'px' }
 			$scope.tableHeightStyle = {'height' : ($scope.infoPosition-80)+'px'}
-			$scope.cellHeightStyle = {'height' : ($scope.infoPosition-161)+'px', 'max-height' : ($scope.infoPosition-161)+'px'}
+			$scope.cellHeightStyle = {'height' : ($scope.infoPosition-161)+'px'}
 		}
 
 		$scope.toggleInfo = function() {
