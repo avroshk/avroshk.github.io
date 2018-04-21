@@ -57,7 +57,7 @@ video watched by many people across the world, could arguably have made this eve
 										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">
 											<p>The phenomenon of solar eclipse begins when the moon becomes visible over the sun's circumference slowly biting its way through into the sun. This event is called the "first contact". It is the moon's slow and tedious ascent toward the "second contant" when it covers the maximum surface of sun's visible disk depending upon where the viewer is located. </p>
 											<div class="eclipse-contact">
-												<div class="first-contact">
+												<div class="first-contact" ng-if="currentBrowser !== 'safari'">
 													<svg>
 														<defs>
 															<!-- a transparent grey glow with no offset -->
@@ -76,7 +76,16 @@ video watched by many people across the world, could arguably have made this eve
 													</svg>
 													<span>First Contact</span>
 												</div>
-												<div class="second-contact">
+												<div class="first-contact" ng-if="currentBrowser === 'safari'">
+													<svg>
+														<g>
+															<circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="white" />
+															<circle cx="122" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
+														</g>
+													</svg>
+													<span>First Contact</span>
+												</div>
+												<div class="second-contact" ng-if="currentBrowser !== 'safari'">
 													<svg >
 														<defs>
 															<!-- a transparent grey glow with no offset -->
@@ -90,6 +99,15 @@ video watched by many people across the world, could arguably have made this eve
 														</defs>
 														<g>
 															<circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="white" filter="url(#glow)" />
+															<circle cx="53" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
+														</g>
+													</svg>
+													<span>Second Contact</span>
+												</div>
+												<div class="second-contact" ng-if="currentBrowser === 'safari'">
+													<svg >
+														<g>
+															<circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="white" />
 															<circle cx="53" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
 														</g>
 													</svg>

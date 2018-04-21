@@ -571,7 +571,8 @@
 			templateUrl: 'templates/eclipse-hopkinsville.html',
 			controller: 'EclipseHopkinsvilleController'
 		};
-	}).controller('EclipseHopkinsvilleController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory, $timeout, $routeParams) {
+	}).controller('EclipseHopkinsvilleController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory, $timeout, $routeParams, whichBrowser) {
+		$scope.currentBrowser = whichBrowser();
 		Page.setTitle('2017 Solar Eclipse | Sonification | Hopkinsville');
 		$scope.contextCreated = false;
 		$scope.showInfo = false;
