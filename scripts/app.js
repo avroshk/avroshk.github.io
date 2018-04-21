@@ -50,7 +50,7 @@
 	    		controller: 'EclipseController',
 				templateUrl: 'templates/eclipse.html'
 	    	})
-	    	.when("/eclipse/hopkinsville", {
+	    	.when("/eclipse/hopkinsville/:info?", {
 				templateUrl: 'templates/eclipse-hopkinsville.html',
 				controller: 'EclipseHopkinsvilleController',
 				className: 'limit-page-scroll'
@@ -563,7 +563,6 @@
 	}).controller('EclipseController', function ($rootScope, $scope, $http, $sce, Page) {
 		Page.setTitle('2017 Solar Eclipse | Sonification');
 		$scope.activePage = "eclipse";
-
 	});
 
 	app.directive('eclipseHopkinsville', function () {
