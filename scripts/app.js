@@ -50,7 +50,7 @@
 	    		controller: 'EclipseController',
 				templateUrl: 'templates/eclipse.html'
 	    	})
-	    	.when("/eclipse/hopkinsville", {
+	    	.when("/eclipse/hopkinsville/:info", {
 				templateUrl: 'templates/eclipse-hopkinsville.html',
 				controller: 'EclipseHopkinsvilleController',
 				className: 'limit-page-scroll'
@@ -74,9 +74,8 @@
 	app.run(function($rootScope, $route, $location){
 	   //Bind the `$locationChangeSuccess` event on the rootScope, so that we dont need to
 	   //bind in induvidual controllers.
-
 	   $rootScope.$on('$locationChangeSuccess', function() {
-	        $rootScope.actualLocation = $location.path();
+	      $rootScope.actualLocation = $location.path();
 	    });
 
 	   $rootScope.$watch(function () {return $location.path()}, function (newLocation, oldLocation) {
@@ -573,7 +572,7 @@
 			templateUrl: 'templates/eclipse-hopkinsville.html',
 			controller: 'EclipseHopkinsvilleController'
 		};
-	}).controller('EclipseHopkinsvilleController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory, $timeout) {
+	}).controller('EclipseHopkinsvilleController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory, $timeout, $routeParams) {
 		Page.setTitle('2017 Solar Eclipse | Sonification | Hopkinsville');
 		$scope.contextCreated = false;
 		$scope.showInfo = false;
@@ -1196,6 +1195,10 @@
 		// getWeatherData();
 		// getEclipseTemperature();
 		// setInterval(getWeatherData,600000*5);
+
+		if (!$scope.showInfo && $routeParams.info === 'info') {
+			$scope.toggleInfo()
+		}
 
 		$scope.waves = new SineWaves({
 		  	el: waveform,
