@@ -50,7 +50,7 @@
 	    		controller: 'EclipseController',
 				templateUrl: 'templates/eclipse.html'
 	    	})
-	    	.when("/eclipse/hopkinsville/:info", {
+	    	.when("/eclipse/hopkinsville", {
 				templateUrl: 'templates/eclipse-hopkinsville.html',
 				controller: 'EclipseHopkinsvilleController',
 				className: 'limit-page-scroll'
