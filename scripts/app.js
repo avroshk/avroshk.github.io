@@ -626,6 +626,9 @@
 		var sweep_player = 0;
 		var moon_player = 0;
 		var sun_player = 0;
+		var dusk_player = 0;
+		var dawn_player = 0;
+		var bailey_player = 0;
 		var alpha = 0.75;
 		var prevAmp = 0;
 
@@ -723,6 +726,95 @@
 		    	$scope.$apply();
 			});
 
+			$scope.playFalseDusk = function() {
+				$scope.resetSweepTimers();
+				var dusk_array = [1995];
+				$scope.events = dusk_array;
+				$scope.updateEvents();
+
+				var index = 0;
+
+				if (!dusk_player) {
+					$scope.seekTo(dusk_array[index]);
+					$scope.timeNow = dusk_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					dusk_player = $interval(function () {
+						$scope.pausePiece();
+					}, 15000);
+				}
+			}
+
+			$scope.playFalseDawn = function() {
+				$scope.resetSweepTimers();
+				var dawn_array = [2144];
+				$scope.events = dawn_array;
+				$scope.updateEvents();
+
+				var index = 0;
+
+				if (!dawn_player) {
+					$scope.seekTo(dawn_array[index]);
+					$scope.timeNow = dawn_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					dawn_player = $interval(function () {
+						if (index < dawn_array.length) {
+							$scope.seekTo(dawn_array[index]);
+							$scope.timeNow = dawn_array[index];
+							index++;
+						} else {
+							if (!$scope.finalpiece.playing()) {
+								$scope.playPiece();
+							} else {
+								$scope.pausePiece();
+							}
+						}
+					}, 30000);
+				}
+			}
+
+			$scope.playBailey = function() {
+				$scope.resetSweepTimers();
+				var bailey_array = [2070];
+				$scope.events = bailey_array;
+				$scope.updateEvents();
+
+				var index = 0;
+
+				if (!bailey_player) {
+					$scope.seekTo(bailey_array[index]);
+					$scope.timeNow = bailey_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					bailey_player = $interval(function () {
+						if (index < bailey_array.length) {
+							$scope.seekTo(bailey_array[index]);
+							$scope.timeNow = bailey_array[index];
+							index++;
+						} else {
+							if (!$scope.finalpiece.playing()) {
+								$scope.playPiece();
+							} else {
+								$scope.pausePiece();
+							}
+						}
+					}, 11000);
+				}
+			}
+
 			$scope.playSun = function() {
 
 				$scope.resetSweepTimers();
@@ -755,7 +847,6 @@
 						}
 					}, 1000);
 				}
-
 			}
 
 			$scope.playMoon = function() {
@@ -857,6 +948,18 @@
 				if (sweep_player) {
 					$interval.cancel(sweep_player);
 					sweep_player = 0;
+				}
+				if (dusk_player) {
+					$interval.cancel(dusk_player);
+					dusk_player = 0;
+				}
+				if (dawn_player) {
+					$interval.cancel(dawn_player);
+					dawn_player = 0;
+				}
+				if (bailey_player) {
+					$interval.cancel(bailey_player);
+					bailey_player = 0;
 				}
 			}
 
