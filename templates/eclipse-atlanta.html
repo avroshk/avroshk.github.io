@@ -1,25 +1,319 @@
 <div id="eclipseAtlantaContainer" ng-style="bgInTotality" ng-class="contextCreated ? '' :'opaque'" ng-click="touchToStart()">
+	<div ng-class="showInfo ? 'info show' : 'info'">
+		<i class="icon icon-cross" ng-click="toggleInfo()"></i>
+	</div>
+	<div ng-class="showInfo ? 'info' : 'info show'">
+		<i class="icon icon-info" ng-click="toggleInfo()"></i>
+	</div>
 	<div class="centertext city-title">Atlanta, GA</div>
 	<div><canvas id="waveform"></canvas></div>
-	
-	<div ng-hide="sonificationStarted" class="timer">
-		Eclipse Sonification starts in
-		<span> {{timeTillEclipseSonification._data.hours}} hours, {{timeTillEclipseSonification._data.minutes}} minutes, {{timeTillEclipseSonification._data.seconds}} seconds</span>
+	<div ng-class="showInfo ? 'timer-container hide' : 'timer-container'">
+		<div ng-hide="sonificationStarted" class="timer">
+			Eclipse Sonification starts in
+			<span> {{timeTillEclipseSonification._data.hours}} hours, {{timeTillEclipseSonification._data.minutes}} minutes, {{timeTillEclipseSonification._data.seconds}} seconds</span>
+		</div>
+
+		<div ng-show="isPreTotality" class="timer">
+			<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span> till Partial Eclipse
+		</div>
+
+		<div ng-show="totalityEnded" class="timer">Partial Eclipse ended
+			<span>{{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
+		</div>
 	</div>
 
-	<div ng-show="isPreTotality" class="timer">
-		<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span> till Partial Eclipse
-	</div>
+	<div ng-class="showInfo ? 'transport-slider expand' : 'transport-slider'">
+		<div ng-class="showInfo ? 'info-graphics show':'info-graphics'">
+			<div class="description" ng-style="infoHeightStyle">
+				<div class="options">
+					<div ng-class="selectedMode == 'about' ? 'option selected':'option'" ng-click="selectMode('about')">About this Sonification</div>
+					<div ng-class="selectedMode == 'movements' ? 'option selected':'option'" ng-click="selectMode('movements')">Movements</div>
+					<div ng-class="selectedMode == 'events' ? 'option selected':'option'" ng-click="selectMode('events')">Events</div>
+				</div>
+				<div ng-class="selectedMode == 'about' ? 'about' : 'about hide'" ng-style="tableHeightStyle">
+					<p>The total solar eclipse that took place on the 21st of August 2017 lay the moon’s shadow  diagonally  across  the  North  American  continent. The  population  of 12.25 million people living in the path of totality, combined with live-stream
+video watched by many people across the world, could arguably have made this event one of the most watched in history, and a truly shared social experience.</p>
+					<p>This piece of sonification was broadcasted live during the eclipse to allow individuals with visual impairments to experience this phenomenon with everyone else. This is an archived version of the live demonstration.</p>
+					<p>The different "movements" (sections) of the piece can be explored <span class="link-me" ng-click="selectMode('movements')">here</span>. "Events" of interest can be explored <span class="link-me" ng-click="selectMode('events')">here</span>.</p>
+					<p>What are "sound objects"? Sound objects auditory elements used to represent something in the aural landscape. It is a distinguishable distinct sound. You can think of different instruments in a musical piece as sound objects. In sonification, sound objects play a role of representing an idea or a physical object that you can follow along.</p>
+					<p>What does "mapping" represent? A mapping representes a relationship between a sound and a phenomenon. It allows one to follow relative varitations of the phenomenon. For example, the brightness of light mapped to the loudness of sound.</p>
+					<p>Tools used to compose the sonification:<ul>
+						<li><a target="_blank" href="https://supercollider.github.io/">SuperCollider: Audio Synthesis and Algorithmic composition software</a></li>
+						<li><a target="_blank" href="https://www.ableton.com/en/live/">Ableton Live: Digital Audio Workstation</a></li>
+						<li><a target="_blank" href="https://github.com/GTCMT/DataToMusicAPI">DTM.js: Takahiko Tsuchiya's Data to Music API</a></li>
+					</ul></p>
+					<p><a target="_blank" href="http://sonify.psych.gatech.edu/research/eclipse/index.html">More details about the project.</a></p>
+				</div>
+				<div ng-class="selectedMode == 'movements' ? 'table' : 'table hide'" ng-style="tableHeightStyle">
+					<div class="row">
+						<div ng-class="selectedSection == 1 ? 'column grow' : 'column'">
+							<div ng-class="selectedSection == 1 ? 'section show' : 'section'" class="one" ng-click="selectedSection != 1 ? selectSection(1) : ''">
+								<div ng-class="selectedSection == 1 ? 'row-header selected' : 'row-header'" ng-click="selectSection(1)">
+									<span ng-class="selectSection == 1 ? '':'rotate'">Post-Contact</span>
+								</div>
+								<div class="content row">
+									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
+										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">
+											<p>The phenomenon of solar eclipse begins when the moon becomes visible over the sun's circumference slowly biting its way through into the sun. This event is called the "first contact". It is the moon's slow and tedious ascent toward the "second contant" when it covers the maximum surface of sun's visible disk depending upon where the viewer is located. </p>
+											<div class="eclipse-contact">
+												<div class="first-contact" ng-if="currentBrowser !== 'safari'">
+													<svg>
+														<defs>
+															<!-- a transparent grey glow with no offset -->
+															<filter id="glow">
+																 <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+																 <feMerge>
+																		 <feMergeNode in="coloredBlur"/>
+																		 <feMergeNode in="SourceGraphic"/>
+																 </feMerge>
+														 </filter>
+														</defs>
+														<g>
+															<circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="white" filter="url(#glow)" />
+															<circle cx="122" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
+														</g>
+													</svg>
+													<span>First Contact</span>
+												</div>
+												<div class="first-contact" ng-if="currentBrowser === 'safari'">
+													<svg>
+														<g>
+															<circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="white" />
+															<circle cx="122" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
+														</g>
+													</svg>
+													<span>First Contact</span>
+												</div>
+												<div class="second-contact" ng-if="currentBrowser !== 'safari'">
+													<svg >
+														<defs>
+															<!-- a transparent grey glow with no offset -->
+															<filter id="glow">
+																 <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+																 <feMerge>
+																		 <feMergeNode in="coloredBlur"/>
+																		 <feMergeNode in="SourceGraphic"/>
+																 </feMerge>
+														 </filter>
+														</defs>
+														<g>
+															<circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="white" filter="url(#glow)" />
+															<circle cx="53" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
+														</g>
+													</svg>
+													<span>Second Contact</span>
+												</div>
+												<div class="second-contact" ng-if="currentBrowser === 'safari'">
+													<svg >
+														<g>
+															<circle cx="50" cy="50" r="40" stroke="white" stroke-width="1" fill="white" />
+															<circle cx="53" cy="50" r="38" stroke="black" stroke-width="1" fill="black" />
+														</g>
+													</svg>
+													<span>Second Contact</span>
+												</div>
+											</div>
+											<p>This sonification starts about 30 minutes before totality. The first movement is a slow uneventful ascent toward the totality.</p>
+										</div>
+									</div>
+									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
+										<div ng-style="selectedInfoType == 'sound-objs' && cellHeightStyle" ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'">
+											<p>The first movement is an opportunity to introduce sound objects that let the listener create relationships between the phenomenon and what they are hearing.</p>
+											<p>These metaphorical sound objects are called "Audiotory Icons". In this movement, I wanted to introduce the idea of time. It helps the listener estimate the proximity to the final event - the totality.</p>
+											<p>I made use of familiar sounds that we associate with time or tempo - heartbeats, ticking clock and muted plucks on a cello. I employed three different layers of temporal sounds that come in and go out periodically. Different layers help prevent monotonicity and keep the listener's attention.</p>
+											<p>There is a presense of another sound object underneath. A long sustained chord tries to denote an object with density. The chord has a "night" like quality.</p>
+											<p>The frequency of "plucks" increases continuously over time, while the ticking sounds change periodically. Discrete changes may be more noticeable than the continuous ones because of the relative difference. It is an attempt to present mutiple sources that reinforce the same relationship of increasing proximity to the totality.</p>
+										</div>
+									</div>
+									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
+										<div ng-style="selectedInfoType == 'mappings' && cellHeightStyle" ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'">
+											<p>In musical terms, tempo indicates the time. Humans have an inherent sense of rhythm and can distinguish relative changes in the tempo. So, as the time remaining before totality occurs decreases, the tempo increases.</p>
+											<p>Multiple sound objects - the frequency of plucking, interval between ticking heartbeat sound, the pitch of the ticks - are mapped to the same parameter of time.</p>
+											<p>The sustained chord is single chord with a very long attack time - it peaks at the end of this section. The amount of amplitude modulation of the chord increases with the elasped time. It also has a resonance filter mapped to the time which transforms this chord into two distinct sounds as it progresses - high frequency hums and low rumbling sounds.</p>
+											<p>The intention is to have multiple sounds come-together and amplify the effect.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-class="selectedSection == 2 ? 'column grow' : 'column'">
+							<div ng-class="selectedSection == 2 ? 'section show' : 'section'" class="two" ng-click="selectedSection != 2 ? selectSection(2) : ''">
+								<div ng-class="selectedSection == 2 ? 'row-header selected' : 'row-header'" ng-click="selectSection(2)">
+									<span ng-class="selectSection == 2 ? '':'rotate'">Pre-Eclipse</span>
+								</div>
+								<div class="content row">
+									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
+										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">
+											<p>The second movement depicts the change in the environment. It introduces the moon and sun as the two main actors of the narration.</p>
+											<p>The moon partly eclipsing the sun causes its rays to fall more obliquely. It results in almost a unique atmosphere; different from a sunset or a sunrise. There is a noticeable change in the surroundings.</p>
+											<p>The plucks from the first movement become sporadic to an extent that they are so crammed together it suggests the presence of a heavy and a huge crushing object - the sun. The piece tries to depict a duel between the sun's rays and the moon's shadow. In this duel, the moon seems to be taking over the sun.</p>
+										</div>
+									</div>
+									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
+										<div ng-style="selectedInfoType == 'sound-objs' && cellHeightStyle" ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'">
+											<p>The low rumbling sounds from the first movement turn into distorted, harsh sounds depicting the burning sun. A really low and rumbling cello note keeps reminding the listener about the presence of the sun. The slowly developing chord from the previous movement slowly turns refined and settles into a mid-to-high frequency range depicting the moon.</p>
+											<p>The chord depicting the moon is made of multiple chords with same notes played at the same time but for randomly varying lenghts (attack and release time).</p>
+										</div>
+									</div>
+									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
+										<div ng-style="selectedInfoType == 'mappings' && cellHeightStyle" ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'">
+											<p>The relative pitch differnce between the the two sounds are mapped to the weights of the two celestial bodies. The low frequency sounds depict the sun and the higher frequencies depict the moon.<p>
+											<p>The range between which the attack and the release time of the chords randomly vary decreases as the time left till totality decreases. The chords acquire a melodic and timbral quality as they progress.</p>
+											<p>The chord depicting the moon transposes up two whole steps when there is a noticeable measure of change in the temperature of the surroundings. The temperature was read from a live feed and normalized between 0 to 3 deg F drop. I also looked at the temperature drop data available for previous eclipses to determine the range.<p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-class="selectedSection == 3 ? 'column grow' : 'column'">
+							<div ng-class="selectedSection == 3 ? 'section show' : 'section'" class="three" ng-click="selectedSection != 3 ? selectSection(3) : ''">
+								<div ng-class="selectedSection == 3 ? 'row-header selected' : 'row-header'" ng-click="selectSection(3)">
+									<span ng-class="selectSection == 3 ? '':'rotate'">Eclipse</span>
+								</div>
+								<div class="content row">
+									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
+										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">
+											<p>The third movement covers totality. The entire piece is a build-up for the final event - the totalty.</p>
+											<p>This movement aims to build anticipation and induce a strong emotion of elation or humility through the use of musical elements.</p>
+											<p>The moment of totality is complete silence. To a person with no vision, it felt like the right way to depict the absence of light. A crescendo leads upto the moment of totality. After totality, the familiar sounds re-enter as the sun re-emerges.</p>
+										</div>
+									</div>
+									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
+										<div ng-style="selectedInfoType == 'sound-objs' && cellHeightStyle" ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'">
+											<p>I take artistic liberties and make use of rhythm to build anticipation for the final event.</p>
+											<p>Here I'm making musical transitions - loud to silence - to signify the developing events.</p>
+											<p>These events are assisted by soundscape sounds of "crickets" and "birds". They respectively mark the events, when it turns completely dark and when the sun re-emerges. They are called the "false dusk and false dawn" effect. When it turns dark during the totality, the crickets start creaking believing it is night time. Animals and birds react too, when the sun re-emerges. These sounds help the listener connect the abstract representation they have created from the sounds, to their surroundings.</p>
+											<p>At totality, right before the moon completely covers the sun, a phenomenon called Bailey's Beads appears. It is depicted as the sound of sparks at 1 minute and 17 seconds into Totality in the piece.</p>
+										</div>
+									</div>
+									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
+										<div ng-style="selectedInfoType == 'mappings' && cellHeightStyle" ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'">
+											<p>The totality lasts for about 2 and a half minutes at Hopkinsville, KY. Using these times this movement was designed as a curve lasting 2:33 minutes. All the parameters rise and fall with this curve.</p>
+											<p>The rhythm's accentuation, and the arpeggiation of the chord is mapped to the proximity to the moment of total eclipse.</p>
+											<p>A sweeping filter is applied to the chord from the previous movement depicting moon. The filter reaches its maximum value at the moment of totality.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-class="selectedSection == 4 ? 'column grow' : 'column'">
+							<div ng-class="selectedSection == 4 ? 'section show' : 'section'" class="four" ng-click="selectedSection != 4 ? selectSection(4) : ''">
+								<div ng-class="selectedSection == 4 ? 'row-header selected' : 'row-header'" ng-click="selectSection(4)">
+									<span ng-class="selectSection == 4 ? '':'rotate'">Post-Eclipse</span>
+								</div>
+								<div class="content row">
+									<div ng-class="selectedInfoType == 'desc' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'desc' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('desc')">Description</div>
+										<div ng-style="selectedInfoType == 'desc' && cellHeightStyle" ng-class="selectedInfoType == 'desc' ? 'cell show' : 'cell'">
+											<p>This is the final transition. The sun has re-emerged and the moon will continue its anticlimactic journey exposing the sun's disk again over the next hour.</p>
+											<p>The sounds in this movement undergo a climactic shift and fade away to silence anticlimactically.</p>
+										</div>
+									</div>
+									<div ng-class="selectedInfoType == 'sound-objs' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'sound-objs' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('sound-objs')">Sound Objects</div>
+										<div ng-style="selectedInfoType == 'sound-objs' && cellHeightStyle" ng-class="selectedInfoType == 'sound-objs' ? 'cell show' : 'cell'">
+											<p>Two layers of sounds are fading away.  The shift in the keys and chords try to signify a peaceful, uplifting and hopeful conclusion to the piece.</p>
+										</div>
+									</div>
+									<div ng-class="selectedInfoType == 'mappings' ? 'area grow' : 'area'">
+										<div ng-class="selectedInfoType == 'mappings' ? 'area-header selected' : 'area-header'" ng-click="selectInfoType('mappings')">Mappings</div>
+										<div ng-style="selectedInfoType == 'mappings' && cellHeightStyle" ng-class="selectedInfoType == 'mappings' ? 'cell show' : 'cell'">
+											<p>The rest of the eclipse is a reversal of events that followed up to totality. However, in the narration of the eclipse through this sonificaiton, this is post totality, and acts as a closing note to the entire piece.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div ng-class="selectedMode == 'events' ? 'events' : 'events hide'" ng-style="tableHeightStyle">
+					<div ng-click="playFilterSweep()" class="event-players">
+						<div>Listen to the resonance filter in the first movement as it sweeps over time.</div>
+					</div>
+					<div ng-click="playMoon()" class="event-players">
+						<div>The moon: Listen to the transposition of the chords due to noted variations in temperature.</div>
+					</div>
+					<!-- <div ng-click="playSun()" class="event-players">
+						<div>The sun: Listen to the parts where sun is depicted.</div>
+					</div>
+					<div ng-click="playFalseDusk()" class="event-players">
+						<div>False dusk</div>
+					</div>
+					<div ng-click="playBailey()" class="event-players">
+						<div>Bailey's Beads</div>
+					</div>
+					<div ng-click="playFalseDawn()" class="event-players">
+						<div>False dawn</div>
+					</div> -->
+				</div>
+				<div ng-class="showInfo ? 'timer-container' : 'timer-container hide'">
+					<div ng-hide="sonificationStarted" class="timer">
+						Eclipse Sonification starts in
+						<span> {{timeTillEclipseSonification._data.hours}} hours, {{timeTillEclipseSonification._data.minutes}} minutes, {{timeTillEclipseSonification._data.seconds}} seconds</span>
+					</div>
 
-	<div ng-show="totalityEnded" class="timer">Partial Eclipse ended
-		<span>{{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
-	</div>
+					<div ng-show="isPreTotality" class="timer">
+						<span> {{timeTillTotality._data.minutes}} minutes, {{timeTillTotality._data.seconds}} seconds</span> till Partial Eclipse
+					</div>
 
-	<div class="transport-slider">
+					<div ng-show="totalityEnded" class="timer">Partial Eclipse ended
+						<span>{{timeAfterTotality._data.minutes}} minutes, {{timeAfterTotality._data.seconds}} seconds</span> ago
+					</div>
+				</div>
+			</div>
+			<svg ng-class="selectedMode == 'movements' && selectedSection == 1 ? 'section-1 show':'section-1'">
+				<g class="part-1">
+					<line ng-attr-x1="{{part1InPerc/2}}%" y1="10" ng-attr-x2="{{part1InPerc/2}}%" y2="45" />
+					<line x1="0" y1="45" x2="0" y2="55" />
+			    <line x1="0" y1="45" ng-attr-x2="{{part1InPerc}}%" y2="45" />
+					<line ng-attr-x1="{{part1InPerc}}%" y1="45" ng-attr-x2="{{part1InPerc}}%" y2="55" />
+				</g>
+			</svg>
+			<svg ng-class="selectedMode == 'movements' && selectedSection == 2 ? 'section-2 show':'section-2'">
+				<g class="part-2">
+					<line ng-attr-x1="{{part1InPerc+((part2InPerc-part1InPerc)/2)}}%" y1="10" ng-attr-x2="{{part1InPerc+((part2InPerc-part1InPerc)/2)}}%" y2="45" />
+					<line ng-attr-x1="{{part1InPerc}}%" y1="45" ng-attr-x2="{{part1InPerc}}%" y2="55" />
+			    <line ng-attr-x1="{{part1InPerc}}%" y1="45" ng-attr-x2="{{part2InPerc}}%" y2="45" />
+					<line ng-attr-x1="{{part2InPerc}}%" y1="45" ng-attr-x2="{{part2InPerc}}%" y2="55" />
+				</g>
+			</svg>
+			<svg ng-class="selectedMode == 'movements' && selectedSection == 3 ? 'section-3 show':'section-3'">
+				<g class="part-3">
+					<line ng-attr-x1="{{part2InPerc+((part3InPerc-part2InPerc)/2)}}%" y1="10" ng-attr-x2="{{part2InPerc+((part3InPerc-part2InPerc)/2)}}%" y2="45" />
+					<line ng-attr-x1="{{part2InPerc}}%" y1="45" ng-attr-x2="{{part2InPerc}}%" y2="55" />
+			    <line ng-attr-x1="{{part2InPerc}}%" y1="45" ng-attr-x2="{{part3InPerc}}%" y2="45" />
+					<line ng-attr-x1="{{part3InPerc}}%" y1="45" ng-attr-x2="{{part3InPerc}}%" y2="55" />
+				</g>
+			</svg>
+			<svg ng-class="selectedMode == 'movements' && selectedSection == 4 ? 'section-4 show':'section-4'">
+				<g class="part-4">
+					<line ng-attr-x1="{{part3InPerc+((100-part3InPerc)/2)}}%" y1="10" ng-attr-x2="{{part3InPerc+((100-part3InPerc)/2)}}%" y2="45" />
+					<line ng-attr-x1="{{part3InPerc}}%" y1="45" ng-attr-x2="{{part3InPerc}}%" y2="55" />
+			    <line ng-attr-x1="{{part3InPerc}}%" y1="45" x2="100%" y2="45" />
+					<line x1="100%" y1="45" x2="100%" y2="55" />
+				</g>
+			</svg>
+			<svg ng-class="selectedMode == 'events' ? 'event-markers show':'event-markers'">
+				<g ng-repeat="event in events" class="markers">
+					<line ng-attr-x1="{{event.perc}}%" y1="45" ng-attr-x2="{{event.perc}}%" y2="55" />
+					<line ng-attr-x1="{{event.perc}}%" y1="45" ng-attr-x2="{{event.latch}}%" y2="20" />
+					<line ng-attr-x1="{{event.latch}}%" y1="10" ng-attr-x2="{{event.latch}}%" y2="20" />
+				</g>
+			</svg>
+		</div>
 		<md-slider flex min="0" max="{{lengthOfFinalPiece}}" ng-model="timeNow" aria-label="red" class="timeline-slider">
     	</md-slider>
 	</div>
-	<div class="transport">
+	<div ng-class="showInfo ? 'transport expand' : 'transport'">
 		<div class="play-pause" ng-click="playOrPausePiece()">
 			<span ng-show="!finalpiece.playing()">
 				<div><span>Start</span></div>
@@ -53,6 +347,6 @@
 </div>
 <!-- <div class="weather">Clouds: <span>{{weather.weather[0].main}}</span></div>
 <div class="temperature">Temp: <span>{{weather.main.temp}}</span></div> -->
-<div class="background" ng-style="bgInTotality"></div>
+<!-- <div class="background" ng-style="bgInTotality"></div> -->
 <div class="touchstart" ng-hide="touched">Tap to Start</div>
 <div class="loading" ng-show="loading">..Loading..</div>

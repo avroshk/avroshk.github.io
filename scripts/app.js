@@ -55,7 +55,7 @@
 				controller: 'EclipseHopkinsvilleController',
 				className: 'limit-page-scroll'
 	    	})
-	    	.when("/eclipse/atlanta", {
+	    	.when("/eclipse/atlanta:info?", {
 				templateUrl: 'templates/eclipse-atlanta.html',
 				controller: 'EclipseAtlantaController',
 				className: 'limit-page-scroll'
@@ -585,8 +585,6 @@
 		$scope.cellHeightStyle = {'height' : '0px'}
 		$scope.events = [];
 
-		//[101,370,560,838,1018, 1500,1900,2000]
-
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(16).minutes(56).seconds(31).milliseconds(9);
 		console.log('Hopkinsville: '+$scope.eclipseStartTime.format());
 
@@ -658,7 +656,7 @@
 			});
 		}
 
-		var calcInfoHeight = function () {
+		$scope.calcInfoHeight = function () {
 			$scope.infoPosition = angular.element(document.querySelector('#eclipseHopkinsvilleContainer .transport-slider')).prop('offsetTop') - 90;
 			$scope.infoHeightStyle = { 'height' : $scope.infoPosition+'px' }
 			$scope.tableHeightStyle = {'height' : ($scope.infoPosition-80)+'px'}
@@ -666,7 +664,7 @@
 		}
 
 		$scope.toggleInfo = function() {
-			$timeout(calcInfoHeight, 320);
+			$timeout($scope.calcInfoHeight, 320);
 			$scope.showInfo = !$scope.showInfo;
 		}
 
@@ -706,22 +704,22 @@
 					$scope.part2InPerc = 1770*100/$scope.lengthOfFinalPiece;
 					$scope.part3InPerc = 86.16;
 
-				console.log($scope.lengthOfFinalPiece);
+					console.log($scope.lengthOfFinalPiece);
 
-				$scope.updateEvents();
+					$scope.updateEvents();
 
 			  	sourceNode.connect(analyserNode);
 		    	analyserNode.connect(Howler.ctx.destination);
 		    	analyserNode.fftSize = 2048;
-				bufferLength = analyserNode.fftSize;
-				dataArray = new Uint8Array(bufferLength);
-				analyserNode.getByteTimeDomainData(dataArray);
+					bufferLength = analyserNode.fftSize;
+					dataArray = new Uint8Array(bufferLength);
+					analyserNode.getByteTimeDomainData(dataArray);
 
-				if (_isNotMobile) {
-					window.requestAnimationFrame(updateWave);
-				} else {
-					$scope.waves.waves[0].amplitude = 75;
-				}
+					if (_isNotMobile) {
+						window.requestAnimationFrame(updateWave);
+					} else {
+						$scope.waves.waves[0].amplitude = 75;
+					}
 		    	$scope.$apply();
 			});
 
@@ -1231,7 +1229,7 @@
 		  		if (canvas) {
 		  			canvas.style.width = $window.innerWidth+'px';
 		  		}
-					calcInfoHeight();
+					$scope.calcInfoHeight();
 		  	}
 		});
 	});
@@ -1242,9 +1240,19 @@
 			templateUrl: 'templates/eclipse-atlanta.html',
 			controller: 'EclipseAtlantaController'
 		};
-	}).controller('EclipseAtlantaController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory) {
+	}).controller('EclipseAtlantaController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory, $timeout, $routeParams, whichBrowser) {
+		$scope.currentBrowser = whichBrowser();
 		Page.setTitle('2017 Solar Eclipse | Sonification | Atlanta');
 		$scope.contextCreated = false;
+		$scope.showInfo = false;
+		$scope.selectedSection = 1;
+		$scope.selectedInfoType = 'desc'; // desc, mappings, sound-objs
+		$scope.selectedMode = 'movements'; // about, movements, events
+		$scope.infoPosition = 0
+		$scope.infoHeightStyle = {'height' : '0px'}
+		$scope.tableHeightStyle = {'height' : '0px'}
+		$scope.cellHeightStyle = {'height' : '0px'}
+		$scope.events = [];
 
 		$scope.eclipseStartTime = moment().utc().year(2017).month(7).date(21).hours(17).minutes(05).seconds(50).milliseconds(5);
 
@@ -1267,6 +1275,10 @@
 
 		$scope.timeNowinMoment = $scope.timeToStartSonification.clone();
 
+		$scope.part1InPerc = 43;
+		$scope.part2InPerc = 79.78;
+		$scope.part3InPerc = 86.16;
+
 		$scope.vol = 70;
 		$scope.weather = {};
 		var weatherid = "4180439"; //Atlanta
@@ -1282,6 +1294,12 @@
 		var dataArray = [];
 
 		var player = 0;
+		var sweep_player = 0;
+		var moon_player = 0;
+		var sun_player = 0;
+		var dusk_player = 0;
+		var dawn_player = 0;
+		var bailey_player = 0;
 		var alpha = 0.75;
 		var prevAmp = 0;
 
@@ -1298,10 +1316,38 @@
 
 		$scope.initEclipse();
 
+		$scope.updateEvents = function () {
+			$scope.events = $scope.events.map(function(pos) {
+				var event = {};
+				event.perc = pos*100/$scope.lengthOfFinalPiece;
+				if (event.perc <= 50) {
+					event.latch = event.perc + 0.4*(50 - event.perc);
+				} else {
+					event.latch = event.perc - 0.4*(event.perc - 50);
+				}
+				return event;
+			});
+		}
+
+		$scope.calcInfoHeight = function () {
+			$scope.infoPosition = angular.element(document.querySelector('#eclipseAtlantaContainer .transport-slider')).prop('offsetTop') - 90;
+			$scope.infoHeightStyle = { 'height' : $scope.infoPosition+'px' }
+			$scope.tableHeightStyle = {'height' : ($scope.infoPosition-80)+'px'}
+			$scope.cellHeightStyle = {'height' : ($scope.infoPosition-161)+'px'}
+		}
+
+		$scope.toggleInfo = function() {
+			$timeout($scope.calcInfoHeight, 320);
+			$scope.showInfo = !$scope.showInfo;
+		}
+
+		$scope.selectMode = function (mode) {
+			$scope.selectedMode = mode
+		}
+
 		$scope.bgInTotality = {
 			'background-color': ''
 		};
-
 
 		$scope.createSoundContext = function () {
 			Howler.autoSuspend = false;
@@ -1326,20 +1372,217 @@
 			  	$scope.contextCreated = true;
 			  	$scope.loading = false;
 			  	$scope.lengthOfFinalPiece = $scope.finalpiece.duration();
+					$scope.part1InPerc = 983*100/$scope.lengthOfFinalPiece;
+					$scope.part2InPerc = 1770*100/$scope.lengthOfFinalPiece;
+					$scope.part3InPerc = 2090*100/$scope.lengthOfFinalPiece;
+
+					console.log($scope.lengthOfFinalPiece);
+
+					$scope.updateEvents();
 			  	sourceNode.connect(analyserNode);
 		    	analyserNode.connect(Howler.ctx.destination);
 		    	analyserNode.fftSize = 2048;
-				bufferLength = analyserNode.fftSize;
-				dataArray = new Uint8Array(bufferLength);
-				analyserNode.getByteTimeDomainData(dataArray);
+					bufferLength = analyserNode.fftSize;
+					dataArray = new Uint8Array(bufferLength);
+					analyserNode.getByteTimeDomainData(dataArray);
 
-				if (_isNotMobile) {
-					window.requestAnimationFrame(updateWave);
-				} else {
-					$scope.waves.waves[0].amplitude = 75;
-				}
+					if (_isNotMobile) {
+						window.requestAnimationFrame(updateWave);
+					} else {
+						$scope.waves.waves[0].amplitude = 75;
+					}
 		    	$scope.$apply();
 			});
+
+			$scope.playFalseDusk = function() {
+				$scope.resetSweepTimers();
+				var dusk_array = [1995];
+				$scope.events = dusk_array;
+				$scope.updateEvents();
+
+				var index = 0;
+
+				if (!dusk_player) {
+					$scope.seekTo(dusk_array[index]);
+					$scope.timeNow = dusk_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					dusk_player = $interval(function () {
+						$scope.pausePiece();
+					}, 15000);
+				}
+			}
+
+			$scope.playFalseDawn = function() {
+				$scope.resetSweepTimers();
+				var dawn_array = [2144];
+				$scope.events = dawn_array;
+				$scope.updateEvents();
+
+				var index = 0;
+
+				if (!dawn_player) {
+					$scope.seekTo(dawn_array[index]);
+					$scope.timeNow = dawn_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					dawn_player = $interval(function () {
+						if (index < dawn_array.length) {
+							$scope.seekTo(dawn_array[index]);
+							$scope.timeNow = dawn_array[index];
+							index++;
+						} else {
+							if (!$scope.finalpiece.playing()) {
+								$scope.playPiece();
+							} else {
+								$scope.pausePiece();
+							}
+						}
+					}, 30000);
+				}
+			}
+
+			$scope.playBailey = function() {
+				$scope.resetSweepTimers();
+				var bailey_array = [2070];
+				$scope.events = bailey_array;
+				$scope.updateEvents();
+
+				var index = 0;
+
+				if (!bailey_player) {
+					$scope.seekTo(bailey_array[index]);
+					$scope.timeNow = bailey_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					bailey_player = $interval(function () {
+						if (index < bailey_array.length) {
+							$scope.seekTo(bailey_array[index]);
+							$scope.timeNow = bailey_array[index];
+							index++;
+						} else {
+							if (!$scope.finalpiece.playing()) {
+								$scope.playPiece();
+							} else {
+								$scope.pausePiece();
+							}
+						}
+					}, 11000);
+				}
+			}
+
+			$scope.playSun = function() {
+
+				$scope.resetSweepTimers();
+				var sun_array = [983, 1115, 1127, 1155, 1175, 1241, 1823, 1920];
+				$scope.events = sun_array;
+				$scope.updateEvents();
+
+				var index = 0;
+
+				if (!sun_player) {
+					$scope.seekTo(sun_array[index]);
+					$scope.timeNow = sun_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					sun_player = $interval(function () {
+						if (index < sun_array.length) {
+							$scope.seekTo(sun_array[index]);
+							$scope.timeNow = sun_array[index];
+							index++;
+						} else {
+							if (!$scope.finalpiece.playing()) {
+								$scope.playPiece();
+							} else {
+								$scope.pausePiece();
+							}
+						}
+					}, 1000);
+				}
+			}
+
+			$scope.playMoon = function() {
+				$scope.resetSweepTimers();
+				var moon_array = [1348, 1382, 1430, 1470, 1507, 1566, 1615, 1665, 1690];
+				$scope.events = moon_array;
+				$scope.updateEvents();
+
+				var index = 0;
+
+				if (!moon_player) {
+					$scope.seekTo(moon_array[index]);
+					$scope.timeNow = moon_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					moon_player = $interval(function () {
+						if (index < moon_array.length) {
+							$scope.seekTo(moon_array[index]);
+							$scope.timeNow = moon_array[index];
+							index++;
+						} else {
+							if (!$scope.finalpiece.playing()) {
+								$scope.playPiece();
+							} else {
+								$scope.pausePiece();
+							}
+						}
+					}, 1000);
+				}
+
+			}
+
+			$scope.playFilterSweep = function() {
+				$scope.resetSweepTimers();
+				var sweep_array = [65, 159, 315, 436, 672, 859];
+				$scope.events = sweep_array;
+				$scope.updateEvents();
+
+				var index = 0;
+
+				if (!sweep_player) {
+					$scope.seekTo(sweep_array[index]);
+					$scope.timeNow = sweep_array[index];
+					index++;
+
+					if (!$scope.finalpiece.playing()) {
+						$scope.playPiece();
+					}
+
+					sweep_player = $interval(function () {
+						if (index < sweep_array.length) {
+							$scope.seekTo(sweep_array[index]);
+							$scope.timeNow = sweep_array[index];
+							index++;
+						} else {
+							if (!$scope.finalpiece.playing()) {
+								$scope.playPiece();
+							} else {
+								$scope.pausePiece();
+							}
+						}
+					}, 600);
+				}
+			}
 
 			$scope.playPiece = function () {
 				$scope.seekTo($scope.seekTime.asSeconds());
@@ -1351,6 +1594,43 @@
 				}
 			}
 
+			$scope.playOrPausePiece = function () {
+				if ($scope.readyToPlayFinalPiece) {
+					if ($scope.finalpiece.playing()) {
+						$scope.pausePiece();
+					} else {
+						$scope.playPiece();
+					}
+				}
+			};
+
+			$scope.resetSweepTimers = function () {
+				if (sun_player) {
+					$interval.cancel(sun_player);
+					sun_player = 0;
+				}
+				if (moon_player) {
+					$interval.cancel(moon_player);
+					moon_player = 0;
+				}
+				if (sweep_player) {
+					$interval.cancel(sweep_player);
+					sweep_player = 0;
+				}
+				if (dusk_player) {
+					$interval.cancel(dusk_player);
+					dusk_player = 0;
+				}
+				if (dawn_player) {
+					$interval.cancel(dawn_player);
+					dawn_player = 0;
+				}
+				if (bailey_player) {
+					$interval.cancel(bailey_player);
+					bailey_player = 0;
+				}
+			}
+
 			$scope.pausePiece = function () {
 				if ($scope.finalpiece.playing()) {
 					$scope.finalpiece.pause();
@@ -1358,32 +1638,9 @@
 						$interval.cancel(player);
 						player = 0;
 					}
-					if (sun_player) {
-						$interval.cancel(sun_player);
-						sun_player = 0;
-					}
-					if (moon_player) {
-						$interval.cancel(moon_player);
-						moon_player = 0;
-					}
-					if (sweep_player) {
-						$interval.cancel(sweep_player);
-						sweep_player = 0;
-					}
+					$scope.resetSweepTimers();
 				}
 			}
-
-			$scope.playOrPausePiece = function () {
-				if ($scope.readyToPlayFinalPiece) {
-					if ($scope.finalpiece.playing()) {
-						$scope.finalpiece.pause();
-						$interval.cancel(player);
-						player = 0;
-					} else {
-						$scope.playPiece();
-					}
-				}
-			};
 
 			$scope.seekTo = function(time) {
 				$scope.finalpiece.seek(time);
@@ -1395,6 +1652,8 @@
 				player = 0;
 				$scope.finalpiece.stop();
 				$scope.initEclipse();
+
+				$scope.resetSweepTimers();
 			};
 
 			$scope.forwardToTotality = function () {
@@ -1430,11 +1689,10 @@
 	    			$scope.totalityEnded = true;
 	    		}
 
-
 	    		if ($scope.timeAfterTotality.asSeconds() > 30) {
-	    			$scope.bgInTotality = {
-						'background-color': 'rgba(255,255,0,0.3)'
-					};
+		    		$scope.bgInTotality = {
+							'background-color': 'rgba(255,255,0,0.3)'
+						};
 	    		}
 
 	    		if ($scope.seekTimeChanged) {
@@ -1482,6 +1740,17 @@
 						player = 0;
 						$scope.finalpiece.stop();
 					}
+
+					// select section based on time
+					if ($scope.timeNow >=0 && $scope.timeNow < $scope.part1InPerc*$scope.lengthOfFinalPiece/100) {
+						$scope.selectSection(1);
+					} else if ($scope.timeNow >= $scope.part1InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow < $scope.part2InPerc*$scope.lengthOfFinalPiece/100) {
+						scope.selectSection(2);
+					} else if ($scope.timeNow >= $scope.part2InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow < $scope.part3InPerc*$scope.lengthOfFinalPiece/100) {
+						scope.selectSection(3);
+					} else if ($scope.timeNow >= $scope.part3InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow <= $scope.lengthOfFinalPiece) {
+						scope.selectSection(4);
+					}
 				}
 			});
 
@@ -1506,7 +1775,46 @@
 				window.requestAnimationFrame(updateWave);
 			}
 
+			$scope.selectSection = function (section) {
+				$scope.selectedSection = section
 
+				switch(section) {
+					case 1:
+						if ($scope.timeNow >=0 && $scope.timeNow < $scope.part1InPerc*$scope.lengthOfFinalPiece/100) {
+
+						} else {
+							$scope.timeNow = 0;
+						}
+						break;
+					case 2:
+						if ($scope.timeNow >= $scope.part1InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow < $scope.part2InPerc*$scope.lengthOfFinalPiece/100) {
+
+						} else {
+							$scope.timeNow = $scope.part1InPerc*$scope.lengthOfFinalPiece/100;
+						}
+						break;
+					case 3:
+						if ($scope.timeNow >= $scope.part2InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow < $scope.part3InPerc*$scope.lengthOfFinalPiece/100) {
+
+						} else {
+							$scope.timeNow = $scope.part2InPerc*$scope.lengthOfFinalPiece/100;
+						}
+						break;
+					case 4:
+						if ($scope.timeNow >= $scope.part3InPerc*$scope.lengthOfFinalPiece/100 && $scope.timeNow <= $scope.lengthOfFinalPiece) {
+
+						} else {
+							$scope.timeNow = $scope.part3InPerc*$scope.lengthOfFinalPiece/100;
+						}
+						break;
+					default:
+						break;
+				}
+			}
+
+			$scope.selectInfoType = function (infoType) {
+				$scope.selectedInfoType = infoType
+			}
 		};
 
 		$scope.waves = new SineWaves({
@@ -1540,6 +1848,7 @@
 		  		if (canvas) {
 		  			canvas.style.width = $window.innerWidth + 'px';
 		  		}
+					$scope.calcInfoHeight();
 		  	}
 		});
 
@@ -1587,6 +1896,10 @@
 		// getWeatherData();
 		// getEclipseTemperature();
 		// setInterval(getWeatherData,600000*5);
+
+		if (!$scope.showInfo && $routeParams.info === 'info') {
+			$scope.toggleInfo()
+		}
 
 	});
 
