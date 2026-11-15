@@ -35,7 +35,8 @@ The application uses AngularJS routing with HTML5 mode enabled. All routes are d
 **Key routes:**
 - `/` - Portfolio landing page
 - `/diarization` - Speaker diarization project
-- `/eclipse/*` - Eclipse observation projects (Hopkinsville, Atlanta)
+- `/eclipse/` - React app hosted by GitHub Pages from the separate `eclipse` repository; no React build is stored here
+- `/eclipse-archive/*` - Original AngularJS eclipse observation projects (Hopkinsville, Atlanta)
 - `/mixinginvr` - VR mixing project
 - `/birdsong-segmentation` - Birdsong analysis project
 - `/info` - About page

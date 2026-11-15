@@ -46,20 +46,28 @@
 				templateUrl: 'templates/mixinginvr.html',
 				controller: 'MixingInVRController'
 	    	})
-	    	.when("/eclipse", {
-	    		controller: 'EclipseController',
+		.when("/eclipse-archive", {
+			controller: 'EclipseController',
 				templateUrl: 'templates/eclipse.html'
-	    	})
-	    	.when("/eclipse/hopkinsville/:info?", {
+		})
+		.when("/eclipse-archive/hopkinsville/:info?", {
 				templateUrl: 'templates/eclipse-hopkinsville.html',
 				controller: 'EclipseHopkinsvilleController',
 				className: 'limit-page-scroll'
-	    	})
-	    	.when("/eclipse/atlanta:info?", {
+		})
+		.when("/eclipse-archive/atlanta/:info?", {
 				templateUrl: 'templates/eclipse-atlanta.html',
 				controller: 'EclipseAtlantaController',
 				className: 'limit-page-scroll'
-	    	})
+		})
+		.when("/eclipse/:city?/:info?", {
+			template: '<p>Opening the current <a href="/eclipse/" target="_self">Eclipse Sonification</a>.</p>',
+			controller: ['$routeParams', '$window', function ($routeParams, $window) {
+				var city = $routeParams.city;
+				var fragment = city === 'hopkinsville' || city === 'atlanta' ? '#/eclipse/' + city : '';
+				$window.location.replace('/eclipse/' + fragment);
+			}]
+		})
 	    	.when("/birdsong-segmentation", {
 				templateUrl: 'templates/birdsong-segmentation.html'
 	    	})
@@ -80,7 +88,7 @@
 
 	   $rootScope.$watch(function () {return $location.path()}, function (newLocation, oldLocation) {
 	        if($rootScope.actualLocation === newLocation) {
-	            if (newLocation == '/eclipse') {
+	            if (newLocation == '/eclipse-archive') {
 	            	$rootScope.$broadcast('stopplaying');
 	            }
 	        }
@@ -561,7 +569,7 @@
 			controller: 'EclipseController'
 		};
 	}).controller('EclipseController', function ($rootScope, $scope, $http, $sce, Page) {
-		Page.setTitle('2017 Solar Eclipse | Sonification');
+		Page.setTitle('2017 Solar Eclipse | Original Website Archive');
 		$scope.activePage = "eclipse";
 	});
 
@@ -573,7 +581,7 @@
 		};
 	}).controller('EclipseHopkinsvilleController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory, $timeout, $routeParams, whichBrowser) {
 		$scope.currentBrowser = whichBrowser();
-		Page.setTitle('2017 Solar Eclipse | Sonification | Hopkinsville');
+		Page.setTitle('2017 Solar Eclipse | Original Website Archive | Hopkinsville');
 		$scope.contextCreated = false;
 		$scope.showInfo = false;
 		$scope.selectedSection = 1;
@@ -1242,7 +1250,7 @@
 		};
 	}).controller('EclipseAtlantaController', function ($rootScope, $scope, Page, weatherData, $window, $interval, weatherHistory, $timeout, $routeParams, whichBrowser) {
 		$scope.currentBrowser = whichBrowser();
-		Page.setTitle('2017 Solar Eclipse | Sonification | Atlanta');
+		Page.setTitle('2017 Solar Eclipse | Original Website Archive | Atlanta');
 		$scope.contextCreated = false;
 		$scope.showInfo = false;
 		$scope.selectedSection = 1;
